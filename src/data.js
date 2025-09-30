@@ -71,6 +71,7 @@ export const blogData = [
     {
         "slug": "el-efecto-del-ejercicio",
         "title": "El Efecto del Ejercicio Físico en la Salud Mental",
+        "publishedDate": "2025-09-22",
         "image": "/images/blogs/saludfisicaymental.webp",
         "alt": "Persona meditando al aire libre.",
         "duration": "Lee en 5 min",
@@ -82,6 +83,7 @@ export const blogData = [
     {
         "slug": "ciberacoso-y-salud-mental",
         "title": "Ciberacoso y Salud Mental: Cómo Protegerse",
+        "publishedDate": "2025-08-15",
         "image": "/images/blogs/ciberacoso.webp",
         "alt": "Persona estresada rodeada de teléfonos móviles.",
         "duration": "Lee en 4 min",
@@ -92,6 +94,7 @@ export const blogData = [
     {
         "slug": "autocuidado-cotidiano",
         "title": "Autocuidado Cotidiano y Salud Mental",
+        "publishedDate": "2025-07-20",
         "image": "/images/blogs/autocuidado.webp",
         "alt": "Mujer estirándose con el sol de fondo.",
         "duration": "Lee en 5 min",
@@ -103,6 +106,7 @@ export const blogData = [
     {
         "slug": "impacto-de-la-tecnologia",
         "title": "El Impacto de la Tecnología en la Salud Mental",
+        "publishedDate": "2025-06-18",
         "image": "/images/blogs/blog-tecnologia.webp",
         "alt": "Niña sonriendo mientras usa una tablet.",
         "duration": "Lee en 5 min",
