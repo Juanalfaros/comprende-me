@@ -1,0 +1,11 @@
+---
+// src/components/AuthorBio.astro
+import { authorData } from '../data.js';
+---
+<div class="author-bio">
+    <img src={authorData.image} alt={`Foto de ${authorData.name}`} />
+    <div>
+        <h3>Escrito por {authorData.name}</h3>
+        <p>{authorData.bio}</p>
+    </div>
+</div>

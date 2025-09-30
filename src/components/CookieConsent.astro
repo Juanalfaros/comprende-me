@@ -1,0 +1,83 @@
+---
+// src/components/CookieConsent.astro
+---
+<div id="cookie-consent-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-description">
+    <div class="cookie-content">
+        <p id="cookie-description">
+            Utilizamos cookies para mejorar tu experiencia y analizar el tráfico. Al hacer clic en "Aceptar", aceptas nuestro uso de cookies.
+            <a href="/privacidad" target="_blank">Leer más</a>.
+        </p>
+    </div>
+    <div class="cookie-actions">
+        <button id="accept-cookies" class="btn btn-primary">Aceptar</button>
+    </div>
+</div>
+
+<style>
+    .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--color-white);
+        color: var(--color-muted);
+        padding: 1rem 1.5rem;
+        z-index: 1000;
+        display: none; /* Oculto por defecto */
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        flex-wrap: wrap;
+    }
+    .cookie-banner.show {
+        display: flex; /* Se muestra con JS */
+    }
+    .cookie-content p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+    .cookie-content a {
+        color: var(--color-primary-dark);
+        text-decoration: underline;
+        font-weight: 500;
+    }
+    .cookie-actions .btn {
+        padding: 0.5rem 1.2rem;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+        .cookie-banner {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+
+<script is:inline>
+    // Este script se ejecuta en el navegador del cliente
+    document.addEventListener('DOMContentLoaded', () => {
+        const COOKIE_CONSENT_KEY = 'cookie_consent_accepted';
+        const banner = document.getElementById('cookie-consent-banner');
+        const acceptButton = document.getElementById('accept-cookies');
+
+        // 1. Comprobar si el consentimiento ya fue dado
+        const hasConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+
+        if (!hasConsent) {
+            banner.classList.add('show');
+        }
+
+        // 2. Manejar el clic en "Aceptar"
+        acceptButton.addEventListener('click', () => {
+            // Guardar la preferencia del usuario
+            localStorage.setItem(COOKIE_CONSENT_KEY, 'true');
+            banner.style.display = 'none';
+
+            // Disparar un evento personalizado para que el resto de la web se entere
+            // que las cookies han sido aceptadas.
+            window.dispatchEvent(new CustomEvent('cookies-accepted'));
+        });
+    });
+</script>

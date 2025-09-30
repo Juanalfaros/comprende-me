@@ -1,0 +1,148 @@
+---
+// src/pages/testimonios.astro
+import Layout from '../layouts/Layout.astro';
+
+// Leemos la clave PÚBLICA de reCAPTCHA desde las variables de entorno
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+---
+
+<Layout
+    title="Compartir mi Testimonio - Comprende.me"
+    description="Tu experiencia es valiosa. Comparte tu testimonio para ayudar a otras familias a encontrar el apoyo que necesitan en su camino hacia el bienestar."
+>
+    <Fragment slot="head-extra">
+        <link rel="stylesheet" href="/styles/testimonios.css">
+        <script src=`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}` async defer></script>
+    </Fragment>
+
+    <main class="testimonial-page-main">
+        <div class="testimonial-container">
+            
+            <div id="form-container">
+                <div class="testimonial-header">
+                    <h1>Gracias por compartir tu experiencia</h1>
+                    <p>Tu testimonio es un regalo muy valioso para mí y para otras familias que buscan apoyo.</p>
+                </div>
+                
+                <form id="testimonial-form" name="testimonios" class="testimonial-form">
+                    <input type="hidden" name="form-name" value="testimonios" />
+                    
+                    <div class="form-group">
+                        <label for="testimonio">Nos encantaría conocer tu historia</label>
+                        <p class="description">Siéntete libre de contarnos cómo fue tu proceso y de qué manera te ha servido este espacio.</p>
+                        <textarea id="testimonio" name="testimonio" rows="6" required></textarea>
+                    </div>
+
+                    <fieldset class="form-group">
+                        <legend>Para cuidar tu privacidad, ¿cómo prefieres aparecer?</legend>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <label class="privacy-option">
+                                <input type="radio" name="privacy" value="anonimo" checked>
+                                <span>Quiero que mi testimonio sea anónimo (ej: "Familia G.")</span>
+                            </label>
+                            <label class="privacy-option">
+                                <input type="radio" name="privacy" value="real_name">
+                                <span>Me siento cómodo/a usando mi nombre real</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div id="name-field" class="hidden form-group">
+                        <label for="nombre">¡Gracias por tu confianza! ¿Qué nombre mostramos?</label>
+                        <p class="description">Puede ser tu nombre completo o tu primer nombre.</p>
+                        <input type="text" id="nombre" name="nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Si te parece bien, déjanos tu correo (opcional)</label>
+                        <p class="description">Me gustaría poder agradecerte personalmente. Tu correo es confidencial y nunca será publicado.</p>
+                        <input type="email" id="email" name="email" placeholder="tu@email.com">
+                    </div>
+
+                    <div class="submit-button-wrapper">
+                        <button type="submit" class="btn btn-primary">
+                            Enviar mi Testimonio
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="success-message" class="hidden success-message">
+                <div class="success-message-box">
+                    <i class="ph-fill ph-heart icon"></i>
+                    <h1>¡Muchísimas gracias de todo corazón!</h1>
+                    <p>Tu historia ya fue recibida y la valoro enormemente. Gestos como el tuyo son los que animan a otras familias a buscar el apoyo que necesitan.</p>
+                    <div class="back-link-wrapper">
+                        <a href="/">
+                            &larr; Volver a la página principal
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script define:vars={{ recaptchaSiteKey }}>
+    document.addEventListener('DOMContentLoaded', function() {
+        const formContainer = document.getElementById('form-container');
+        const successMessage = document.getElementById('success-message');
+        const testimonialForm = document.getElementById('testimonial-form');
+        const privacyRadios = document.querySelectorAll('input[name="privacy"]');
+        const nameField = document.getElementById('name-field');
+        const nameInput = document.getElementById('nombre');
+
+        // Lógica para mostrar/ocultar el campo de nombre
+        privacyRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'real_name') {
+                    nameField.classList.remove('hidden');
+                    nameInput.required = true;
+                } else {
+                    nameField.classList.add('hidden');
+                    nameInput.required = false;
+                    nameInput.value = '';
+                }
+            });
+        });
+
+        // Lógica para manejar el envío del formulario a nuestra API
+        testimonialForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitButton = testimonialForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute(recaptchaSiteKey, {action: 'submit_testimonial'}).then(async function(token) {
+                    
+                    const formData = new FormData(testimonialForm);
+                    formData.append('recaptcha-token', token);
+
+                    try {
+                        const response = await fetch('/api/testimonial', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            throw new Error(result.message || 'Error en el servidor.');
+                        }
+                        
+                        formContainer.classList.add('hidden');
+                        successMessage.classList.remove('hidden');
+                        window.scrollTo(0, 0);
+
+                    } catch (error) {
+                        console.error('Error al enviar el formulario:', error);
+                        alert(error.message || 'Hubo un error al enviar tu testimonio. Por favor, intenta de nuevo.');
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Enviar mi Testimonio';
+                    }
+                });
+            });
+        });
+    });
+</script>

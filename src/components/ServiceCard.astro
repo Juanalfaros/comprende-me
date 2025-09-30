@@ -1,0 +1,62 @@
+---
+interface Props {
+  slug: string;
+  calLinkPrefix?: string; // lo haremos opcional y pondremos fallback
+  icon: string;
+  title: string;
+  description: string;
+  tags: string[];
+  price: string;
+  oldPrice?: string;
+  duration: string;
+  calUiConfig?: object;
+}
+
+const {
+  slug,
+  calLinkPrefix = 'comprende.me', // Fallback por si el padre no lo pasa
+  icon,
+  title,
+  description,
+  tags,
+  price,
+  oldPrice,
+  duration,
+  calUiConfig
+} = Astro.props;
+
+// Opcional: si necesitas protocolo absoluto, usa:
+// const base = calLinkPrefix.startsWith('http') ? calLinkPrefix : `https://${calLinkPrefix}`;
+const base = calLinkPrefix;
+const calLink = `${base}/${slug}`;
+const calConfigAttr = calUiConfig ? JSON.stringify(calUiConfig) : undefined;
+---
+<div class="card service-card">
+  <div class="card-content">
+    <div class="icon-badge">
+      <i class={`ph ${icon} icon`}></i>
+      <p><i class="ph ph-clock"></i> {duration}</p>
+    </div>
+    <h3>{title}</h3>
+    <p>{description}</p>
+    <div class="tags">
+      {tags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+  </div>
+
+  <div>
+    <p class="price">
+      {price}
+      {oldPrice && <span class="old-price">{oldPrice}</span>}
+    </p>
+
+    <button
+      class="btn btn-secondary"
+      data-cal-link={calLink}
+      data-cal-namespace={slug}
+      data-cal-config={calConfigAttr}
+    >
+      Reserva Ahora
+    </button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+---
+// src/pages/blog/index.astro
+
+import Layout from '../../layouts/Layout.astro';
+import { blogData } from '../../data.js';
+---
+<Layout title="Blog - Recursos de Salud Mental y Crianza | Comprende.me">
+
+    <main>
+        <section class="section bg-light">
+            <div class="container text-center">
+                <h1 class="section-title">Nuestro Blog</h1>
+                <p class="section-subtitle">Recursos, reflexiones y herramientas para apoyar tu camino hacia el bienestar emocional y el de tu familia.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div id="blog-grid-full" class="grid grid-4-cols">
+                    {blogData.map(post => (
+                        <a href={`/blog/${post.slug}`} class="card blog-card">
+                            <img src={post.image} alt={post.alt} />
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span>{post.duration}</span>
+                                </div>
+                                <h3>{post.title}</h3>
+                                <p>{post.excerpt}</p>
+                                <div class="tags">
+                                    {post.tags.map(tag => <span class="tag">{tag}</span>)}
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </section>
+    </main>
+
+</Layout>

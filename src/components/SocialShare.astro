@@ -1,0 +1,24 @@
+---
+// src/components/SocialShare.astro
+interface Props {
+    url: URL;
+    title: string;
+}
+const { url, title } = Astro.props;
+const encodedUrl = encodeURIComponent(url.href);
+const encodedTitle = encodeURIComponent(title);
+---
+<div class="social-share">
+    <strong>Compartir:</strong>
+    <div class="social-share-links">
+        <a href={`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`} target="_blank" rel="noopener" aria-label="Compartir en WhatsApp" class="whatsapp">
+            <i class="ph ph-whatsapp-logo"></i>
+        </a>
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`} target="_blank" rel="noopener" aria-label="Compartir en LinkedIn" class="linkedin">
+            <i class="ph ph-linkedin-logo"></i>
+        </a>
+        <a href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`} target="_blank" rel="noopener" aria-label="Compartir en Twitter/X" class="twitter">
+            <i class="ph ph-twitter-logo"></i>
+        </a>
+    </div>
+</div>

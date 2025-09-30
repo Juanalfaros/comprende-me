@@ -1,0 +1,24 @@
+---
+// src/pages/404.astro
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Página No Encontrada (404) - Comprende.me">
+    <main>
+        <section class="section not-found-section" style="padding: 5rem 0; min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+            <div class="container text-center">
+                <div class="not-found-content">
+                    <div class="error-code" style="font-size: 8rem; font-weight: 800; color: var(--color-primary); line-height: 1; margin-bottom: 0.5rem; font-family: var(--font-heading);">404</div>
+                    <h1>Página No Encontrada</h1>
+                    <p class="section-subtitle">Lo sentimos, parece que el enlace que seguiste está roto o la página que buscas ya no existe.</p>
+                    <a href="/" class="btn btn-primary">Volver a la Página de Inicio</a>
+
+                    <div class="suggested-links" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--color-border);">
+                        <h3>O quizás buscabas:</h3>
+                        <a href="/#services">Nuestros Servicios</a>
+                        <a href="/blog">Leer el Blog</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</Layout>

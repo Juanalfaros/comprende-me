@@ -1,0 +1,132 @@
+/* public/styles/testimonios.css */
+
+.testimonial-page-main {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+}
+
+.testimonial-container {
+    max-width: 48rem; /* 768px */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.testimonial-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.testimonial-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.testimonial-header p {
+    font-size: 1.125rem;
+    margin-top: 1rem;
+}
+
+.testimonial-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-group {
+    display: block;
+}
+
+fieldset {
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+}
+
+.form-group label,
+.form-group legend {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-group .description {
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.privacy-option {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.privacy-option input[type="radio"] {
+    margin-right: 0.75rem;
+}
+
+.submit-button-wrapper {
+    padding-top: 1rem;
+}
+
+.submit-button-wrapper .btn {
+    width: 100%;
+    font-size: 1.125rem;
+}
+
+/* Success Message */
+.success-message {
+    text-align: center;
+    padding: 5rem 0;
+}
+
+.success-message-box {
+    background-color: var(--color-white);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--color-border);
+    display: inline-block;
+}
+
+.success-message-box .icon {
+    font-size: 4rem;
+    color: var(--color-primary);
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.success-message-box h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.success-message-box p {
+    font-size: 1.125rem;
+    margin-top: 1rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.success-message-box .back-link-wrapper {
+    margin-top: 2rem;
+}
+
+.success-message-box .back-link-wrapper a {
+    color: var(--color-primary);
+    font-weight: 600;
+}

@@ -1,0 +1,152 @@
+---
+// src/pages/gracias.astro
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Gracias por Agendar - Comprende.me">
+
+    <Fragment slot="head-extra">
+        <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
+    </Fragment>
+
+    <main>
+        <section class="section thank-you-section">
+            <div class="container container-narrow text-center">
+
+                <i class="ph-fill ph-check-circle success-icon"></i>
+                <h1 id="greeting-message" class="section-title">¡Excelente! Tu hora ha sido agendada.</h1>
+                <p id="appointment-details" class="appointment-confirmation-text">Confirmaremos los detalles de tu reserva en breve.</p>
+
+                <div class="card payment-card">
+                    <div class="payment-header">
+                        <h2>Confirma tu sesión</h2>
+                        <button id="copy-button" class="copy-button">
+                            <i class="ph ph-copy"></i> Copiar Datos
+                        </button>
+                    </div>
+                    
+                    <div class="payment-notice">
+                        <i class="ph ph-info"></i>
+                        <p><strong>IMPORTANTE:</strong> Tu sesión se reservará al recibir el pago. Para reagendar, se requiere un aviso de al menos 3 horas de anticipación.</p>
+                    </div>
+
+                    <ul class="payment-details-list" id="payment-data-container">
+                        <li><strong>Servicio:</strong> <span id="service-name">[Servicio Agendado]</span></li>
+                        <li><strong>Monto a Transferir:</strong> <span id="service-price">[Consultar]</span></li>
+                        <li class="copyable-data"><strong>Nombre:</strong> <span>Natalia Beiza Calvo</span></li>
+                        <li class="copyable-data"><strong>RUT:</strong> <span>16.647.846-4</span></li>
+                        <li class="copyable-data"><strong>Banco:</strong> <span>Falabella</span></li>
+                        <li class="copyable-data"><strong>Tipo de Cuenta:</strong> <span>Corriente</span></li>
+                        <li class="copyable-data"><strong>N.º Cuenta:</strong> <span>198209176860</span></li>
+                        <li class="copyable-data"><strong>Correo:</strong> <span>contacto@comprende.me</span></li>
+                    </ul>
+                     <p class="payment-confirmation-note">
+                        Una vez realizada la transferencia, envía el comprobante al correo indicado.
+                    </p>
+                </div>
+
+                <div class="calendar-section">
+                    <p>Guarda la fecha de tu cita en tu calendario personal:</p>
+                    <div id="calendar-button-container"></div>
+                </div>
+
+                <a href="/" class="back-to-home-link">← Volver a la página principal</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Ponemos todo dentro de un evento para asegurarnos que la página cargó
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            // 1. Datos de servicios (los traemos desde data.js para consistencia)
+            // En el futuro, podríamos incluso pasarlos desde el frontmatter de Astro.
+            const servicesData = [
+                { "slug": "asesoria-psicologica-y-o-judicial-para-padres", "title": "Asesoría Psicológica y/o Judicial para Padres", "price": "$30.000" },
+                { "slug": "psicologia-infantil-y-adolescente", "title": "Psicología Infantil y Adolescente", "price": "$25.000" },
+                { "slug": "psicologia-para-adultos", "title": "Psicología para Adultos", "price": "$25.000" },
+                { "slug": "fortalecimiento-de-habilidades-parentales", "title": "Fortalecimiento de Habilidades Parentales", "price": "$30.000" },
+                { "slug": "supervision-y-analisis-de-caso-para-psicologos", "title": "Supervisión y Análisis de Caso para Psicólogos", "price": "$25.000" }
+            ];
+
+            // 2. Leer parámetros de la URL
+            const params = new URLSearchParams(window.location.search);
+            const attendeeName = params.get('attendeeName');
+            const eventTypeSlug = params.get('eventTypeSlug');
+            const startISO = params.get('attendeeStartTime');
+            const endISO = params.get('endTime');
+
+            const currentService = servicesData.find(s => s.slug === eventTypeSlug);
+
+            // 3. Actualizar el contenido de la página
+            // Saludo personalizado
+            if (attendeeName) {
+                const h1 = document.getElementById('greeting-message');
+                const firstName = attendeeName.split(' ')[0];
+                h1.textContent = `¡Excelente, ${firstName}! Tu hora ha sido agendada.`;
+            }
+
+            // Detalles de la cita
+            if (startISO) {
+                const detailsEl = document.getElementById('appointment-details');
+                try {
+                    const date = new Date(startISO);
+                    const formattedDate = new Intl.DateTimeFormat('es-CL', {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                        hour: 'numeric', minute: 'numeric', timeZone: 'America/Santiago'
+                    }).format(date);
+                    detailsEl.innerHTML = `Confirmamos tu reserva para el:<br><strong>${formattedDate}</strong>`;
+                } catch (e) {
+                    console.error("Error formateando la fecha:", e);
+                    detailsEl.textContent = "Se ha agendado tu cita. Recibirás un correo con los detalles.";
+                }
+            }
+
+            // Detalles del servicio y precio
+            if (currentService) {
+                document.getElementById('service-name').textContent = currentService.title;
+                document.getElementById('service-price').textContent = currentService.price;
+            }
+
+            // 4. Crear Botón "Añadir a Calendario"
+            if (startISO && endISO) {
+                const btn = document.createElement('add-to-calendar-button');
+                btn.setAttribute('name', currentService?.title || 'Sesión de psicología online');
+                btn.setAttribute('startDate', startISO.slice(0, 10));
+                btn.setAttribute('startTime', startISO.slice(11, 16));
+                btn.setAttribute('endDate', endISO.slice(0, 10));
+                btn.setAttribute('endTime', endISO.slice(11, 16));
+                btn.setAttribute('timeZone', 'America/Santiago');
+                btn.setAttribute('description', 'Sesión de psicología online con comprende.me.');
+                btn.setAttribute('options', "'Apple','Google','Outlook.com'");
+                btn.setAttribute('buttonStyle', 'round');
+                btn.setAttribute('lightMode', 'system');
+                document.getElementById('calendar-button-container').appendChild(btn);
+            }
+            
+            // 5. Funcionalidad de Copiar Datos de Pago
+            const copyBtn = document.getElementById('copy-button');
+            const paymentDataContainer = document.getElementById('payment-data-container');
+            if (copyBtn && paymentDataContainer) {
+                copyBtn.addEventListener('click', () => {
+                    const copyableItems = paymentDataContainer.querySelectorAll('.copyable-data');
+                    const textToCopy = [...copyableItems]
+                        .map(item => {
+                            const title = item.querySelector('strong').textContent.trim();
+                            const value = item.querySelector('span').textContent.trim();
+                            return `${title} ${value}`;
+                        })
+                        .join('\n');
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        const originalHTML = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="ph ph-check"></i> Copiado';
+                        copyBtn.classList.add('copied');
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalHTML;
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    });
+                });
+            }
+        });
+    </script>
+</Layout>

@@ -1,0 +1,117 @@
+/* public/styles/components.css */
+
+/* --- Author Bio Component --- */
+.author-bio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background-color: var(--color-light);
+    border-radius: 12px;
+    text-align: center;
+}
+.author-bio img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--color-white);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.author-bio h3 {
+    margin-bottom: 0.25rem;
+}
+.author-bio p {
+    margin-bottom: 0;
+    max-width: 500px;
+    font-size: 0.95rem;
+}
+@media (min-width: 768px) {
+    .author-bio {
+        flex-direction: row;
+        text-align: left;
+    }
+}
+
+/* --- Social Share Component --- */
+.social-share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+.social-share strong {
+    font-size: 1rem;
+    color: var(--color-dark);
+}
+.social-share-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-light);
+    color: var(--color-muted);
+    font-size: 1.25rem;
+    transition: all 0.3s;
+    margin-left: 0.5rem;
+}
+.social-share-links a:hover {
+    transform: translateY(-3px);
+    color: var(--color-white);
+}
+.social-share-links a.whatsapp:hover { background-color: #25D366; }
+.social-share-links a.linkedin:hover { background-color: #0A66C2; }
+.social-share-links a.twitter:hover { background-color: #1DA1F2; }
+
+
+/* --- Related Articles Section --- */
+.related-articles {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-border);
+}
+.related-articles h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.related-articles h3,
+.blog-card h3 {
+    line-height: 1.3;
+}
+
+.related-articles p {
+    display: -webkit-box;
+  -webkit-line-clamp: 3; /* Número de líneas visibles */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.related-articles .tags {
+    display: none;
+}
+
+/* public/styles/components.css */
+
+/* --- Estilos para el enlace "Leer más" de la tarjeta del blog --- */
+.blog-card .read-more {
+    display: inline-block;
+    margin-top: auto; /* Empuja el enlace al final de la tarjeta */
+    padding-top: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    transition: transform 0.3s;
+}
+
+.blog-card:hover .read-more {
+    transform: translateX(4px); /* Pequeño efecto al pasar el mouse sobre la tarjeta */
+}
