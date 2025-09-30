@@ -6,8 +6,8 @@ import WhatsappButton from '../components/WhatsappButton.astro';
 import CalScripts from '../components/CalScripts.astro';
 import { servicesData } from '../data.js';
 import Seo from '../components/Seo.astro';
-import CookieConsent from '../components/CookieConsent.astro'; // <-- NUEVO
-import TrackingScripts from '../components/TrackingScripts.astro'; // <-- NUEVO
+import CookieConsent from '../components/CookieConsent.astro';
+import TrackingScripts from '../components/TrackingScripts.astro';
 
 interface Props {
 	title: string;
@@ -24,15 +24,16 @@ const { title, description, image } = Astro.props;
     
     <Seo title={title} description={description} image={image} />
 
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styles/base.css">
     <link rel="stylesheet" href="/styles/components.css">
-    <link rel="stylesheet" href="/styles/article.css">
     
     <slot name="head-extra" />
 
@@ -46,7 +47,6 @@ const { title, description, image } = Astro.props;
     <Footer />
     <WhatsappButton />
     <CalScripts services={servicesData} />
-
     <CookieConsent />
 </body>
 </html>
