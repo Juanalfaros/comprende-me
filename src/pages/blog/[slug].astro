@@ -1,5 +1,7 @@
 ---
 // src/pages/blog/[slug].astro
+export const prerender = true;
+
 import Layout from '../../layouts/Layout.astro';
 import { blogData } from '../../data.js';
 import ArticleCard from '../../components/ArticleCard.astro';
@@ -15,20 +17,26 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-// Formateamos la fecha para que se vea en un formato legible (ej: "22 de septiembre de 2025")
+// Formateamos la fecha para que se vea en un formato legible
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    timeZone: 'UTC', // Añadimos timeZone para evitar errores de un día
+    timeZone: 'UTC',
 });
 
+// Lógica para encontrar artículos relacionados
 const relatedPosts = blogData.filter(related => 
     related.slug !== post.slug &&
     related.tags.some(tag => post.tags.includes(tag))
 ).slice(0, 3);
 ---
-<Layout title={`${post.title} | Comprende.me`}>
+
+<Layout 
+    title={`${post.title} | Comprende.me`}  
+    description={post.excerpt}
+    image={post.image}
+>
     
     <Fragment slot="head-extra">
         <link rel="stylesheet" href="/styles/article.css">
@@ -38,21 +46,26 @@ const relatedPosts = blogData.filter(related =>
         <section class="section">
             <div class="container container-narrow">
                 <article>
-                    <h1>{post.title}</h1>
-                    <div class="article-meta-info" style="margin-bottom: 1.5rem; color: var(--color-muted);">
+                  <h1>{post.title}</h1>
+                    <div class="article-meta-info">
                         <time datetime={post.publishedDate}>{formattedDate}</time>
-                        <span style="margin: 0 0.5rem;">•</span>
+                        <span aria-hidden="true">•</span>
                         <span>{post.duration}</span>
+                        {post.tags.map(tag => (
+                            <span class="tag">{tag}</span>
+                        ))}
                     </div>
-                    
-                    <img src={`${post.image}`} alt={post.alt} style="width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 2.5rem;" />
+
+                    <img src={`${post.image}`} alt={post.alt} class="article-main-image" />
                     
                     <div class="article-body" set:html={post.fullContentHTML} />
 
                     <SocialShare url={Astro.url} title={post.title} />
                     <AuthorBio />
                     
-                    <a href="/blog" class="back-to-blog-link" style="display: inline-block; margin-top: 3rem; font-weight: 500;">&larr; Volver a todos los artículos</a>
+                    <a href="/blog" class="back-to-blog-link">
+                        <i class="ph ph-arrow-arc-left"></i> Volver a todos los artículos
+                    </a>
                 </article>
 
                 {relatedPosts.length > 0 && (
