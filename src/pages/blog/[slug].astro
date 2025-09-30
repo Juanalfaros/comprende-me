@@ -2,6 +2,8 @@
 ---
 // src/pages/blog/[slug].astro
 
+export const prerender = true;
+
 import Layout from '../../layouts/Layout.astro';
 import { blogData } from '../../data.js';
 import ArticleCard from '../../components/ArticleCard.astro';
