@@ -407,7 +407,7 @@ img { max-width: 100%; height: auto; }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
 .footer-col a:hover { color: var(--color-primary); }
 .social-links { display: flex; gap: 1rem; font-size: 1.5rem; }
-.footer-bottom { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); text-align: center; }
+.footer-bottom { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); text-align: center; display: flex; justify-content: space-between; align-items: center;}
 
 /* Modal */
 .modal-overlay {
@@ -757,5 +757,9 @@ img { max-width: 100%; height: auto; }
                 right: 20px;
                 width: 100px;
             
+            }
+
+            .footer-bottom {
+                flex-direction: column;
             }
         }
