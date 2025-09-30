@@ -115,3 +115,23 @@
 .blog-card:hover .read-more {
     transform: translateX(4px); /* Pequeño efecto al pasar el mouse sobre la tarjeta */
 }
+
+/* Estilos para el crédito del desarrollador en el footer */
+.developer-credit {
+    font-size: 0.8rem; /* Un poco más pequeño que el texto principal */
+    color: var(--color-muted);
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.developer-credit a {
+    font-weight: 600;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.developer-credit a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
