@@ -4,7 +4,9 @@
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import { servicesData, blogData, faqData } from '../data.js';
+import { servicesData } from '../data/servicesData.js';
+import { blogData } from '../data/blogData.js';
+import { faqData } from '../data/faqData.js';
 
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 const postsToShow = blogData.slice(0, 4);
