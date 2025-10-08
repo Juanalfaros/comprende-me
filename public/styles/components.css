@@ -90,10 +90,11 @@
 
 .related-articles p {
     display: -webkit-box;
-  -webkit-line-clamp: 3; /* Número de líneas visibles */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    -webkit-line-clamp: 3; /* Número de líneas visibles */
+    line-clamp: 3; /* Propiedad estándar para compatibilidad */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .related-articles .tags {

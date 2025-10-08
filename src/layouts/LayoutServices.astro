@@ -1,0 +1,64 @@
+---
+// src/layouts/LayoutServices.astro
+import Header from '../components/HeaderServices.astro';
+import Footer from '../components/FooterServices.astro';
+import WhatsappButton from '../components/WhatsappButton.astro';
+import CalScripts from '../components/CalScripts.astro';
+import { servicesData } from '../data/servicesData.js';
+import Seo from '../components/Seo.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import TrackingScripts from '../components/TrackingScripts.astro';
+
+// Leemos el ID de GTM para usarlo en el <noscript>
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
+
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+    service?: any; // Lo hacemos opcional por si usas el layout en otra página
+}
+const { title, description, image, service } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <Seo title={title} description={description} image={image} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    
+    <slot name="head-extra" />
+
+    <TrackingScripts />
+</head>
+<body>
+    {gtmId && (
+        <noscript>
+            <iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+    )}
+    
+    {/* Le pasamos los datos del servicio actual al Header también */}
+<Header calLinkPrefix={service?.calLinkPrefix} slug={service?.slug} />
+    <main>
+        <slot />
+    </main>
+    <Footer currentServiceSlug={service?.slug} />
+    <WhatsappButton />
+    <CalScripts services={servicesData} />
+    <CookieConsent />
+</body>
+</html>

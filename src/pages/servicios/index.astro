@@ -1,0 +1,24 @@
+---
+// src/pages/servicios/index.astro
+import Layout from '../../layouts/Layout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { servicesData } from '../../data/servicesData.js';
+---
+<Layout
+    title="Servicios de Psicología Online"
+    description="Descubre cómo podemos ayudarte. Ofrecemos terapia para niños, adolescentes, adultos y apoyo a padres."
+>
+    <main style="padding-top: 4rem; padding-bottom: 4rem;">
+        <section class="container">
+            <div class="text-center" style="margin-bottom: 3rem;">
+                <h1 class="section-title">Nuestros Servicios</h1>
+                <p class="section-subtitle">Un acompañamiento para cada etapa de tu vida. Descubre cómo podemos ayudarte a ti y a tu familia a encontrar el bienestar emocional.</p>
+            </div>
+            <div class="grid grid-3-cols">
+                {servicesData.map(service => (
+                    <ServiceCard {...service} />
+                ))}
+            </div>
+        </section>
+    </main>
+</Layout>
