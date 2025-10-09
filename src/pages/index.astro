@@ -1,4 +1,6 @@
 ---
+// src/pages/index.astro
+
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
@@ -7,7 +9,7 @@ import { servicesData } from '../data/servicesData.js';
 import { blogData } from '../data/blogData.js';
 import { faqData } from '../data/faqData.js';
 
-// Importamos las imágenes que se usan en esta página desde su NUEVA ubicación
+// Importamos las imágenes que se usan en esta página desde su ubicación en src/assets/
 import heroImage from '../assets/images/hero/smiley-jovenes-hermanos-abrazandose.webp';
 import nataliaImage from '../assets/images/natalia/natalia.webp';
 import selloImage from '../assets/images/sello.svg';
@@ -29,7 +31,7 @@ const postsToShow = blogData.slice(0, 4);
             <div class="hero-content">
                 <h1>Terapia de Salud Mental Experta para un <span>Bienestar Duradero</span></h1>
                 <p>Un espacio seguro y transformador para que niños y adolescentes encuentren guía, apoyo y sanación.</p>
-                <a href="#services" class="btn btn-primary">Agenda tu sesión</a>
+                <a href="/servicios" class="btn btn-primary">Agendar Sesión</a>
             </div>
             <div class="hero-image">
                 <Image 
@@ -76,7 +78,7 @@ const postsToShow = blogData.slice(0, 4);
     <section id="services" class="section bg-light">
         <div class="container text-center">
             <h2 class="section-title">Un acompañamiento para cada etapa de tu vida</h2>
-            <h3>Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</h3>
+            <p class="section-subtitle">Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</p>
             <div id="services-grid" class="grid grid-3-cols">
                 {servicesData.map(service => (
                     <ServiceCard {...service} />
@@ -89,7 +91,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container">
             <div class="about-card">
                 <div class="about-intro">
-                    <Image src={nataliaImage} alt="Psicóloga Natalia Beiza Calvo" width={250} quality={85} />
+                    <Image src={nataliaImage} alt="Psicóloga Natalia Beiza Calvo" width={250} height={250} quality={85} />
                     <h3>Natalia Beiza Calvo</h3>
                     <p>Psicóloga clínica con más de 12 años de experiencia. Mi pasión es crear un espacio terapéutico seguro y humano donde puedas encontrar las herramientas para sanar, fortalecer tus vínculos y liderar tu propio bienestar. Mi enfoque es integrativo, combinando técnicas validadas con una profunda calidez humana.</p>
                 </div>
@@ -143,8 +145,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container">
              <div class="text-center">
                 <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
-                <h3>Tu bienestar es nuestra mejor referencia.</h3>
-                
+                <p class="section-subtitle">Tu bienestar es nuestra mejor referencia.</p>
              </div>
              <div class="grid grid-2-cols" style="margin-top: 2.5rem;">
                 <div class="card testimonial-card">
@@ -168,14 +169,14 @@ const postsToShow = blogData.slice(0, 4);
                     </div>
                 </div>
              </div>
-             <a href="/testimonios" class="btn btn-secondary" style="display: inline-block;">Comparte tu Experiencia</a>
+             <a href="/testimonios" class="btn btn-secondary" style="display: block; max-width: 250px; margin: 2rem auto 0;">Comparte tu Experiencia</a>
         </div>
     </section>
     
     <section id="blog" class="section">
         <div class="container text-center">
             <h2 class="section-title">Blog y Recursos</h2>
-            <h3>Artículos y reflexiones para apoyar tu camino.</h3>
+            <p class="section-subtitle">Artículos y reflexiones para apoyar tu camino.</p>
             <div id="blog-grid" class="grid grid-4-cols">
                 {postsToShow.map(post => (
                     <ArticleCard post={post} />
@@ -188,7 +189,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container container-narrow">
             <div class="text-center">
                 <h2 class="section-title">Preguntas Frecuentes</h2>
-                <h3>Respuestas a tus dudas más comunes.</h3>
+                <p class="section-subtitle">Respuestas a tus dudas más comunes.</p>
             </div>
             <div id="faq-accordion" class="faq-container">
                 {faqData.map(item => (
@@ -210,7 +211,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container container-narrow">
             <div class="text-center">
                 <h2 class="section-title">¿Tienes otra pregunta? Hablemos</h2>
-                <h3>Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</h3>
+                <p class="section-subtitle">Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</p>
             </div>
     
             <form id="contact-form" class="contact-form" name="contact">

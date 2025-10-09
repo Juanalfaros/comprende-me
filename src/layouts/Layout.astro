@@ -9,7 +9,6 @@ import Seo from '../components/Seo.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import TrackingScripts from '../components/TrackingScripts.astro';
 
-// Leemos el ID de GTM para usarlo en el <noscript>
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
 
 interface Props {
@@ -27,15 +26,14 @@ const { title, description, image } = Astro.props;
     
     <Seo title={title} description={description} image={image} />
 
-    {/* Favicons */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    {/* --- INICIO DE LA OPTIMIZACIÓN --- */}
+    
     {/* Pre-conexión a los dominios de las fuentes */}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    {/* --- INICIO DE LA OPTIMIZACIÓN --- */}
 
     {/* 1. Pre-cargamos las fuentes más importantes para reducir el Layout Shift (CLS) */}
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
@@ -43,9 +41,12 @@ const { title, description, image } = Astro.props;
 
     {/* 2. Cargamos las fuentes de forma asíncrona para que no bloqueen la renderización */}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"></noscript>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/css/phosphor.css"></noscript>
     
     {/* --- FIN DE LA OPTIMIZACIÓN --- */}
     
@@ -58,15 +59,11 @@ const { title, description, image } = Astro.props;
 </head>
 <body>
     {gtmId && (
-        <noscript>
-            <iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe>
-        </noscript>
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     )}
     
     <Header />
-    <main>
-        <slot />
-    </main>
+    <main><slot /></main>
     <Footer />
     <WhatsappButton />
     <CalScripts services={servicesData} />
