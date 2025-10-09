@@ -493,6 +493,12 @@ img { max-width: 100%; height: auto; }
     font-size: 2.25rem;
     color: var(--color-secondary);
     margin-bottom: 0.5rem;
+    /* --- LÍNEAS A AÑADIR --- */
+    width: 2.5rem;   /* Un poco más grande que el font-size */
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .trust-text h4 {
