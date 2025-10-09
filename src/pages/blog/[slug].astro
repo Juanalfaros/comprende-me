@@ -7,6 +7,7 @@ import { blogData } from '../../data/blogData.js';
 import ArticleCard from '../../components/ArticleCard.astro';
 import AuthorBio from '../../components/AuthorBio.astro';
 import SocialShare from '../../components/SocialShare.astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   return blogData.map(post => ({
@@ -17,7 +18,11 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-// Formateamos la fecha para que se vea en un formato legible
+// 1. Importamos la imagen dinámicamente para tener acceso a sus datos
+const imageModule = await import(`/${post.image}`);
+const optimizedImageSrc = imageModule.default;
+
+// Formateamos la fecha...
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     year: 'numeric',
     month: 'long',
@@ -25,17 +30,18 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     timeZone: 'UTC',
 });
 
-// Lógica para encontrar artículos relacionados
+// Lógica para artículos relacionados...
 const relatedPosts = blogData.filter(related => 
     related.slug !== post.slug &&
     related.tags.some(tag => post.tags.includes(tag))
 ).slice(0, 3);
 ---
 
+{/* 2. Le pasamos la ruta de la imagen ya optimizada al Layout */}
 <Layout 
     title={`${post.title} | Comprende.me`}  
     description={post.excerpt}
-    image={post.image}
+    image={optimizedImageSrc.src}
 >
     
     <Fragment slot="head-extra">
@@ -47,16 +53,16 @@ const relatedPosts = blogData.filter(related =>
             <div class="container container-narrow">
                 <article>
                   <h1>{post.title}</h1>
-                    <div class="article-meta-info">
+                  <div class="article-meta-info">
                         <time datetime={post.publishedDate}>{formattedDate}</time>
                         <span aria-hidden="true">•</span>
                         <span>{post.duration}</span>
                         {post.tags.map(tag => (
                             <span class="tag">{tag}</span>
                         ))}
-                    </div>
+                  </div>
 
-                    <img src={`${post.image}`} alt={post.alt} class="article-main-image" />
+                    <Image src={optimizedImageSrc} alt={post.alt} class="article-main-image" />
                     
                     <div class="article-body" set:html={post.fullContentHTML} />
 

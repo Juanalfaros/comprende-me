@@ -45,19 +45,20 @@ const currentYear = new Date().getFullYear();
                 <h3>Navegación</h3>
                 <ul>
                     <li><a href="/#about">Sobre mí</a></li>
-                    <li><a href="/#services">Servicios</a></li>
+                    <li><a href="/servicios">Servicios</a></li>
                     <li><a href="/blog">Blog</a></li>
                     <li><a href="/#faq">FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Servicios</h3>
-                 <ul>
-                    <li><a href="/#services">Psicología Infantil</a></li>
-                    <li><a href="/#services">Psicología Adolescente</a></li>
-                    <li><a href="/#services">Apoyo a Padres</a></li>
-                    <li><a href="/#services">Habilidades Parentales</a></li>
-                    <li><a href="/#services">Supervisión a Psicólogos</a></li>
+                <ul>
+                    {/* 2. Usamos .map() para crear la lista dinámicamente */}
+                    {servicesData.map(service => (
+                        <li>
+                            <a href={`/servicios/${service.slug}`}>{service['short-title']}</a>
+                        </li>
+                    ))}
                 </ul>
             </div>
             <div class="footer-col">
@@ -70,8 +71,9 @@ const currentYear = new Date().getFullYear();
             <div class="footer-col">
                 <h3>Contacto</h3>
                 <div class="social-links">
-                    <a href="https://www.instagram.com/comprendeme.oficial/" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-                    <a href="https://www.linkedin.com/in/natalia-beiza-calvo-53355a52/" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                    <a href="https://www.instagram.com/comprendeme.oficial/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="https://www.linkedin.com/in/natalia-beiza-calvo-53355a52/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="ph ph-linkedin-logo"></i></a>
+                    <a href="mailto:contacto@comprende.me" aria-label="Correo electrónico"><i class="ph ph-envelope"></i><a>
                 </div>
             </div>
         </div>

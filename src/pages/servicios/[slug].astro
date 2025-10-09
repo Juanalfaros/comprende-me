@@ -2,10 +2,14 @@
 // src/pages/servicios/[slug].astro
 export const prerender = true;
 
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/LayoutServices.astro';
 import { servicesData } from '../../data/servicesData.js';
 import ServiceCard from '../../components/ServiceCard.astro';
 import HeaderServices from '../../components/HeaderServices.astro';
+
+// 2. IMPORTAMOS LA IMAGEN ESTÁTICA DE NATALIA
+import nataliaBookingImage from '../../assets/images/natalia/natalia.webp';
 
 export async function getStaticPaths() {
   return servicesData.map(service => ({
@@ -17,12 +21,16 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 const bookingCard = service.bookingCard;
 
+// 1. Importamos la imagen dinámicamente para que Astro la procese
+const heroImageModule = await import(`/${service.heroImage}`);
+const optimizedHeroImage = heroImageModule.default;
 ---
 
-
+{/* 2. Pasamos la ruta de la imagen ya optimizada al Layout */}
 <Layout
     title={service.title}
     description={service.description}
+    image={optimizedHeroImage.src}
     service={service} 
 >
     <Fragment slot="head-extra">
@@ -35,18 +43,18 @@ const bookingCard = service.bookingCard;
     />
 
     <main>
-        {/* MODIFICADO: Ya no se usa 'style' para la imagen de fondo */}
         <header class="service-hero">
-            {/* AÑADIDO: Etiqueta <img> para SEO y accesibilidad */}
-            <img 
+            {/* 3. Reutilizamos la imagen ya importada y optimizada */}
+            <Image 
                 class="hero-background-image"
-                src={service.heroImage} 
+                src={optimizedHeroImage} 
                 alt={`Ilustración representativa para el servicio de ${service.title}`}
-                loading="lazy"
+                loading="eager"
+                fetchpriority="high"
+                quality={85}
             />
             <div class="hero-overlay"></div>
             <div class="container">
-                {/* AÑADIDO: aria-hidden a todos los íconos decorativos */}
                 <i class={`ph ${service.icon}`} aria-hidden="true"></i>
                 <h1>{service.title}</h1>
                 <h2>{service.heroTitle}</h2>
@@ -56,7 +64,6 @@ const bookingCard = service.bookingCard;
                     ))}
                 </div>
                 <p>{service.description}</p>
-                {/* AÑADIDO: aria-label para dar contexto al botón */}
                 <button 
                     class="btn btn-primary btn-hero-service" 
                     data-cal-link={`${service.calLinkPrefix}/${service.slug}`}
@@ -125,19 +132,17 @@ const bookingCard = service.bookingCard;
             </div>
         </section>
 
-<section class="container booking-section">
+        <section class="container booking-section">
             <div class="booking-card-improved">
-
                 <div class="booking-card-image">
-                    <img src="/public/images/natalia/natalia.webp" alt="Psicóloga sonriendo, lista para ayudar" loading="lazy">
+                    {/* IMAGEN DE NATALIA OPTIMIZADA */}
+                    <Image src={nataliaBookingImage} alt="Psicóloga sonriendo, lista para ayudar" loading="lazy" quality={85} />
                 </div>
-
                 <div class="booking-card-content">
                     <div class="booking-card-header">
                         <h2>{bookingCard.title}</h2>
                         <p>{bookingCard.paragraph}</p>
                     </div>
-
                     <ul class="booking-benefits">
                         {bookingCard.benefits.map(benefit => (
                             <li>
@@ -146,7 +151,6 @@ const bookingCard = service.bookingCard;
                             </li>
                         ))}
                     </ul>
-
                     <div class="booking-action">
                         <div class="price-display">
                             <span class="current-price">{service.price}</span>
@@ -161,9 +165,8 @@ const bookingCard = service.bookingCard;
                         </button>
                     </div>
                 </div>
-
             </div>
-            </section>
+        </section>
 
         <section class="service-section faq-section">
             <div class="container container-narrow">
@@ -172,12 +175,10 @@ const bookingCard = service.bookingCard;
                 <div class="faq-container">
                     {service.faqs?.map((faq, index) => (
                         <div class="faq-item">
-                            {/* AÑADIDO: aria-controls para vincular con la respuesta */}
                             <button class="faq-question" aria-expanded="false" aria-controls={`faq-answer-${index}`}>
                                 <span>{faq.question}</span>
                                 <i class="ph ph-plus faq-icon" aria-hidden="true"></i>
                             </button>
-                            {/* AÑADIDO: id para ser controlado por el botón */}
                             <div class="faq-answer hidden" id={`faq-answer-${index}`}>
                                 <p>{faq.answer}</p>
                             </div>
@@ -198,6 +199,7 @@ const bookingCard = service.bookingCard;
             
             button.setAttribute('aria-expanded', String(!isExpanded));
             answer.classList.toggle('hidden');
+            
             icon.classList.toggle('ph-plus');
             icon.classList.toggle('ph-minus');
         });

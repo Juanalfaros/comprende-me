@@ -1,9 +1,19 @@
 ---
 // src/components/AuthorBio.astro
-import { authorData } from '../data/authorData.js'; // <-- LÍNEA ACTUALIZADA
+import { Image } from 'astro:assets';
+import { authorData } from '../data/authorData.js';
+
+// Construimos la ruta completa para que Astro la encuentre y la optimice
+const imagePath = `/src/assets/${authorData.image}`;
 ---
 <div class="author-bio">
-    <img src={authorData.image} alt={`Foto de ${authorData.name}`} />
+    <Image 
+        src={import(imagePath)} 
+        alt={`Foto de ${authorData.name}`} 
+        width={100} 
+        height={100} 
+        quality={85}
+    />
     <div>
         <h3>Escrito por {authorData.name}</h3>
         <p>{authorData.bio}</p>

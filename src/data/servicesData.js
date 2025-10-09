@@ -4,8 +4,9 @@ export const servicesData = [
   // 1. Psicología Infantil y Adolescente
   {
     "slug": "psicologia-infantil-y-adolescente",
+    "short-title": "Psicología Infantil",
     "icon": "ph-users-three",
-    "heroImage": "/images/services/padre-e-hija-jugando-con-bloques.webp",
+    "heroImage": "src/assets/images/services/padre-e-hija-jugando-con-bloques.webp",
     "heroTitle": "Herramientas Emocionales para Crecer con Confianza",
     "title": "Psicología Infantil y Adolescente",
     "description": "Un espacio de apoyo seguro y adaptado para que niños y adolescentes desarrollen herramientas emocionales para la vida.",
@@ -29,7 +30,7 @@ export const servicesData = [
       { "icon": "ph-game-controller", "text": "Problemas de conducta, irritabilidad o pataletas frecuentes." },
       { "icon": "ph-house-line", "text": "Adaptación a cambios familiares importantes (divorcios, duelos)." },
       { "icon": "ph-graduation-cap", "text": "Bajo rendimiento académico o falta de motivación." },
-      { "icon": "ph-lightbulb", "text": "Identificación y orientación en sospecha de altas capacidades o TDAH." }
+      { "icon": "ph-lightbulb", "text": "Identificación y orientación en sospecha de TDAH." }
     ],
     "enfoque": [
       { "numero": "1", "titulo": "Vínculo y Confianza", "texto": "Creamos un espacio seguro donde el niño o adolescente se sienta cómodo para expresarse a través del juego y la conversación." },
@@ -37,7 +38,7 @@ export const servicesData = [
       { "numero": "3", "titulo": "Desarrollo de Herramientas", "texto": "Aprendemos y practicamos nuevas formas de manejar la frustración, comunicarse y resolver problemas de forma saludable." }
     ],
     "highlightBox": { "h3": "¿Terapia o Taller para Padres?", "p": "La terapia es para el niño o adolescente; la sesión individual contigo (padre/madre) es clave para alinear estrategias en casa y asegurar que el proceso terapéutico tenga un impacto duradero." },
-    "fullContentHTML": "<h2>Un Espacio Seguro para Crecer y Sanar</h2><p>La infancia y la adolescencia son etapas de grandes cambios, descubrimientos y desafíos. Mi enfoque en la terapia infanto-juvenil es crear un espacio de confianza donde los más jóvenes puedan explorar y expresar sus emociones de forma segura, a través de un lenguaje que les sea natural, como el juego o la conversación adaptada a su edad.</p><p>Trabajamos juntos para desarrollar herramientas que les permitan entender su mundo interno, mejorar sus relaciones y fortalecer su autoestima para navegar las complejidades de la vida con mayor resiliencia.</p>",
+    "fullContentHTML": "<h2>Un Espacio Seguro para Crecer y Sanar</h2><p>La infancia y la adolescencia son etapas de grandes cambios, descubrimientos y desafíos. Mi enfoque en la terapia infanto-juvenil es crear un espacio de confianza donde los más jóvenes puedan explorar y expresar sus emociones de forma segura, a través de un lenguaje que les sea natural, en una conversación adaptada a su edad.</p><p>Trabajamos juntos para desarrollar herramientas que les permitan entender su mundo interno, mejorar sus relaciones y fortalecer su autoestima para navegar las complejidades de la vida con mayor resiliencia.</p>",
     "tips": [
       { "icon": "ph-chats-circle", "title": "Valida sus Emociones", "text": "Antes de corregir, conecta. Decir 'veo que estás muy enojado' es más efectivo que 'no te enojes'. Les enseña que sus sentimientos son válidos." },
       { "icon": "ph-hand-heart", "title": "Crea Rutinas de Conexión", "text": "Establece pequeños rituales diarios, como 10 minutos de conversación sin pantallas antes de dormir. La consistencia crea seguridad y fortalece el vínculo." },
@@ -63,8 +64,9 @@ export const servicesData = [
   // 2. Psicología para Adultos
   {
     "slug": "psicologia-para-adultos",
+    "short-title": "Psicología para Adultos",
     "icon": "ph-user",
-    "heroImage": "/images/services/vista-porterior-mujer-seantada-puesta-de-sol.webp",
+    "heroImage": "src/assets/images/services/vista-porterior-mujer-seantada-puesta-de-sol.webp",
     "heroTitle": "Un Espacio para Sanar, Crecer y Reconectar Contigo",
     "title": "Psicología para Adultos",
     "description": "Un espacio confidencial y de apoyo para navegar los desafíos de la vida adulta, sanar heridas y construir una vida más plena.",
@@ -122,8 +124,9 @@ export const servicesData = [
   // 3. Asesoría para Padres
   {
     "slug": "asesoria-psicologica-y-o-judicial-para-padres",
+    "short-title": "Apoyo Psico/Judicial para Padres",
     "icon": "ph-scales",
-    "heroImage": "/images/services/pareja-joven-construyendo-con-bloques.webp",
+    "heroImage": "src/assets/images/services/pareja-joven-construyendo-con-bloques.webp",
     "heroTitle": "Decisiones Claras para el Bienestar de tus Hijos",
     "title": "Asesoría Psicológica y/o Judicial para Padres",
     "description": "Orientación experta para padres que enfrentan procesos judiciales o necesitan un respaldo psicológico en decisiones de crianza complejas.",
@@ -136,7 +139,7 @@ export const servicesData = [
     "titleSituaciones": "Crianza Consciente en Contextos Legales",
     "subtitleSituaciones": "¿Cuándo buscar este espacio terapéutico?",
     "titleEnfoque": "Estrategia Legal con Base Psicológica",
-    "subtitleEnfoque": "Analizamos tu caso para un plan de acción centrado en el bienestar superior.",
+    "subtitleEnfoque": "Analizamos tu caso para un plan de acción centrado en el bienestar superior del niño/a.",
     "titleTips": "Consejos para Navegar el Sistema Judicial",
     "subtitleTips": "Estrategias prácticas para proteger la estabilidad emocional de tus hijos.",
     "titleFaqs": "Dudas Frecuentes sobre Asesoría Judicial y Crianza",
@@ -144,10 +147,10 @@ export const servicesData = [
     "situaciones": [
       { "icon": "ph-users-three", "text": "Procesos de separación o divorcio, protegiendo a los hijos del conflicto." },
       { "icon": "ph-scales", "text": "Orientación en materias de cuidado personal (tuición) y visitas." },
-      { "icon": "ph-magnifying-glass", "text": "Preparación y acompañamiento para peritajes psicológicos." },
-      { "icon": "ph-chats-circle", "text": "Estrategias de comunicación para un co-parenting efectivo." },
+      // { "icon": "ph-magnifying-glass", "text": "Preparación y acompañamiento para peritajes psicológicos." },
+      { "icon": "ph-chats-circle", "text": "Estrategias de comunicación para una coparentalidad efectiva." },
       { "icon": "ph-graduation-cap", "text": "Dificultades en el ámbito escolar (informes, adecuaciones, etc.)." },
-      { "icon": "ph-book-open-text", "text": "Necesidad de realizar un informe psicológico para presentar en tribunales." }
+      // { "icon": "ph-book-open-text", "text": "Necesidad de realizar un informe psicológico para presentar en tribunales." }
     ],
     "enfoque": [
       { "numero": "1", "titulo": "Análisis del Caso", "texto": "Analizamos en profundidad tu situación y los antecedentes para entender el panorama completo." },
@@ -182,8 +185,9 @@ export const servicesData = [
   // 4. Habilidades Parentales
   {
     "slug": "fortalecimiento-de-habilidades-parentales",
+    "short-title": "Habilidades Parentales",
     "icon": "ph-hand-heart",
-    "heroImage": "/images/services/padre-e-hija-leyendo.webp",
+    "heroImage": "src/assets/images/services/padre-e-hija-leyendo.webp",
     "heroTitle": "Construyendo Vínculos Fuertes en la Crianza Diaria",
     "title": "Fortalecimiento de Habilidades Parentales",
     "description": "Sesiones de orientación para padres y madres que buscan construir vínculos más fuertes y manejar los desafíos de la crianza con confianza.",
@@ -193,7 +197,7 @@ export const servicesData = [
     "duration": "45 min",
     "calLinkPrefix": "comprende.me",
     "calUiConfig": {"layout":"month_view","theme":"light"},
-    "titleSituaciones": "Herramientas para una Crianza Positiva",
+    "titleSituaciones": "Herramientas para una Crianza Respetuosa",
     "subtitleSituaciones": "Desafíos cotidianos que podemos transformar juntos",
     "titleEnfoque": "Pilares de la Crianza Respetuosa",
     "subtitleEnfoque": "Teoría del apego y disciplina positiva llevadas a la práctica familiar.",
@@ -241,8 +245,9 @@ export const servicesData = [
   // 5. Supervisión para Psicólogos
   {
     "slug": "supervision-y-analisis-de-caso-para-psicologos",
+    "short-title": "Supervisión para Psicólogos",
     "icon": "ph-chalkboard-teacher",
-    "heroImage": "/images/services/mujeres-analizando-leyendo-papeles.webp",
+    "heroImage": "src/assets/images/services/mujeres-analizando-leyendo-papeles.webp",
     "heroTitle": "Un Espacio para Enriquecer tu Práctica Clínica",
     "title": "Supervisión y Análisis de Caso para Psicólogos",
     "description": "Un espacio colaborativo para psicólogos que buscan enriquecer su práctica clínica, obtener nuevas perspectivas y cuidar su rol terapéutico.",

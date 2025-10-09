@@ -1,5 +1,7 @@
 ---
 // src/components/ArticleCard.astro
+import { Image } from 'astro:assets';
+
 interface Props {
     post: {
         slug: string;
@@ -12,18 +14,31 @@ interface Props {
     }
 }
 const { post } = Astro.props;
+
+// Construimos la ruta completa desde 'src' para que Astro pueda encontrar y optimizar la imagen.
+const imagePath = `/${post.image}`;
 ---
 <a href={`/blog/${post.slug}`} class="card blog-card">
-    <img src={`${post.image}`} alt={post.alt} />
+    <div class="image-blog-card">
+    <Image 
+        src={import(imagePath)} 
+        alt={post.alt} 
+        width={400} 
+        height={200}
+        quality={80}
+        loading="lazy"
+        decoding="async"
+    />
+<div class="tags">
+            {post.tags.map(tag => <span class="tag">{tag}</span>)}
+        </div></div>
     <div class="blog-card-content">
         <div class="blog-card-meta">
             <span>{post.duration}</span>
         </div>
-        <h3>{post.title}</h3>
+        <h3 class="section-subtitle">{post.title}</h3>
         <p>{post.excerpt}</p>
-        <div class="tags">
-            {post.tags.map(tag => <span class="tag">{tag}</span>)}
-        </div>
-        <span class="read-more">Leer más &rarr;</span>
+        
+        <span class="read-more">Leer más <i class="ph ph-arrow-right"></i></span>
     </div>
 </a>

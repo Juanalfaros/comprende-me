@@ -1,12 +1,16 @@
 ---
-// src/pages/index.astro
-
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { servicesData } from '../data/servicesData.js';
 import { blogData } from '../data/blogData.js';
 import { faqData } from '../data/faqData.js';
+
+// Importamos las imágenes que se usan en esta página desde su NUEVA ubicación
+import heroImage from '../assets/images/hero/smiley-jovenes-hermanos-abrazandose.webp';
+import nataliaImage from '../assets/images/natalia/natalia.webp';
+import selloImage from '../assets/images/sello.svg';
 
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 const postsToShow = blogData.slice(0, 4);
@@ -28,7 +32,8 @@ const postsToShow = blogData.slice(0, 4);
                 <a href="#services" class="btn btn-primary">Agenda tu sesión</a>
             </div>
             <div class="hero-image">
-                <img src="/images/hero/smiley-jovenes-hermanos-abrazandose.webp" alt="Jóvenes hermanos abrazándose">
+                {/* --- CAMBIO PRINCIPAL AQUÍ --- */}
+                <Image src={heroImage} alt="Jóvenes hermanos abrazándose" fetchpriority="high" />
             </div>
         </div>
     </section>
@@ -64,7 +69,7 @@ const postsToShow = blogData.slice(0, 4);
     <section id="services" class="section bg-light">
         <div class="container text-center">
             <h2 class="section-title">Un acompañamiento para cada etapa de tu vida</h2>
-            <p class="section-subtitle">Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</p>
+            <h3>Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</h3>
             <div id="services-grid" class="grid grid-3-cols">
                 {servicesData.map(service => (
                     <ServiceCard {...service} />
@@ -73,67 +78,66 @@ const postsToShow = blogData.slice(0, 4);
         </div>
     </section>
 
-	<section id="about" class="section">
-		<div class="container">
-			<div class="about-card">
-				<div class="about-intro">
-					<img src="/images/natalia/natalia.webp" alt="Psicóloga Natalia Beiza Calvo">
-					<h3>Natalia Beiza Calvo</h3>
-					<p>Psicóloga clínica con más de 12 años de experiencia. Mi pasión es crear un espacio terapéutico seguro y humano donde puedas encontrar las herramientas para sanar, fortalecer tus vínculos y liderar tu propio bienestar. Mi enfoque es integrativo, combinando técnicas validadas con una profunda calidez humana.</p>
-				</div>
-				<div class="about-details">
-					<h2 class="section-title">Conoce a tu Psicóloga</h2>
-					<div class="detail-item">
-						<h4><i class="ph ph-graduation-cap"></i>Título Profesional</h4>
-						<p>Psicóloga, Licenciada en Psicología de la Universidad Católica Silva Henríquez.</p>
-					</div>
-					<div class="detail-item">
-						<h4><i class="ph ph-star"></i>Diplomados Clave</h4>
-						<ul>
-							<li>Diplomado especializado de Abuso Sexual Infantil <span class="tag-diplomado">Ciclos Consultores</span></li>
-							<li>Diplomado educacion emocional y coaching <span class="tag-diplomado">FLICH</span></li>
-							<li>Diplomado Clínico de Salud mental: Intervención en Adolescencia <span class="tag-diplomado">ADIPA</span></li>
-						</ul>
-					</div>
-					<div class="detail-item">
-						<h4><i class="ph ph-seal-check"></i>Cursos de Especialización</h4>
-						<ul>
-							<li>Formación en trauma complejo</li>
-							<li>Manejo de autolesiones</li>
-							<li>Primeros auxilios psicológicos</li>
-							<li>Terapia de juego</li>
-							<li>Arte terapia</li>
-							<li>Disciplina positiva</li>
-							<li>Enfoque de derechos del niño</li>
-						</ul>
-					</div>
-				</div>
-				<div class="sello"><img src="/images/sello.svg" alt=""></div>
-			</div>
-			<div class="about-tags">
-				<h3>Áreas de Práctica y Enfoques</h3>
-				<div class="tag-container">
-					<span class="tag-alt">Ansiedad y Estrés</span>
-					<span class="tag-alt">Procesos de Duelo</span>
-					<span class="tag-alt">Habilidades Parentales</span>
-					<span class="tag-alt">Vínculos y Apego</span>
-					<span class="tag-alt">Salud Mental Infantil</span>
-					<span class="tag-alt">Salud Mental Perinatal</span>
-					<span class="tag-alt">Terapia de Juego</span>
-					<span class="tag-alt">Arteterapia</span>
-					<span class="tag-alt">Supervisión Clínica</span>
-				</div>
-			</div>
-			
-		</div>
-		
-	</section>
+    <section id="about" class="section">
+        <div class="container">
+            <div class="about-card">
+                <div class="about-intro">
+                    <Image src={nataliaImage} alt="Psicóloga Natalia Beiza Calvo" width={250} quality={85} />
+                    <h3>Natalia Beiza Calvo</h3>
+                    <p>Psicóloga clínica con más de 12 años de experiencia. Mi pasión es crear un espacio terapéutico seguro y humano donde puedas encontrar las herramientas para sanar, fortalecer tus vínculos y liderar tu propio bienestar. Mi enfoque es integrativo, combinando técnicas validadas con una profunda calidez humana.</p>
+                </div>
+                <div class="about-details">
+                    <h2 class="section-title">Conoce a tu Psicóloga</h2>
+                    <div class="detail-item">
+                        <h4><i class="ph ph-graduation-cap"></i>Título Profesional</h4>
+                        <p>Psicóloga, Licenciada en Psicología de la Universidad Católica Silva Henríquez.</p>
+                    </div>
+                    <div class="detail-item">
+                        <h4><i class="ph ph-star"></i>Diplomados Clave</h4>
+                        <ul>
+                            <li>Diplomado especializado de Abuso Sexual Infantil <span class="tag-diplomado">Ciclos Consultores</span></li>
+                            <li>Diplomado educacion emocional y coaching <span class="tag-diplomado">FLICH</span></li>
+                            <li>Diplomado Clínico de Salud mental: Intervención en Adolescencia <span class="tag-diplomado">ADIPA</span></li>
+                        </ul>
+                    </div>
+                    <div class="detail-item">
+                        <h4><i class="ph ph-seal-check"></i>Cursos de Especialización</h4>
+                        <ul>
+                            <li>Formación en trauma complejo</li>
+                            <li>Manejo de autolesiones</li>
+                            <li>Primeros auxilios psicológicos</li>
+                            <li>Terapia de juego</li>
+                            <li>Arte terapia</li>
+                            <li>Disciplina positiva</li>
+                            <li>Enfoque de derechos del niño</li>
+                        </ul>
+                    </div>
+                </div>
+                <Image src={selloImage} alt="Sello de Psicóloga Registrada" class="sello" width={100} height={100} />
+            </div>
+            <div class="about-tags">
+                <h3>Áreas de Práctica y Enfoques</h3>
+                <div class="tag-container">
+                    <span class="tag-alt">Ansiedad y Estrés</span>
+                    <span class="tag-alt">Procesos de Duelo</span>
+                    <span class="tag-alt">Habilidades Parentales</span>
+                    <span class="tag-alt">Vínculos y Apego</span>
+                    <span class="tag-alt">Salud Mental Infantil</span>
+                    <span class="tag-alt">Salud Mental Perinatal</span>
+                    <span class="tag-alt">Terapia de Juego</span>
+                    <span class="tag-alt">Arteterapia</span>
+                    <span class="tag-alt">Supervisión Clínica</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="testimonials" class="section bg-light">
         <div class="container">
              <div class="text-center">
                 <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
-                <a href="/testimonios" class="btn btn-secondary" style="display: inline-block;">Comparte tu Experiencia</a>
+                <h3>Tu bienestar es nuestra mejor referencia.</h3>
+                
              </div>
              <div class="grid grid-2-cols" style="margin-top: 2.5rem;">
                 <div class="card testimonial-card">
@@ -157,13 +161,14 @@ const postsToShow = blogData.slice(0, 4);
                     </div>
                 </div>
              </div>
+             <a href="/testimonios" class="btn btn-secondary" style="display: inline-block;">Comparte tu Experiencia</a>
         </div>
     </section>
     
     <section id="blog" class="section">
         <div class="container text-center">
             <h2 class="section-title">Blog y Recursos</h2>
-            <p class="section-subtitle">Artículos y reflexiones para apoyar tu camino.</p>
+            <h3>Artículos y reflexiones para apoyar tu camino.</h3>
             <div id="blog-grid" class="grid grid-4-cols">
                 {postsToShow.map(post => (
                     <ArticleCard post={post} />
@@ -176,7 +181,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container container-narrow">
             <div class="text-center">
                 <h2 class="section-title">Preguntas Frecuentes</h2>
-                <p class="section-subtitle">Respuestas a tus dudas más comunes.</p>
+                <h3>Respuestas a tus dudas más comunes.</h3>
             </div>
             <div id="faq-accordion" class="faq-container">
                 {faqData.map(item => (
@@ -198,7 +203,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container container-narrow">
             <div class="text-center">
                 <h2 class="section-title">¿Tienes otra pregunta? Hablemos</h2>
-                <p class="section-subtitle">Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</p>
+                <h3>Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</h3>
             </div>
     
             <form id="contact-form" class="contact-form" name="contact">
