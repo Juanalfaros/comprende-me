@@ -8,6 +8,9 @@ import { servicesData } from '../../data/servicesData.js';
 import HeaderServices from '../../components/HeaderServices.astro';
 import nataliaBookingImage from '../../assets/images/natalia/natalia.webp';
 
+// Importamos TODAS las imágenes de la carpeta de servicios de una vez.
+const heroImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/services/*.{jpeg,jpg,png,webp,svg}');
+
 export async function getStaticPaths() {
   return servicesData.map(service => ({
     params: { slug: service.slug },
@@ -18,17 +21,16 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 const bookingCard = service.bookingCard;
 
-// --- CORRECCIÓN AQUÍ ---
-// La ruta ahora es relativa desde la carpeta 'pages/servicios/'
-const heroImageModule = await import(`../../assets/${service.heroImage}`);
-const optimizedHeroImage = heroImageModule.default;
+// Buscamos la ruta de nuestra imagen específica en la lista importada.
+const heroImagePath = `/src/assets/${service.heroImage}`;
+if (!heroImages[heroImagePath]) {
+    throw new Error(`No se pudo encontrar la imagen del hero: ${heroImagePath}. Verifica la ruta en servicesData.js.`);
+}
 ---
-
-{/* 2. Pasamos la ruta de la imagen ya optimizada al Layout */}
 <Layout
     title={service.title}
     description={service.description}
-    image={optimizedHeroImage.src}
+    image={(await heroImages[heroImagePath]()).default.src}
     service={service} 
 >
     <Fragment slot="head-extra">
@@ -42,10 +44,9 @@ const optimizedHeroImage = heroImageModule.default;
 
     <main>
         <header class="service-hero">
-            {/* 3. Reutilizamos la imagen ya importada y optimizada */}
             <Image 
                 class="hero-background-image"
-                src={optimizedHeroImage} 
+                src={(await heroImages[heroImagePath]()).default}
                 alt={`Ilustración representativa para el servicio de ${service.title}`}
                 loading="eager"
                 fetchpriority="high"
@@ -133,7 +134,6 @@ const optimizedHeroImage = heroImageModule.default;
         <section class="container booking-section">
             <div class="booking-card-improved">
                 <div class="booking-card-image">
-                    {/* IMAGEN DE NATALIA OPTIMIZADA */}
                     <Image src={nataliaBookingImage} alt="Psicóloga sonriendo, lista para ayudar" loading="lazy" quality={85} />
                 </div>
                 <div class="booking-card-content">

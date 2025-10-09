@@ -11,14 +11,17 @@ interface Props {
         title: string;
         excerpt: string;
         tags: string[];
-        publishedDate: string; // Añadido para mostrar la fecha
+        publishedDate: string;
     }
 }
 const { post } = Astro.props;
 
-// --- CORRECCIÓN AQUÍ ---
-// La ruta debe ser relativa desde la carpeta 'components/'
-const imagePath = `../assets/${post.image}`;
+const blogImages = import.meta.glob('/src/assets/images/blogs/*.{jpeg,jpg,png,webp,svg}');
+
+const imagePath = `/src/assets/${post.image}`;
+if (!blogImages[imagePath]) {
+    throw new Error(`No se pudo encontrar la imagen para la tarjeta del blog: ${imagePath}. Verifica la ruta en blogData.js.`);
+}
 
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     day: '2-digit',
@@ -30,7 +33,7 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
 <a href={`/blog/${post.slug}`} class="card blog-card">
     <div class="image-blog-card">
         <Image 
-            src={import(imagePath)} 
+            src={blogImages[imagePath]()} 
             alt={post.alt} 
             width={400} 
             height={225}
