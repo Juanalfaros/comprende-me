@@ -53,21 +53,21 @@ const postsToShow = blogData.slice(0, 4);
                 <div class="trust-item">
                     <i class="ph ph-seal-check"></i>
                     <div class="trust-text">
-                        <h4>Psicóloga Registrada</h4>
+                        <p class="trust-title">Psicóloga Registrada</h4>
                         <p>Sup. de Salud Nº 181707</p>
                     </div>
                 </div>
                 <div class="trust-item">
                     <i class="ph ph-briefcase"></i>
                     <div class="trust-text">
-                        <h4>+12 Años de Experiencia</h4>
+                        <p class="trust-title">+12 Años de Experiencia</h4>
                         <p>Apoyando a niños y familias</p>
                     </div>
                 </div>
                 <div class="trust-item">
                     <i class="ph ph-star"></i>
                     <div class="trust-text">
-                        <h4>Especialista en Niños y Adolescentes</h4>
+                        <p class="trust-title">Especialista en Niños y Adolescentes</h4>
                         <p>Enfoque Cognitivo Conductual</p>
                     </div>
                 </div>
@@ -78,7 +78,7 @@ const postsToShow = blogData.slice(0, 4);
     <section id="services" class="section bg-light">
         <div class="container text-center">
             <h2 class="section-title">Un acompañamiento para cada etapa de tu vida</h2>
-            <p class="section-subtitle">Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</p>
+            <h3>Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</h3>
             <div id="services-grid" class="grid grid-3-cols">
                 {servicesData.map(service => (
                     <ServiceCard {...service} />
@@ -91,18 +91,18 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container">
             <div class="about-card">
                 <div class="about-intro">
-                    <Image src={nataliaImage} alt="Psicóloga Natalia Beiza Calvo" width={250} height={250} quality={85} />
+                    <Image src={nataliaImage} alt="Psicóloga Natalia Beiza Calvo" width={250} quality={85} />
                     <h3>Natalia Beiza Calvo</h3>
                     <p>Psicóloga clínica con más de 12 años de experiencia. Mi pasión es crear un espacio terapéutico seguro y humano donde puedas encontrar las herramientas para sanar, fortalecer tus vínculos y liderar tu propio bienestar. Mi enfoque es integrativo, combinando técnicas validadas con una profunda calidez humana.</p>
                 </div>
                 <div class="about-details">
                     <h2 class="section-title">Conoce a tu Psicóloga</h2>
                     <div class="detail-item">
-                        <h4><i class="ph ph-graduation-cap"></i>Título Profesional</h4>
+                        <h3 class="detail-title"><i class="ph ph-graduation-cap"></i>Título Profesional</h4>
                         <p>Psicóloga, Licenciada en Psicología de la Universidad Católica Silva Henríquez.</p>
                     </div>
                     <div class="detail-item">
-                        <h4><i class="ph ph-star"></i>Diplomados Clave</h4>
+                        <h3 class="detail-title"><i class="ph ph-star"></i>Diplomados Clave</h3>
                         <ul>
                             <li>Diplomado especializado de Abuso Sexual Infantil <span class="tag-diplomado">Ciclos Consultores</span></li>
                             <li>Diplomado educacion emocional y coaching <span class="tag-diplomado">FLICH</span></li>
@@ -110,7 +110,7 @@ const postsToShow = blogData.slice(0, 4);
                         </ul>
                     </div>
                     <div class="detail-item">
-                        <h4><i class="ph ph-seal-check"></i>Cursos de Especialización</h4>
+                        <h3 class="detail-title"><i class="ph ph-seal-check"></i>Cursos de Especialización</h4>
                         <ul>
                             <li>Formación en trauma complejo</li>
                             <li>Manejo de autolesiones</li>
@@ -145,7 +145,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container">
              <div class="text-center">
                 <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
-                <p class="section-subtitle">Tu bienestar es nuestra mejor referencia.</p>
+                <h3>Tu bienestar es nuestra mejor referencia.</h3>
              </div>
              <div class="grid grid-2-cols" style="margin-top: 2.5rem;">
                 <div class="card testimonial-card">
@@ -176,7 +176,7 @@ const postsToShow = blogData.slice(0, 4);
     <section id="blog" class="section">
         <div class="container text-center">
             <h2 class="section-title">Blog y Recursos</h2>
-            <p class="section-subtitle">Artículos y reflexiones para apoyar tu camino.</p>
+            <h3>Artículos y reflexiones para apoyar tu camino.</h3>
             <div id="blog-grid" class="grid grid-4-cols">
                 {postsToShow.map(post => (
                     <ArticleCard post={post} />
@@ -189,7 +189,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container container-narrow">
             <div class="text-center">
                 <h2 class="section-title">Preguntas Frecuentes</h2>
-                <p class="section-subtitle">Respuestas a tus dudas más comunes.</p>
+                <h3>Respuestas a tus dudas más comunes.</h3>
             </div>
             <div id="faq-accordion" class="faq-container">
                 {faqData.map(item => (
@@ -211,7 +211,7 @@ const postsToShow = blogData.slice(0, 4);
         <div class="container container-narrow">
             <div class="text-center">
                 <h2 class="section-title">¿Tienes otra pregunta? Hablemos</h2>
-                <p class="section-subtitle">Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</p>
+                <h3>Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</h3>
             </div>
     
             <form id="contact-form" class="contact-form" name="contact">

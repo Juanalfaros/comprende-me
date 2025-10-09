@@ -3,6 +3,7 @@
 ---
 <div id="cookie-consent-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-description">
     <div class="cookie-content">
+        <h2 id="cookie-title" class="visually-hidden">Consentimiento de Cookies</h2>
         <p id="cookie-description">
             Utilizamos cookies para mejorar tu experiencia y analizar el tráfico. Al hacer clic en "Aceptar", aceptas nuestro uso de cookies.
             <a href="/privacidad" target="_blank">Leer más</a>.
@@ -45,6 +46,19 @@
     .cookie-actions .btn {
         padding: 0.5rem 1.2rem;
         white-space: nowrap;
+    }
+
+        /* --- Utilidad para Accesibilidad --- */
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
     }
 
     @media (max-width: 768px) {
