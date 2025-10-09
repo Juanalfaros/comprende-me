@@ -35,14 +35,12 @@ const postsToShow = blogData.slice(0, 4);
             </div>
             <div class="hero-image">
                 <Image 
-                    src={heroImage}
-                    alt="Jóvenes hermanos abrazándose felices"
-                    loading="eager"
-                    fetchpriority="high"
-                    
-                    widths={[273, 473, 800]} 
-                    sizes="(max-width: 767px) 273px, 473px"
-
+                    src={heroImage} 
+                    alt="Jóvenes hermanos abrazándose" 
+                    fetchpriority="high" 
+                    loading="eager" 
+                    width={800} 
+                    height={1198} 
                     quality={75}
                 />
             </div>
