@@ -3,8 +3,9 @@
 import { Image } from 'astro:assets';
 import { authorData } from '../data/authorData.js';
 
-// Construimos la ruta completa para que Astro la encuentre y la optimice
-const imagePath = `/src/assets/${authorData.image}`;
+// --- CORRECCIÓN AQUÍ ---
+// La ruta ahora es relativa desde la carpeta 'components/'
+const imagePath = `../assets/${authorData.image}`;
 ---
 <div class="author-bio">
     <Image 

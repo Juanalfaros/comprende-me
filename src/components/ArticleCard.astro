@@ -11,34 +11,45 @@ interface Props {
         title: string;
         excerpt: string;
         tags: string[];
+        publishedDate: string; // Añadido para mostrar la fecha
     }
 }
 const { post } = Astro.props;
 
-// Construimos la ruta completa desde 'src' para que Astro pueda encontrar y optimizar la imagen.
-const imagePath = `/${post.image}`;
+// --- CORRECCIÓN AQUÍ ---
+// La ruta debe ser relativa desde la carpeta 'components/'
+const imagePath = `../assets/${post.image}`;
+
+const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+});
 ---
 <a href={`/blog/${post.slug}`} class="card blog-card">
     <div class="image-blog-card">
-    <Image 
-        src={import(imagePath)} 
-        alt={post.alt} 
-        width={400} 
-        height={200}
-        quality={80}
-        loading="lazy"
-        decoding="async"
-    />
-<div class="tags">
-            {post.tags.map(tag => <span class="tag">{tag}</span>)}
-        </div></div>
+        <Image 
+            src={import(imagePath)} 
+            alt={post.alt} 
+            width={400} 
+            height={225}
+            quality={80}
+            loading="lazy"
+            decoding="async"
+        />
+        <div class="tags">
+            {post.tags.slice(0, 2).map(tag => <span class="tag">{tag}</span>)}
+        </div>
+    </div>
     <div class="blog-card-content">
         <div class="blog-card-meta">
+            <time datetime={post.publishedDate}>{formattedDate}</time>
+            <span>•</span>
             <span>{post.duration}</span>
         </div>
-        <h3 class="section-subtitle">{post.title}</h3>
+        <h3>{post.title}</h3>
         <p>{post.excerpt}</p>
-        
         <span class="read-more">Leer más <i class="ph ph-arrow-right"></i></span>
     </div>
 </a>

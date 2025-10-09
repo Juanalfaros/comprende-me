@@ -18,11 +18,12 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-// 1. Importamos la imagen dinámicamente para tener acceso a sus datos
-const imageModule = await import(`/${post.image}`);
+// --- CORRECCIÓN AQUÍ ---
+// La ruta ahora es relativa desde la carpeta 'pages/blog/' para que Astro la encuentre.
+const imageModule = await import(`../../assets/${post.image}`);
 const optimizedImageSrc = imageModule.default;
 
-// Formateamos la fecha...
+// Formateamos la fecha para que se vea en un formato legible
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     year: 'numeric',
     month: 'long',
@@ -30,14 +31,13 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     timeZone: 'UTC',
 });
 
-// Lógica para artículos relacionados...
+// Lógica para encontrar artículos relacionados
 const relatedPosts = blogData.filter(related => 
     related.slug !== post.slug &&
     related.tags.some(tag => post.tags.includes(tag))
 ).slice(0, 3);
 ---
 
-{/* 2. Le pasamos la ruta de la imagen ya optimizada al Layout */}
 <Layout 
     title={`${post.title} | Comprende.me`}  
     description={post.excerpt}
@@ -45,7 +45,7 @@ const relatedPosts = blogData.filter(related =>
 >
     
     <Fragment slot="head-extra">
-        <link rel="stylesheet" href="/styles/article.css">
+        <link rel="stylesheet" href="/styles/article.css" />
     </Fragment>
 
     <main>

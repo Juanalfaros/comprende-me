@@ -5,10 +5,7 @@ export const prerender = true;
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/LayoutServices.astro';
 import { servicesData } from '../../data/servicesData.js';
-import ServiceCard from '../../components/ServiceCard.astro';
 import HeaderServices from '../../components/HeaderServices.astro';
-
-// 2. IMPORTAMOS LA IMAGEN ESTÁTICA DE NATALIA
 import nataliaBookingImage from '../../assets/images/natalia/natalia.webp';
 
 export async function getStaticPaths() {
@@ -21,8 +18,9 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 const bookingCard = service.bookingCard;
 
-// 1. Importamos la imagen dinámicamente para que Astro la procese
-const heroImageModule = await import(`/${service.heroImage}`);
+// --- CORRECCIÓN AQUÍ ---
+// La ruta ahora es relativa desde la carpeta 'pages/servicios/'
+const heroImageModule = await import(`../../assets/${service.heroImage}`);
 const optimizedHeroImage = heroImageModule.default;
 ---
 
