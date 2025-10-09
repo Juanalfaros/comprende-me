@@ -32,8 +32,15 @@ const postsToShow = blogData.slice(0, 4);
                 <a href="#services" class="btn btn-primary">Agenda tu sesión</a>
             </div>
             <div class="hero-image">
-                {/* --- CAMBIO PRINCIPAL AQUÍ --- */}
-                <Image src={heroImage} alt="Jóvenes hermanos abrazándose" fetchpriority="high" loading="eager" />
+                <Image 
+                    src={heroImage} 
+                    alt="Jóvenes hermanos abrazándose" 
+                    fetchpriority="high" 
+                    loading="eager" 
+                    width={800} 
+                    height={1198} 
+                    quality={75}
+                />
             </div>
         </div>
     </section>
