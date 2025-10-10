@@ -54,15 +54,22 @@ const relatedPosts = blogData.filter(related =>
                 <article>
                   <h1>{post.title}</h1>
                   <div class="article-meta-info">
-                        <time datetime={post.publishedDate}><i class="ph ph-calendar-heart"></i> {formattedDate}</time>
+                        <time datetime={post.publishedDate}>{formattedDate}</time>
                         <span aria-hidden="true">•</span>
-                        <span><i class="ph ph-clock"></i> {post.duration}</span>
+                        <span>{post.duration}</span>
                         {post.tags.map(tag => (
                             <span class="tag">{tag}</span>
                         ))}
                   </div>
 
-                    <Image src={blogImages[imagePath]()} alt={post.alt} class="article-main-image" />
+
+                    <Image 
+                        src={blogImages[imagePath]()} 
+                        alt={post.alt} 
+                        class="article-main-image"
+                        loading="eager"
+                        fetchpriority="high"
+                    />
                     
                     <div class="article-body" set:html={post.fullContentHTML} />
 
