@@ -49,14 +49,14 @@ const relatedPosts = blogData.filter(related =>
     </Fragment>
 
     <main>
-        <section class="section">
+        <section class="section article-main-section">
             <div class="container container-narrow">
                 <article>
                   <h1>{post.title}</h1>
                   <div class="article-meta-info">
-                        <time datetime={post.publishedDate}>{formattedDate}</time>
+                        <time datetime={post.publishedDate}><i class="ph ph-calendar-heart"></i> {formattedDate}</time>
                         <span aria-hidden="true">•</span>
-                        <span>{post.duration}</span>
+                        <span><i class="ph ph-clock"></i> {post.duration}</span>
                         {post.tags.map(tag => (
                             <span class="tag">{tag}</span>
                         ))}

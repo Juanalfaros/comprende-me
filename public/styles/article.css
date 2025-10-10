@@ -1,116 +1,278 @@
 /* public/styles/article.css */
 
+/* --- Contenedor Principal del Artículo --- */
+.article-main-section {
+  padding: 1rem 0 4rem 0;}
+
 .article-body {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #333; /* Un negro un poco más suave para facilitar la lectura */
+  font-size: 1.125rem; /* 18px, ideal para lectura */
+  line-height: 1.8;
+  color: var(--color-dark);
+}
+
+.article-meta-info {
+    margin-top: 1rem;
+}
+
+.article-main-image {
+  border-radius: var(--border-web);
+}
+
+/* --- Títulos y Subtítulos --- */
+.article-body h2,
+.article-body h3 {
+  font-family: var(--font-heading);
+  color: var(--color-dark);
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .article-body h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--color-dark);
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    line-height: 1.3;
+  font-size: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .article-body h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--color-dark);
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
+  font-size: 1.5rem;
 }
 
+/* --- Párrafos y Énfasis --- */
 .article-body p {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-body strong {
+  font-weight: 600;
+  color: var(--color-dark);
 }
 
 .article-body a {
-    color: var(--color-primary);
-    font-weight: 500;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
+  color: var(--color-primary-dark);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
 }
 
 .article-body a:hover {
-    color: var(--color-primary-dark);
+  color: var(--color-primary);
 }
 
-.article-body ul {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 1.5rem;
+/* --- Listas (ul y ol) Rediseñadas --- */
+.article-body ul,
+.article-body ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.75rem;
 }
 
 .article-body ul li {
-    padding-left: 1.75rem;
-    position: relative;
-    margin-bottom: 0.75rem;
+  list-style: none;
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .article-body ul li::before {
-    content: '•'; /* Puedes cambiarlo por '✔' o lo que prefieras */
-    color: var(--color-primary);
-    font-size: 1.5rem;
+    /* 1. Especificamos que debe usar la fuente de Phosphor Icons (en su versión "Fill") */
+    font-family: "Phosphor-fill"; 
+    
+    /* 2. Usamos el código Unicode específico del ícono 'check-circle' */
+    content: '\e18a'; 
+    
+    /* Propiedades adicionales para alinear y estilizar el ícono */
     position: absolute;
     left: 0;
-    top: -0.1em;
+    top: 2px; /* Ajuste fino para la alineación vertical */
+    font-size: 1rem;
+    font-weight: normal; /* Importante para que no herede la negrita del texto */
+    color: var(--color-primary);
 }
 
+.article-body ol li {
+  padding-left: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* --- Citas Destacadas (Blockquotes) --- */
 .article-body blockquote {
-    border-left: 4px solid var(--color-primary);
-    margin: 2rem 0;
-    padding: 1rem 1.5rem;
-    font-size: 1.15rem;
-    font-style: italic;
-    color: var(--color-muted);
-    background-color: var(--color-light);
-    border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--color-primary);
+  margin: 2.5rem 0;
+  padding: 1.5rem 2rem;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-dark);
+  background-color: var(--color-light);
+  border-radius: 0 8px 8px 0;
 }
 
 .article-body blockquote p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
-/* Estilos para los metadatos del artículo (fecha, duración, etc.) */
+.article-body blockquote strong {
+  font-style: normal;
+}
+
+/* --- Contenedor Responsivo con Border Radius --- */
+.table-wrapper {
+  margin: 2.5rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem; /* Puedes usar var(--border-web) si lo tienes definido */
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--color-white);
+}
+
+/* --- Tabla Base --- */
+.article-body table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+/* --- Encabezados --- */
+.article-body thead th {
+  background-color: var(--color-light);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* --- Celdas --- */
+.article-body th,
+.article-body td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* --- Última fila sin borde --- */
+.article-body tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- Hover en filas --- */
+.article-body tbody tr:hover {
+  background-color: var(--color-bg);
+}
+
+/* --- Estilos adicionales --- */
+.article-body td strong {
+  color: var(--color-dark);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.article-body tbody td:first-child {
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+/* --- Ajuste para border-radius visual en cabecera y última fila --- */
+.article-body thead th:first-child {
+  border-top-left-radius: 1.5rem;
+}
+.article-body thead th:last-child {
+  border-top-right-radius: 1.5rem;
+}
+.article-body tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 1.5rem;
+}
+.article-body tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 1.5rem;
+}
+
+
+/* --- Estilos para Metadatos del Artículo (Fecha, Duración, Tags) --- */
 .article-meta-info {
-    margin-bottom: 1.5rem;
-    color: var(--color-muted);
     display: flex;
+    flex-wrap: wrap; /* Permite que las etiquetas pasen a la siguiente línea en móviles */
     align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem; /* Espacio entre elementos */
+    gap: 0.5rem 1rem; /* Espacio vertical y horizontal entre elementos */
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
+/* Alinea los íconos con el texto dentro de la fecha y la duración */
+.article-meta-info time,
+.article-meta-info span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem; /* Espacio entre el ícono y el texto */
+}
+
+/* Estilo para los íconos */
+.article-meta-info i {
+    font-size: 1.2rem;
+    color: var(--color-primary); /* Le damos el color principal para que resalten */
+}
+
+/* Estilo para el separador (el punto) */
+.article-meta-info span[aria-hidden="true"] {
+    color: var(--color-border);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Estilos para las etiquetas (tags) */
 .article-meta-info .tag {
     background-color: var(--color-light);
+    color: var(--color-muted);
     font-size: 0.8rem;
     padding: 0.25rem 0.75rem;
     border-radius: 999px;
+    margin-left: 0; /* Eliminamos el margen que podía causar inconsistencias */
+    border: 1px solid var(--color-border);
 }
 
-/* Estilo para la imagen principal del artículo */
-.article-main-image {
-    width: 100%;
-    max-height: 450px;
-    object-fit: cover;
-    border-radius: 12px; /* Un radio de borde más sutil que 48px */
+/* --- Estilos para Citas y Fuentes del Artículo --- */
+.table-caption {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-muted);
+    text-align: left;
+    margin-top: -1.5rem; /* Sube la nota para que quede más cerca de la tabla */
     margin-bottom: 2.5rem;
 }
 
-/* Estilo para el enlace de 'Volver' */
-.back-to-blog-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+.article-sources {
     margin-top: 3rem;
-    font-weight: 500;
-    text-decoration: none;
-    color: var(--color-primary-dark);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
 }
-.back-to-blog-link:hover {
-    text-decoration: underline;
+
+.article-sources h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.article-sources ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.article-sources li {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+    padding-left: 0;
+    margin-left: -1.8rem;
+}
+
+/* Corrección para quitar el check de la lista de fuentes */
+.article-body .article-sources ul li::before {
+    content: none; /* Usamos 'none' para anular completamente el pseudo-elemento */
 }
