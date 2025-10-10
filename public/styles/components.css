@@ -246,3 +246,50 @@
   border-radius: 999px;
   margin-left: 0.5rem;
 }
+
+
+/* --- ESTILOS PARA BOTÓN DE AGENDAR FLOTANTE (MÓVIL) --- */
+
+.bottom-btn-menu {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 50;
+  background: linear-gradient(to top, white, rgba(255, 255, 255, 0));
+  width: 100%;
+
+  /* --- NUEVAS PROPIEDADES --- */
+  /* Oculto por defecto y fuera de la pantalla */
+  opacity: 0;
+  transform: translate(-50%, 100%); /* Empieza abajo */
+  pointer-events: none; /* No se puede hacer clic cuando está oculto */
+  transition: transform 0.4s ease, opacity 0.4s ease; /* Animación suave */
+}
+
+/* Clase que añadiremos con JS para mostrar el botón */
+.bottom-btn-menu.visible {
+  opacity: 1;
+  transform: translateX(-50%); /* Vuelve a su posición original */
+  pointer-events: auto; /* Se puede hacer clic */
+}
+
+
+
+
+.mobile-fab {  
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: block; /* Visible por defecto en móvil */
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Ocultamos el botón flotante en pantallas de escritorio */
+@media (min-width: 768px) {
+    .mobile-fab {
+        display: none;
+    }
+}

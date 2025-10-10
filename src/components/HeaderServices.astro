@@ -27,7 +27,7 @@ const calLink = `${calLinkPrefix}/${slug}`;
             <a href="/#contact">Contacto</a>
         </nav>
         <div class="header-actions">
-            <button class="btn btn-primary hidden-mobile" data-cal-link={calLink}>Agendar Ahora</button>
+            <!-- <button class="btn btn-primary hidden-mobile" data-cal-link={calLink}>Agendar Ahora</button> -->
             <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Abrir menú de navegación">
                 <i class="ph ph-list"></i>
             </button>
@@ -42,7 +42,7 @@ const calLink = `${calLinkPrefix}/${slug}`;
         <button class="btn btn-primary" data-cal-link={calLink}>Agendar Ahora</button>
     </div>
 </header>
-
+<div class="bottom-btn-menu"><a href="/#services" class="btn btn-primary hidden-mobile mobile-fab" data-cal-link={calLink}>Agendar Cita Ahora</a></div>
 <script>
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -57,4 +57,46 @@ const calLink = `${calLinkPrefix}/${slug}`;
             }
         });
     }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Seleccionamos los elementos necesarios
+        const bottomMenu = document.querySelector('.bottom-btn-menu');
+        // --- LÍNEA MODIFICADA ---
+        const triggerSection = document.querySelector('.other-services-section'); 
+
+        // Si no existe el botón o la sección, no hacemos nada.
+        if (!bottomMenu || !triggerSection) {
+            console.warn('El botón flotante o la sección .other-services-section no se encontraron en la página.');
+            return;
+        }
+
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY;
+            // --- VARIABLE ACTUALIZADA ---
+            const triggerRect = triggerSection.getBoundingClientRect();
+            
+            // Condición para ocultar el botón: cuando la parte superior de la sección
+            // es visible en la ventana del navegador.
+            // --- VARIABLE ACTUALIZADA ---
+            const isTouchingTrigger = triggerRect.top <= window.innerHeight;
+
+            // Lógica principal:
+            // El botón debe ser visible SI...
+            // 1. El scroll es mayor a 100px Y
+            // 2. NO está tocando la sección de CTA.
+            if (scrollPosition > 100 && !isTouchingTrigger) {
+                bottomMenu.classList.add('visible');
+            } else {
+                bottomMenu.classList.remove('visible');
+            }
+        };
+
+        // Escuchamos el evento de scroll en la ventana
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Ejecutamos la función una vez al cargar la página
+        handleScroll();
+    });
 </script>
