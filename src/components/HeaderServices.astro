@@ -4,19 +4,14 @@ interface Props {
     calLinkPrefix: string;
     slug: string;
 }
-
-// Desestructura las props (valores que vienen de [slug].astro)
 const { calLinkPrefix, slug } = Astro.props;
-
-// Construye el enlace de Cal.com
 const calLink = `${calLinkPrefix}/${slug}`;
-
-// NOTA: La línea 'import { servicesData } from '../data/servicesData.js';' ya no es necesaria aquí
-// porque solo usas las props, no los datos completos del servicio.
 ---
-<header class="header" id="header">
+
+<header class="header" id="header-services">
     <div class="container header-container">
         <a href="/" class="logo" title="Inicio - Comprende.me">
+            {/* SVG del logo aquí */}
             <svg viewBox="0 0 612 145.5"><path fill="var(--color-primary)" d="M456.6,94.1c0,3.9-3.1,7-7,7s-7-3.1-7-7 3.1-7 7-7 7,3.1 7,7zM610,31.9c-3.1-11.8-11.6-22.2-22.6-27.6s-24.4-5.8-35.6-1.1c-12.1,5.1-21.4,16-24.8,28.6-8.1-10.2-21.1-16.5-34.1-16.4-12.2.1-24.3,5.8-32.3,15.1-7.9,9.3-11.6,22.1-9.8,34.3,2.1,13.9,8.8,25.5,18.6,35.6,13.1,13.5,49.6,38.4,81.2,45.1,15.5-11,30.1-28.5,40.8-44.6-6.6,2-15.4-3.8-18.5-6-.4-.3-.7-.5-1.1-.8h0c-1.4,1.1-2.8,1.9-4,2.6-5.8,3.4-10.7,5.1-14.9,5.1-1.7,0-3.2-.3-4.7-.9-.1,0-.2-.1-.3-.2-1.5-.5-2.9-1.6-4-3.2-2-3.1-3.3-6.9-4.2-10.5-1.5-5.3-2.9-12.7-3.7-18-.2-1.3-.5-2.5-.9-3.8-1.2,5.7-3.1,13.4-4.4,19.1-.8,3.4-1.8,6.8-3.1,10.1-.6,1.6-1.7,3.1-2.9,4.4-3.2,3.3-8.2,3.3-11-.2-1.9-2.3-3.4-5.1-4.1-8-1.8-6.7-3.2-15.5-4.7-22.3-.3-1.1-.5-2.1-1.1-3.3-.9,4.2-2.2,10.3-3.2,14.5-1.1,4.4-2.1,8.9-3.4,13.3-.6,2-1.8,3.9-3.1,5.5-3.1,3.8-8.5,4-11.6.2-1.7-2.1-3.1-4.8-3.9-7.4-1.7-6.1-2.9-14.3-4.3-20.4-.4-1.8-.9-3.5-1.8-5.4-.3.9-.7,1.9-.9,2.8-.7,2.9-1.3,7.7-1.9,10.6-.7,2.9-3.1,4.5-5.8,4-2.8-.5-4.4-2.9-3.7-5.9,1.1-4.6,2.1-11.1,3.5-15.6.6-1.8,1.6-3.6,2.9-5.1,3.3-4.1,8.8-4.2,12-.1,1.7,2.2,3,4.8,3.7,7.5,1.7,6.1,2.8,14.3,4.2,20.5.4,1.7.9,3.4,1.9,5.1.7-2.7,1.3-5.4,2-8.1,1.3-5.4,2.4-12.8,3.8-18.2.6-2.2,1.7-4.4,3-6.2,3.4-4.7,9.6-4.8,12.8,0,1.8,2.7,3.1,6,4,9.2,1.7,6.3,2.9,14.6,4.3,20.9.2.8.4,1.6.7,2.3.2,0,.4,0,.6,0,.8-3.7,1.7-7.5,2.5-11.2,1.1-4.6,2.1-11.1,3.4-15.7.6-2,1.6-3.9,2.9-5.6,3.5-4.7,9.4-4.7,12.9.1,1.5,2.1,2.6,4.6,3.3,7,1.8,6.8,3.1,15.5,4.7,22.3.1.6.3,1.1.5,1.7,0,0,2,5,4.5,4.9,2.1-.4,5.1-1.5,8.7-3.6.5-.3,1.2-.7,1.8-1.2-3.8-4.5-6-8.7-6.6-13.6-.8-6.7.4-12.6,3.6-16.5,2.2-2.8,5.2-4.4,8.6-4.8.4,0,.8,0,1.3,0,5.1.8,13.5,4.7,12.9,20.9-.2,5.2-2.2,9.6-6,14.1,1.6,1.2,3.5,2.4,5.6,3.6h0s0,0,.1,0c.1.1.2.1.3.2.7.4,1.5.7,2.2.8,2.1.7,5.2,1.2,8.1.3,1.1-.3,2-1.1,2.7-2,0,0,0,0,0,0,0,0,0,0,0,0,4.2-7.2,7.4-13.7,9.3-18.6h0c5-13.2,6.5-26.4,2.9-40zM569.3,63.1c-1.5,1.9-2.1,5.5-1.6,9.6.2,1.4,1,4.3,4.3,8.5,1.9-2.5,3.4-4.8,3.5-8.1.4-9.1-2.6-10.8-4.4-11.2-.7.2-1.3.6-1.8,1.2z"/><path fill="var(--color-dark)" d="M38.2,60c1.6,1.6,2.5,3.5,2.5,5.5,0,1.4-.4,2.6-1.3,3.4-.9.8-2,1.2-3.4,1.2-1.3,0-2.3-.3-3.1-1-.8-.7-1.6-1.4-2.4-2.3-.7-.8-1.7-1.6-2.8-2.3-1.1-.6-2.7-1-4.6-1-3.6,0-6.5,1.3-8.6,4-2.1,2.7-3.1,6.2-3.1,10.7,0,3,.5,5.6,1.5,7.8,1,2.2,2.6,3.9,4.7,5.1,2.1,1.2,4.8,1.8,8,1.8,2.1,0,4.3-.3,6.6-.9,2.3-.5,4.6-1.5,7.1-2.7v8.7c-1.8,1.1-4,2.1-6.4,3-2.5.9-5.5,1.3-9,1.3-7.4,0-13.3-2.1-17.5-6.3-4.2-4.2-6.4-9.9-6.4-17.1,0-4.8.9-9.1,2.8-12.7,1.9-3.6,4.6-6.4,8.1-8.4,3.5-2,7.7-3,12.5-3,3.3,0,6.2.5,8.7,1.5,2.5,1,4.6,2.2,6.1,3.8zM85.3,65.6c1.9,3.5,2.9,7.6,2.9,12.5s-1,9-2.9,12.6c-1.9,3.6-4.6,6.5-8.1,8.5-3.5,2-7.6,3-12.5,3-4.5,0-8.6-1-12-2.9-3.5-1.9-6.2-4.6-8.1-8.1-1.9-3.5-2.9-7.7-2.9-12.4s1-9.1,2.9-12.7c1.9-3.6,4.6-6.4,8.1-8.4,3.5-2.1,7.7-3.1,12.4-3.1s8.6,1,12.1,2.9c3.4,1.9,6.1,4.6,8.1,8.1zM77.3,78.3c0-3-.5-5.6-1.6-7.8-1.1-2.2-2.5-3.8-4.3-5s-3.9-1.7-6.2-1.7-4.5.6-6.4,1.8c-1.9,1.2-3.4,2.9-4.5,5.1-1.1,2.2-1.6,4.9-1.6,7.9s.5,5.6,1.6,7.8c1.1,2.2,2.5,3.8,4.3,5,1.8,1.1,3.9,1.7,6.2,1.7s4.5-.6,6.4-1.8c1.9-1.2,3.4-2.9,4.5-5.2,1-2.2,1.6-4.9,1.6-7.9zM155.9,56.7c-2.4-1.3-5-2-7.9-2-2.2,0-4.5.4-6.8,1.3-2.3.8-4.4,2.1-6.4,3.9-1,.9-2,2.1-2.8,3.3-.1-.2-.2-.4-.3-.6-1.3-2.7-3.2-4.7-5.5-6-2.4-1.3-5-2-7.9-2-2.3,0-4.5.4-6.6,1.3-2.1.8-4,2.1-5.7,3.8-.8.8-1.4,1.6-2,2.6v-6.6h-10.5v45.4h10.5v-25c0-2.6.5-4.8,1.5-6.4,1-1.7,2.3-3,4-3.8,1.6-.9,3.3-1.3,5.1-1.3,2.4,0,4.5.8,6.1,2.5,1.7,1.6,2.5,4.4,2.5,8.2v25.9h10.5v-25c0-2.6.5-4.8,1.5-6.4,1-1.7,2.4-3,4-3.8,1.6-.9,3.3-1.3,5.1-1.3,2.4,0,4.5.8,6.2,2.5,1.7,1.6,2.5,4.4,2.5,8.2v25.9h10.5v-27.7c0-4.4-.7-7.9-2.1-10.7-1.4-2.7-3.3-4.8-5.6-6.1zM213.2,65.7c1.8,3.5,2.6,7.8,2.6,12.7s-.9,8.9-2.6,12.5c-1.7,3.6-4.1,6.4-7.2,8.4-3,2-6.6,3-10.8,3s-7.2-.9-9.9-2.8c-1.8-1.3-3.2-2.9-4.2-4.9v24.7h-10.5v-63.5h10.5v6.8c1.2-1.9,2.7-3.5,4.5-4.8,2.8-2,6.2-3.1,10.2-3.1s7.2,1,10.2,2.9c3,1.9,5.4,4.6,7.1,8.1zM204.7,78.5c0-2.9-.5-5.4-1.5-7.6-1-2.1-2.5-3.8-4.3-5s-4-1.8-6.5-1.8-5.9,1.1-8,3.2c-2,2.1-3.1,4.9-3.1,8.4v5.9c0,2.2.5,4.1,1.5,5.9.9,1.8,2.3,3.1,4,4.1,1.7,1,3.6,1.5,5.7,1.5,2.4,0,4.6-.6,6.4-1.9,1.9-1.2,3.3-3,4.3-5.1,1.1-2.2,1.6-4.8,1.6-7.7zM248.9,57.6c-.7-1-1.5-1.7-2.6-2.2s-2.3-.7-3.7-.7c-2.7,0-5.1,1-7.4,3-1.3,1.2-2.5,2.8-3.5,4.7v-6.6h-10.5v45.4h10.5v-22.9c0-3.7.7-6.7,2.1-8.9,1.4-2.2,3.3-3.4,5.6-3.4.9,0,1.8.2,2.6.5.8.3,1.7.4,2.8.4,1.4,0,2.6-.5,3.6-1.4.9-1,1.5-2.3,1.5-4.2,0-1.5-.3-2.8-1-3.7zM266.4,82.1c-2.2-.2-4.4-.6-6.5-1.1.2,2.4.7,4.4,1.5,6.2,1.1,2.3,2.7,4,4.8,5.1,2.1,1.1,4.8,1.7,8.2,1.7,2.6,0,5.3-.3,7.9-1,2.6-.6,5.2-1.6,7.7-2.9v7.7c-2,1.2-4.4,2.2-7.3,3.1-2.9.8-6.1,1.3-9.8,1.3-7.6,0-13.5-2-17.6-6-4.1-4-6.2-9.6-6.2-16.8,0-5.1,1-9.4,2.9-13.1,1.9-3.7,4.7-6.5,8.2-8.6,3.5-2,7.6-3,12.2-3,4,0,7.4.7,10.3,2.1,2.8,1.4,5,3.2,6.5,5.5,1.5,2.3,2.2,4.8,2.2,7.5s-.7,4.9-2,6.6c-1.3,1.8-3.2,3.1-5.5,4.1-2.3,1-5,1.6-7.9,1.8-3,.3-6.2.2-9.6-.2zM265.5,75.1c2.9.3,5.5.3,7.8,0,2.3-.3,4.1-.9,5.4-1.9,1.3-.9,2-2.3,2-4s-.7-3.3-2.2-4.6c-1.4-1.3-3.5-2-6.2-2-2.4,0-4.6.6-6.4,1.9-1.9,1.2-3.4,3.1-4.5,5.5-.6,1.3-1,2.8-1.2,4.4,1.8.4,3.6.6,5.3.8zM329.6,56.7c-2.5-1.3-5.2-2-8.1-2-2.3,0-4.5.4-6.7,1.3-2.2.8-4.1,2.1-5.8,3.8-.8.8-1.4,1.6-2,2.6v-6.6h-10.5v45.4h10.5v-25c0-2.6.5-4.8,1.5-6.4,1-1.7,2.4-3,4-3.8,1.7-.9,3.4-1.3,5.3-1.3,1.8,0,3.4.4,4.8,1.1,1.5.8,2.6,1.9,3.5,3.5.8,1.6,1.3,3.7,1.3,6.2v25.7h10.5v-27.2c0-4.5-.8-8.2-2.3-11-1.5-2.8-3.5-4.9-6-6.2zM377.1,35.8h10.5v65.4h-10.5v-6.8c-1.2,1.9-2.7,3.4-4.4,4.7-2.9,2.1-6.3,3.1-10.2,3.1s-7.2-1-10.2-2.9c-3.1-1.9-5.5-4.6-7.2-8.2-1.7-3.5-2.6-7.8-2.6-12.7s.9-8.9,2.6-12.5c1.7-3.6,4.1-6.4,7.2-8.4s6.7-3,10.7-3,7.1.9,9.8,2.8c1.8,1.2,3.2,2.9,4.3,4.9v-26.5zM377.1,81.2v-5.9c0-2.2-.5-4.2-1.5-5.9-.9-1.7-2.3-3.1-4-4.1-1.6-1-3.6-1.5-5.8-1.5-2.4,0-4.6.6-6.4,1.9-1.9,1.2-3.3,3-4.3,5.1-1,2.2-1.5,4.7-1.5,7.7s.5,5.4,1.5,7.6c1,2.1,2.5,3.8,4.3,5,1.8,1.2,4,1.8,6.4,1.8,3.3,0,6-1.1,8.1-3.2,2.1-2.2,3.1-5,3.1-8.4zM426.1,93c2.7-.6,5.2-1.6,7.7-2.9v7.7c-2,1.2-4.4,2.2-7.3,3.1-2.9.8-6.1,1.3-9.8,1.3-7.6,0-13.5-2-17.6-6-4.1-4-6.2-9.6-6.2-16.8,0-5.1,1-9.4,2.9-13.1,1.9-3.7,4.7-6.5,8.2-8.6,3.5-2,7.6-3,12.2-3,4,0,7.4.7,10.3,2.1,2.8,1.4,5,3.2,6.5,5.5,1.5,2.3,2.2,4.8,2.2,7.5s-.7,4.9-2,6.6c-1.3,1.8-3.2,3.1-5.5,4.1-2.3,1-5,1.6-7.9,1.8-3,.3-6.2.2-9.6-.2-2.2-.3-4.4-.6-6.5-1.1.2,2.4.7,4.4,1.5,6.2,1.1,2.3,2.7,4,4.8,5.1,2.1,1.1,4.8,1.7,8.2,1.7,2.6,0,5.3-.3,7.9-1zM404,74.3c1.9.4,3.6.6,5.4.8,2.9.3,5.5.3,7.8,0,2.3-.3,4.1-.9,5.4-1.9,1.3-.9,2-2.3,2-4s-.7-3.3-2.2-4.6c-1.4-1.3-3.5-2-6.2-2-2.4,0-4.6.6-6.4,1.9-1.9,1.2-3.4,3.1-4.5,5.5-.6,1.3-1,2.8-1.2,4.4z"/></svg>
         </a>
         <nav class="main-nav">
@@ -27,65 +22,107 @@ const calLink = `${calLinkPrefix}/${slug}`;
             <a href="/#contact">Contacto</a>
         </nav>
         <div class="header-actions">
-            <!-- <button class="btn btn-primary hidden-mobile" data-cal-link={calLink}>Agendar Ahora</button> -->
-            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Abrir menú de navegación">
+            <button class="btn btn-primary hidden-mobile" data-cal-link={calLink}>Agendar Ahora</button>
+            <button id="mobile-menu-button-services" class="mobile-menu-toggle" aria-label="Abrir menú de navegación">
                 <i class="ph ph-list"></i>
             </button>
         </div>
     </div>
-    <div id="mobile-menu" class="mobile-nav hidden">
+    <div id="mobile-menu-services" class="mobile-nav hidden">
         <a href="/#about">Sobre mí</a>
-        <a href="/#services">Servicios</a>
+        <a href="/services">Servicios</a>
         <a href="/blog">Blog</a>
         <a href="/#faq">FAQ</a>
         <a href="/#contact">Contacto</a>
-        <button class="btn btn-primary" data-cal-link={calLink}>Agendar Ahora</button>
+        
     </div>
 </header>
-<div class="bottom-btn-menu"><a href="/#services" class="btn btn-primary hidden-mobile mobile-fab" data-cal-link={calLink}>Agendar Cita Ahora</a></div>
-<script>
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
 
-    if (mobileMenuButton && mobileMenu) {
-        const mobileMenuIcon = mobileMenuButton.querySelector('i');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const isHidden = mobileMenu.classList.contains('hidden');
-            if (mobileMenuIcon) {
-                mobileMenuIcon.className = isHidden ? 'ph ph-list' : 'ph ph-x';
-            }
-        });
+
+<div class="bottom-btn-menu"><button class="btn btn-primary hidden-mobile mobile-fab" data-cal-link={calLink}>Agendar Ahora</button></div>
+
+<script>
+(() => {
+  const MENU_ID = 'mobile-menu-services';
+  const BTN_ID  = 'mobile-menu-button-services';
+
+  const $ = (id) => document.getElementById(id);
+
+  function openMenu() {
+    const menu = $(MENU_ID), btn = $(BTN_ID);
+    if (!menu || !btn) return;
+    menu.classList.remove('hidden');
+    btn.setAttribute('aria-expanded', 'true');
+    const icon = btn.querySelector('i');
+    if (icon) { icon.classList.remove('ph-list'); icon.classList.add('ph-x'); }
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    const menu = $(MENU_ID), btn = $(BTN_ID);
+    if (!menu || !btn) return;
+    menu.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+    const icon = btn.querySelector('i');
+    if (icon) { icon.classList.add('ph-list'); icon.classList.remove('ph-x'); }
+    document.body.style.overflow = '';
+  }
+
+  // Toggle al click del botón (delegado, por si el DOM cambia)
+  document.addEventListener('click', (e) => {
+    const btn  = e.target.closest('#' + BTN_ID);
+    const menu = $(MENU_ID);
+
+    if (btn) {
+      const isHidden = menu?.classList.contains('hidden');
+      isHidden ? openMenu() : closeMenu();
+      return;
     }
+
+    // Cerrar si haces click fuera del menú cuando está abierto
+    if (menu && !menu.classList.contains('hidden')) {
+      const clickedInside = e.target.closest('#' + MENU_ID);
+      if (!clickedInside) closeMenu();
+    }
+
+    // Cerrar al navegar dentro del menú (links o botones)
+    if (e.target.matches('#' + MENU_ID + ' a, #' + MENU_ID + ' button')) {
+      closeMenu();
+    }
+  });
+
+  // Cerrar con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // Estado ARIA correcto al cargar
+  requestAnimationFrame(() => {
+    const menu = $(MENU_ID), btn = $(BTN_ID);
+    if (menu && btn) {
+      btn.setAttribute('aria-controls', MENU_ID);
+      btn.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
+    }
+  });
+})();
 </script>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Seleccionamos los elementos necesarios
         const bottomMenu = document.querySelector('.bottom-btn-menu');
-        // --- LÍNEA MODIFICADA ---
         const triggerSection = document.querySelector('.other-services-section'); 
 
-        // Si no existe el botón o la sección, no hacemos nada.
         if (!bottomMenu || !triggerSection) {
-            console.warn('El botón flotante o la sección .other-services-section no se encontraron en la página.');
             return;
         }
 
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
-            // --- VARIABLE ACTUALIZADA ---
             const triggerRect = triggerSection.getBoundingClientRect();
-            
-            // Condición para ocultar el botón: cuando la parte superior de la sección
-            // es visible en la ventana del navegador.
-            // --- VARIABLE ACTUALIZADA ---
             const isTouchingTrigger = triggerRect.top <= window.innerHeight;
 
-            // Lógica principal:
-            // El botón debe ser visible SI...
-            // 1. El scroll es mayor a 100px Y
-            // 2. NO está tocando la sección de CTA.
             if (scrollPosition > 100 && !isTouchingTrigger) {
                 bottomMenu.classList.add('visible');
             } else {
@@ -93,10 +130,7 @@ const calLink = `${calLinkPrefix}/${slug}`;
             }
         };
 
-        // Escuchamos el evento de scroll en la ventana
         window.addEventListener('scroll', handleScroll, { passive: true });
-
-        // Ejecutamos la función una vez al cargar la página
         handleScroll();
     });
 </script>

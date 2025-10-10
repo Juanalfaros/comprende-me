@@ -14,7 +14,7 @@
             <a href="/#contact">Contacto</a>
         </nav>
         <div class="header-actions">
-            
+            <div><a href="/#services" class="btn btn-primary hidden-mobile">Agendar Cita Ahora</a></div>
             <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Abrir menú de navegación">
                 <i class="ph ph-list"></i>
             </button>
@@ -34,9 +34,9 @@
 <script>
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuIcon = mobileMenuButton.querySelector('i');
+    const mobileMenuIcon = mobileMenuButton?.querySelector('i');
 
-    if (mobileMenuButton && mobileMenu) {
+    if (mobileMenuButton && mobileMenu && mobileMenuIcon) {
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
             const isHidden = mobileMenu.classList.contains('hidden');
