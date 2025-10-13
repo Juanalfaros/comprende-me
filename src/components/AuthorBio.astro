@@ -4,22 +4,59 @@ import { Image } from 'astro:assets';
 import { authorData } from '../data/authorData.js';
 
 const authorImages = import.meta.glob('/src/assets/images/natalia/*.{jpeg,jpg,png,webp,svg}');
-
 const imagePath = `/src/assets/${authorData.image}`;
-if (!authorImages[imagePath]) {
-    throw new Error(`No se pudo encontrar la imagen del autor: ${imagePath}. Verifica la ruta en authorData.js.`);
+const imageImport = authorImages[imagePath];
+
+if (!imageImport) {
+  throw new Error(`No se pudo encontrar la imagen del autor: ${imagePath}. Verifica la ruta en authorData.js.`);
 }
+
+const social = authorData.social ?? {};
+const contact = authorData.contact ?? {};
 ---
 <div class="author-bio">
-    <Image 
-        src={authorImages[imagePath]()} 
-        alt={`Foto de ${authorData.name}`} 
-        width={100} 
-        height={100} 
-        quality={85}
-    />
-    <div>
-        <h3>Escrito por {authorData.name}</h3>
-        <p>{authorData.bio}</p>
+  <Image 
+    src={imageImport()} 
+    alt={`Foto de ${authorData.name}`} 
+    quality={85}
+    class="author-image"
+  />
+  <div class="author-details">
+    <h3><span>Escrito por</span><br> {authorData.name}</h3>
+    {authorData.title && <h4>{authorData.title}</h4>}
+    <p>{authorData.bio}</p>
+
+    <div class="author-icons">
+      {contact.email && (
+        <a href={`mailto:${contact.email}`} title="Email" aria-label="Email">
+          <i class="ph ph-envelope-simple"></i>
+        </a>
+      )}
+      <!-- {contact.phone && (
+        <a href={`tel:${contact.phone}`} title="Teléfono" aria-label="Teléfono">
+          <i class="ph ph-phone"></i>
+        </a>
+      )} -->
+      {social.instagram && (
+        <a href={social.instagram} target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+          <i class="ph ph-instagram-logo"></i>
+        </a>
+      )}
+      <!-- {social.facebook && (
+        <a href={social.facebook} target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+          <i class="ph ph-facebook-logo"></i>
+        </a>
+      )} -->
+      {social.linkedin && (
+        <a href={social.linkedin} target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+          <i class="ph ph-linkedin-logo"></i>
+        </a>
+      )}
+      <!-- {social.whatsapp && (
+        <a href={social.whatsapp} target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+          <i class="ph ph-whatsapp-logo"></i>
+        </a>
+      )} -->
     </div>
+  </div>
 </div>

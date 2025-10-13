@@ -222,7 +222,7 @@
 
 /* Estilo para el separador (el punto) */
 .article-meta-info span[aria-hidden="true"] {
-    color: var(--color-border);
+    color: var(--color-primary);
     font-size: 1.5rem;
     line-height: 1;
 }
