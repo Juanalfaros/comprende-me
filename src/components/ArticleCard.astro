@@ -2,11 +2,14 @@
 // src/components/ArticleCard.astro
 import { Image } from 'astro:assets';
 
+// 1. Actualizamos la 'Interface' para que coincida con 'CleanPost'
 interface Props {
     post: {
         slug: string;
-        image: string;
+        image: string; // <-- Ya es una URL completa (string)
         alt: string;
+        imageWidth: number; // <-- Añadimos esto
+        imageHeight: number; // <-- Añadimos esto
         duration: string;
         title: string;
         excerpt: string;
@@ -16,28 +19,26 @@ interface Props {
 }
 const { post } = Astro.props;
 
-const blogImages = import.meta.glob('/src/assets/images/blogs/*.{jpeg,jpg,png,webp,svg}');
+// 2. 🛑 ELIMINAMOS TODA LA LÓGICA ANTIGUA DE IMÁGENES
+// const blogImages = import.meta.glob(...);
+// const imagePath = ...
+// if (!blogImages[imagePath]) { ... }
 
-const imagePath = `/src/assets/${post.image}`;
-if (!blogImages[imagePath]) {
-    throw new Error(`No se pudo encontrar la imagen para la tarjeta del blog: ${imagePath}. Verifica la ruta en blogData.js.`);
-}
-
+// 3. Mantenemos tu formato de fecha original
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     day: '2-digit',
-    month: 'long',
+    month: '2-digit',
     year: 'numeric',
     timeZone: 'UTC',
 });
 ---
+
 <a href={`/blog/${post.slug}`} class="card blog-card">
     <div class="image-blog-card">
+
         <Image 
-            src={blogImages[imagePath]()} 
-            alt={post.alt} 
-            width={400} 
-            height={225}
-            quality={80}
+            src={post.image}           alt={post.alt} 
+            width={post.imageWidth}    height={post.imageHeight}  quality={80}
             loading="lazy"
             decoding="async"
         />

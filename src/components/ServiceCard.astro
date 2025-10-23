@@ -1,7 +1,7 @@
 ---
 interface Props {
   slug: string;
-  calLinkPrefix?: string; // lo haremos opcional y pondremos fallback
+  calLinkPrefix?: string;
   icon: string;
   title: string;
   description: string;
@@ -14,7 +14,7 @@ interface Props {
 
 const {
   slug,
-  calLinkPrefix = 'comprende.me', // Fallback por si el padre no lo pasa
+  calLinkPrefix = 'comprende.me',
   icon,
   title,
   description,
@@ -22,31 +22,31 @@ const {
   price,
   oldPrice,
   duration,
-  calUiConfig
 } = Astro.props;
 
-// Opcional: si necesitas protocolo absoluto, usa:
-// const base = calLinkPrefix.startsWith('http') ? calLinkPrefix : `https://${calLinkPrefix}`;
 const base = calLinkPrefix;
 const calLink = `${base}/${slug}`;
-const calConfigAttr = calUiConfig ? JSON.stringify(calUiConfig) : undefined;
 ---
-<div class="card service-card">
-  <div class="card-content">
-    <div class="icon-badge">
-      <i class={`ph ${icon} icon`}></i>
-      <p><i class="ph ph-clock"></i> {duration}</p>
-    </div>
-    <a href={`/servicios/${slug}`} style="text-decoration: none;">
-    <h3 class="section-subtitle">{title}</h3>
-</a>
-    <p>{description}</p>
-    <div class="tags">
-      {tags.map((tag) => <span class="tag">{tag}</span>)}
-    </div>
-  </div>
 
-  <div>
+<div class="card service-card">
+  
+  <a href={`/servicios/${slug}`} class="service-card-main-link">
+    <div class="card-content">
+      <div class="icon-badge">
+        <i class={`ph ${icon} icon`}></i>
+        <p><i class="ph ph-clock"></i> {duration}</p>
+      </div>
+      
+      <h3 class="section-subtitle">{title}</h3>
+      
+      <p>{description}</p>
+      <div class="tags">
+        {tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    </div>
+  </a>
+
+  <div class="service-card-bottom">
     <p class="price">
       {price}
       {oldPrice && <span class="old-price">{oldPrice}</span>}
@@ -54,11 +54,165 @@ const calConfigAttr = calUiConfig ? JSON.stringify(calUiConfig) : undefined;
 
     <button
       class="btn btn-secondary"
-      data-cal-link={calLink}
       data-cal-namespace={slug}
-      data-cal-config={calConfigAttr}
+      data-cal-link={calLink}
     >
       Reserva Ahora
     </button>
   </div>
 </div>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .service-card-main-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .icon-badge {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .icon-badge p {
+    padding: 5px 10px;
+    border-radius: 50px;
+    background-color: var(--color-bg);
+    font-size: 0.7rem;
+  }
+
+  .icon {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .tag {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .service-card-bottom {
+    display: flex;
+    margin-top: 1rem;
+    flex-direction: column;
+  }
+  
+  p.price {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    font-family: var(--font-heading);
+    letter-spacing: -1px;
+  }
+  
+  .old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  }
+</style>
+
+<script>
+  declare global {
+    interface Window {
+      Cal: any;
+    }
+  }
+
+  // Función para inicializar los botones de Cal.com
+  function initCalButtons() {
+    const buttons = document.querySelectorAll('[data-cal-namespace][data-cal-link]');
+    
+    buttons.forEach((button) => {
+      // Verificar si ya tiene el listener para evitar duplicados
+      if (button.hasAttribute('data-cal-initialized')) {
+        return;
+      }
+      
+      button.setAttribute('data-cal-initialized', 'true');
+      
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const namespace = (button as HTMLElement).getAttribute('data-cal-namespace');
+        const calLink = (button as HTMLElement).getAttribute('data-cal-link');
+        
+        if (!namespace || !calLink) {
+          console.error('Missing Cal.com configuration');
+          return;
+        }
+
+        // Verificar que Cal esté disponible
+        if (typeof window.Cal === 'undefined') {
+          console.error('Cal.com script not loaded');
+          return;
+        }
+
+        // Verificar que el namespace esté inicializado
+        if (!window.Cal.ns || !window.Cal.ns[namespace]) {
+          console.error('Cal.com namespace not initialized:', namespace);
+          return;
+        }
+
+        // Abrir el modal de Cal.com usando el método correcto
+        try {
+          window.Cal.ns[namespace]('modal', {
+            calLink: calLink
+          });
+        } catch (error) {
+          console.error('Error opening Cal.com modal:', error);
+        }
+      });
+    });
+  }
+
+  // Inicializar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCalButtons);
+  } else {
+    initCalButtons();
+  }
+
+  // Re-inicializar después de navegación (para Astro View Transitions si las usas)
+  document.addEventListener('astro:page-load', initCalButtons);
+</script>

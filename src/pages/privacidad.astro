@@ -1,93 +1,65 @@
 ---
-// src/pages/privacidad.astro
-import Layout from '../layouts/Layout.astro';
+// 1. Cambia el import a tu nuevo layout
+import LegalPageLayout from '../layouts/LegalPageLayout.astro';
 ---
-<Layout
-    title="Política de Privacidad - Comprende.me"
+{/* 2. Usa el nuevo layout, pasando título y descripción */}
+<LegalPageLayout
+    title="Política de Privacidad"
     description="Información sobre cómo se recopilan, usan y protegen tus datos personales en comprende.me, en conformidad con la ley y el secreto profesional."
 >
-    <main>
-        <section class="section" style="padding-top: 4rem; padding-bottom: 4rem; background-color: var(--color-white);">
-            <div class="container container-narrow">
-                <h1>Política de Privacidad</h1>
+    {/* 3. Pega aquí SOLO el contenido que estaba DENTRO de <div class="legal-content"> 
+           QUITANDO el <style is:global> */}
+    <p><strong>Fecha de última actualización:</strong> 29 de septiembre de 2025</p>
+    <p>En Comprende.me, la confidencialidad y la protección de tus datos personales son nuestra máxima prioridad. Esta Política de Privacidad describe cómo Natalia Beiza Calvo ("la profesional", "nosotros"), en su calidad de responsable del tratamiento, recopila, utiliza y protege la información que nos proporcionas a través del sitio web comprende.me ("el sitio web").</p>
+    <p>Tu privacidad está protegida no solo por esta política, sino también por el secreto profesional que rige la práctica de la psicología en Chile.</p>
 
-                <div class="legal-content">
-                    <p><strong>Fecha de última actualización:</strong> 29 de septiembre de 2025</p>
-                    <p>En Comprende.me, la confidencialidad y la protección de tus datos personales son nuestra máxima prioridad. Esta Política de Privacidad describe cómo Natalia Beiza Calvo ("la profesional", "nosotros"), en su calidad de responsable del tratamiento, recopila, utiliza y protege la información que nos proporcionas a través del sitio web comprende.me ("el sitio web").</p>
-                    <p>Tu privacidad está protegida no solo por esta política, sino también por el secreto profesional que rige la práctica de la psicología en Chile.</p>
+    <h2>1. Responsable del Tratamiento de Datos</h2>
+    <p>La responsable del tratamiento de los datos personales recopilados a través de este sitio web es:</p>
+    <ul>
+        <li><strong>Nombre:</strong> Natalia Beiza Calvo</li>
+        <li><strong>Profesión:</strong> Psicóloga (Sup. de Salud Nº 181707)</li>
+        <li><strong>Contacto:</strong> A través del formulario disponible en el sitio web.</li>
+    </ul>
 
-                    <h2>1. Responsable del Tratamiento de Datos</h2>
-                    <p>La responsable del tratamiento de los datos personales recopilados a través de este sitio web es:</p>
-                    <ul>
-                        <li><strong>Nombre:</strong> Natalia Beiza Calvo</li>
-                        <li><strong>Profesión:</strong> Psicóloga (Sup. de Salud Nº 181707)</li>
-                        <li><strong>Contacto:</strong> A través del formulario disponible en el sitio web.</li>
-                    </ul>
+    <h2>2. ¿Qué Información Recopilamos?</h2>
+    <p>Recopilamos información de las siguientes maneras:</p>
+    <ul>
+        <li><strong>Información que proporcionas directamente:</strong> Cuando completas nuestro formulario de contacto, agendas una sesión o te comunicas con nosotros. Esto puede incluir tu nombre, apellido, dirección de correo electrónico, número de teléfono y el mensaje o motivo de tu consulta.</li>
+        <li><strong>Información clínica y sensible:</strong> Durante las sesiones de psicoterapia, se genera información de carácter sensible relacionada con tu salud mental. Esta información es tratada con la máxima confidencialidad y está amparada por el secreto profesional.</li>
+        <li><strong>Información técnica y de navegación (Cookies):</strong> Como muchos otros sitios web, podemos utilizar cookies para mejorar la funcionalidad del sitio. Estas cookies son pequeños archivos de texto que se almacenan en tu navegador y no recopilan información personal identificable.</li>
+    </ul>
+    
+    <h2>3. ¿Para Qué Utilizamos tu Información?</h2>
+    <p>La información recopilada se utiliza con los siguientes propósitos exclusivos:</p>
+    <ul>
+        <li><strong>Para prestar el servicio terapéutico:</strong> El objetivo principal es poder ofrecerte la atención psicológica que necesitas.</li>
+        <li><strong>Gestión administrativa:</strong> Para agendar, confirmar, recordar y gestionar tus citas y los pagos correspondientes.</li>
+        <li><strong>Comunicación:</strong> Para responder a tus consultas, preguntas o comentarios enviados a través del formulario de contacto.</li>
+        <li><strong>Cumplimiento legal:</strong> Para cumplir con las obligaciones legales y éticas que rigen la práctica profesional de la psicología.</li>
+    </ul>
+    <p>En ningún caso tu información personal será utilizada para fines de marketing o vendida a terceros.</p>
 
-                    <h2>2. ¿Qué Información Recopilamos?</h2>
-                    <p>Recopilamos información de las siguientes maneras:</p>
-                    <ul>
-                        <li><strong>Información que proporcionas directamente:</strong> Cuando completas nuestro formulario de contacto, agendas una sesión o te comunicas con nosotros. Esto puede incluir tu nombre, apellido, dirección de correo electrónico, número de teléfono y el mensaje o motivo de tu consulta.</li>
-                        <li><strong>Información clínica y sensible:</strong> Durante las sesiones de psicoterapia, se genera información de carácter sensible relacionada con tu salud mental. Esta información es tratada con la máxima confidencialidad y está amparada por el secreto profesional.</li>
-                        <li><strong>Información técnica y de navegación (Cookies):</strong> Como muchos otros sitios web, podemos utilizar cookies para mejorar la funcionalidad del sitio. Estas cookies son pequeños archivos de texto que se almacenan en tu navegador y no recopilan información personal identificable.</li>
-                    </ul>
-                    
-                    <h2>3. ¿Para Qué Utilizamos tu Información?</h2>
-                    <p>La información recopilada se utiliza con los siguientes propósitos exclusivos:</p>
-                    <ul>
-                        <li><strong>Para prestar el servicio terapéutico:</strong> El objetivo principal es poder ofrecerte la atención psicológica que necesitas.</li>
-                        <li><strong>Gestión administrativa:</strong> Para agendar, confirmar, recordar y gestionar tus citas y los pagos correspondientes.</li>
-                        <li><strong>Comunicación:</strong> Para responder a tus consultas, preguntas o comentarios enviados a través del formulario de contacto.</li>
-                        <li><strong>Cumplimiento legal:</strong> Para cumplir con las obligaciones legales y éticas que rigen la práctica profesional de la psicología.</li>
-                    </ul>
-                    <p>En ningún caso tu información personal será utilizada para fines de marketing o vendida a terceros.</p>
+    <h2>4. ¿Con Quién Compartimos tu Información?</h2>
+    <p>Tu información es estrictamente confidencial. No compartiremos tus datos personales con terceros, excepto en las siguientes circunstancias específicas:</p>
+    <ul>
+        <li><strong>Con tu consentimiento explícito:</strong> Si nos autorizas expresamente a compartir información con otro profesional o entidad.</li>
+        <li><strong>Por obligación legal:</strong> Si somos requeridos por una orden judicial o una autoridad competente, en los términos que establece la ley.</li>
+        <li><strong>Para proteger un bien mayor (Límites de la confidencialidad):</strong> De acuerdo con el Código de Ética profesional, la confidencialidad puede ser levantada ante situaciones de riesgo grave e inminente para tu vida, la de terceros, o ante la sospecha fundada de abuso a menores de edad, con la única finalidad de notificar a las autoridades pertinentes.</li>
+    </ul>
 
-                    <h2>4. ¿Con Quién Compartimos tu Información?</h2>
-                    <p>Tu información es estrictamente confidencial. No compartiremos tus datos personales con terceros, excepto en las siguientes circunstancias específicas:</p>
-                    <ul>
-                        <li><strong>Con tu consentimiento explícito:</strong> Si nos autorizas expresamente a compartir información con otro profesional o entidad.</li>
-                        <li><strong>Por obligación legal:</strong> Si somos requeridos por una orden judicial o una autoridad competente, en los términos que establece la ley.</li>
-                        <li><strong>Para proteger un bien mayor (Límites de la confidencialidad):</strong> De acuerdo con el Código de Ética profesional, la confidencialidad puede ser levantada ante situaciones de riesgo grave e inminente para tu vida, la de terceros, o ante la sospecha fundada de abuso a menores de edad, con la única finalidad de notificar a las autoridades pertinentes.</li>
-                    </ul>
+    <h2>5. Seguridad y Almacenamiento de Datos</h2>
+    <p>Tomamos medidas técnicas y organizativas para proteger tus datos contra el acceso no autorizado, la pérdida o la alteración. La información clínica se gestiona en plataformas seguras que cumplen con los estándares de protección de datos para información de salud. Los datos se conservarán durante el tiempo necesario para cumplir con los fines para los que fueron recopilados y para cumplir con las normativas legales sobre la conservación de expedientes clínicos.</p>
 
-                    <h2>5. Seguridad y Almacenamiento de Datos</h2>
-                    <p>Tomamos medidas técnicas y organizativas para proteger tus datos contra el acceso no autorizado, la pérdida o la alteración. La información clínica se gestiona en plataformas seguras que cumplen con los estándares de protección de datos para información de salud. Los datos se conservarán durante el tiempo necesario para cumplir con los fines para los que fueron recopilados y para cumplir con las normativas legales sobre la conservación de expedientes clínicos.</p>
+    <h2>6. Tus Derechos sobre tus Datos Personales</h2>
+    <p>De acuerdo con la Ley N° 19.628 sobre Protección de la Vida Privada en Chile, tienes derecho a:</p>
+    <ul>
+        <li><strong>Acceder</strong> a los datos personales que tenemos sobre ti.</li>
+        <li><strong>Rectificar</strong> tu información si es inexacta o incompleta.</li>
+        <li><strong>Cancelar o eliminar</strong> tus datos cuando ya no sean necesarios para los fines para los que fueron recogidos (sujeto a las obligaciones legales de conservación).</li>
+        <li><strong>Oponerte</strong> al tratamiento de tus datos para fines específicos.</li>
+    </ul>
+    <p>Para ejercer estos derechos, puedes ponerte en contacto con nosotros a través de los canales de comunicación indicados en este sitio web.</p>
 
-                    <h2>6. Tus Derechos sobre tus Datos Personales</h2>
-                    <p>De acuerdo con la Ley N° 19.628 sobre Protección de la Vida Privada en Chile, tienes derecho a:</p>
-                    <ul>
-                        <li><strong>Acceder</strong> a los datos personales que tenemos sobre ti.</li>
-                        <li><strong>Rectificar</strong> tu información si es inexacta o incompleta.</li>
-                        <li><strong>Cancelar o eliminar</strong> tus datos cuando ya no sean necesarios para los fines para los que fueron recogidos (sujeto a las obligaciones legales de conservación).</li>
-                        <li><strong>Oponerte</strong> al tratamiento de tus datos para fines específicos.</li>
-                    </ul>
-                    <p>Para ejercer estos derechos, puedes ponerte en contacto con nosotros a través de los canales de comunicación indicados en este sitio web.</p>
-
-                    <h2>7. Cambios en esta Política de Privacidad</h2>
-                    <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Cualquier cambio será publicado en esta página y la fecha de "última actualización" será modificada. Te recomendamos revisar esta política periódicamente.</p>
-
-                </div>
-            </div>
-        </section>
-    </main>
-</Layout>
-
-<style is:global>
-    /* Usamos los mismos estilos que en la página de términos */
-    .legal-content h2 {
-        font-size: 1.5rem;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid var(--color-border);
-    }
-    .legal-content p, .legal-content li {
-        line-height: 1.7;
-        font-size: 1.05rem;
-        margin-bottom: 1rem;
-    }
-    .legal-content ul {
-        list-style-position: inside;
-        padding-left: 1rem;
-    }
-</style>
+    <h2>7. Cambios en esta Política de Privacidad</h2>
+    <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Cualquier cambio será publicado en esta página y la fecha de "última actualización" será modificada. Te recomendamos revisar esta política periódicamente.</p>
+</LegalPageLayout>

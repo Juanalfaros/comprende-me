@@ -1,0 +1,168 @@
+---
+import { servicesData } from '../data/servicesData.js';
+import ServiceCard from './ServiceCard.astro';
+
+const { currentServiceSlug } = Astro.props;
+const otherServices = servicesData.filter(service => service.slug !== currentServiceSlug);
+---
+
+<section class="other-services-section">
+    <div class="container">
+        <h2 class="section-title">Explora Otros Servicios</h2>
+        
+        <div class="carousel-wrapper">
+            <section class="splide other-services-carousel" aria-label="Carrusel de otros servicios">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        {otherServices.map(service => (
+                            <li class="splide__slide">
+                                <ServiceCard {...service} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </section>
+
+            <div class="scroll-fade fade-left"></div>
+            <div class="scroll-fade fade-right"></div>
+
+            <button class="carousel-button carousel-prev" aria-label="Servicio anterior">
+                <i class="ph ph-caret-left"></i>
+            </button>
+            <button class="carousel-button carousel-next" aria-label="Siguiente servicio">
+                <i class="ph ph-caret-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+<script>
+    import Splide from '@splidejs/splide';
+    import '@splidejs/splide/css/core';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- ¡ARREGLO AQUÍ! ---
+        // Le decimos a TypeScript que este "Element" es un "HTMLElement"
+        const splideEl = document.querySelector('.other-services-section .splide') as HTMLElement;
+        
+        const wrapper = document.querySelector('.other-services-section .carousel-wrapper');
+        
+        if (!splideEl || !wrapper) return;
+
+        const splide = new Splide(splideEl, { // <-- Ahora esto es válido
+            type: 'loop',
+            perPage: 3,
+            perMove: 1,
+            gap: '1.5rem',
+            pagination: false,
+            arrows: false, 
+            autoHeight: true,
+            padding: '4rem', 
+            
+            breakpoints: {
+                1023: {
+                    perPage: 2,
+                },
+                640: {
+                    perPage: 1,
+                    padding: '2rem',
+                },
+            }
+        });
+
+        const prevBtn = wrapper.querySelector('.carousel-prev');
+        const nextBtn = wrapper.querySelector('.carousel-next');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                splide.go('<');
+            });
+            nextBtn.addEventListener('click', () => {
+                splide.go('>');
+            });
+        }
+        
+        splide.mount();
+    });
+</script>
+
+<style>
+    /* El CSS es idéntico al anterior */
+    .carousel-wrapper {
+        position: relative;
+    }
+    .splide__slide {
+        display: flex;
+        height: 100%;
+    }
+    .splide__slide > :global(article.card) {
+        height: 100%;
+    }
+
+    /* Degradados */
+    .scroll-fade {
+        display: none; 
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 10rem;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .scroll-fade.fade-left {
+        left: 0;
+        background: linear-gradient(to right, var(--color-light), transparent);
+    }
+    .scroll-fade.fade-right {
+        right: 0;
+        background: linear-gradient(to left, var(--color-light), transparent);
+    }
+    @media (min-width: 1024px) {
+        .scroll-fade { display: block; }
+    }
+    
+    /* Nuestros botones */
+    .carousel-button {
+        display: none; 
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%); 
+        background-color: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.5rem;
+        color: var(--color-dark);
+        cursor: pointer;
+        z-index: 3;
+        transition: all 0.2s;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        align-items: center;
+        justify-content: center;
+    }
+    .carousel-button:hover {
+        background-color: var(--color-light);
+        transform: translateY(-50%) scale(1.05);
+    }
+    .carousel-button:disabled {
+        opacity: 0.2;
+    }
+    .carousel-button.carousel-prev {
+        left: 2rem;
+    }
+    .carousel-button.carousel-next {
+        right: 2rem;
+    }
+    @media (min-width: 1024px) {
+        .carousel-button {
+            display: flex;
+        }
+    }
+
+    /* Track */
+    :global(.other-services-section .splide__track) {
+        z-index: 1;
+        clip-path: inset(0 1rem); 
+    }
+</style>

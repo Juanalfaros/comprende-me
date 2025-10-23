@@ -1,9 +1,20 @@
 ---
 // src/pages/blog/index.astro
-
 import Layout from '../../layouts/Layout.astro';
-import { blogData } from '../../data/blogData.js';
 import ArticleCard from '../../components/ArticleCard.astro';
+
+// ✅ 1. IMPORTAMOS EL CLIENTE Y LAS FUNCIONES
+import { client } from '../../lib/contentful.js';
+import { transformPost, type CleanPost, type ContentfulPostFields } from '../../lib/contentful-utils';
+
+// ✅ 2. OBTENEMOS Y TRANSFORMAMOS TODOS LOS POSTS
+const response = await client.getEntries({ content_type: 'blogPost' });
+const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+
+// ✅ 3. TRANSFORMAMOS Y ORDENAMOS (más nuevo primero)
+const allPosts: CleanPost[] = allFields
+  .map(transformPost)
+  .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
 ---
 <Layout 
     title="Blog - Recursos de Salud Mental y Crianza | Comprende.me" 
@@ -13,7 +24,6 @@ import ArticleCard from '../../components/ArticleCard.astro';
         <section class="section bg-light">
             <div class="container text-center">
                 <h1 class="section-title">Nuestro Blog</h1>
-                {/* CORRECCIÓN: Usamos la clase 'section-subtitle' para consistencia */}
                 <p class="section-subtitle">Recursos, reflexiones y herramientas para apoyar tu camino hacia el bienestar emocional y el de tu familia.</p>
             </div>
         </section>
@@ -21,9 +31,7 @@ import ArticleCard from '../../components/ArticleCard.astro';
         <section class="section">
             <div class="container">
                 <div id="blog-grid" class="grid grid-4-cols">
-                    {/* --- CORRECCIÓN PRINCIPAL AQUÍ --- */}
-                    {/* Reemplazamos 'postsToShow' por 'blogData' para mostrar todos los artículos */}
-                    {blogData.map(post => (
+                    {allPosts.map(post => (
                         <ArticleCard post={post} />
                     ))}
                 </div>

@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+
+// Asumo que las props vienen de donde llames a este componente
+// (ej: desde src/pages/index.astro)
+const { image, alt } = Astro.props;
+---
+<section class="section hero-section">
+    <div class="container grid-hero">
+        <div class="hero-content">
+            <h1>Terapia de Salud Mental Experta para un <span>Bienestar Duradero</span></h1>
+            <p>Un espacio seguro y transformador para que niños y adolescentes encuentren guía, apoyo y sanación.</p>
+            <a href="/servicios" class="btn btn-primary">Agendar Sesión</a>
+        </div>
+        <div class="hero-image">
+            <Image 
+                src={image} 
+                alt={alt} 
+                fetchpriority="high" 
+                loading="eager" 
+                width={800} 
+                height={1198} 
+                quality={75}
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+.hero-section {
+    padding: 3rem 0 0; /* Espacio superior en móvil */
+    display: flex;
+    align-items: flex-start;
+}
+
+.grid-hero {
+    display: flex;
+    gap: 2.5rem; 
+    align-items: center; 
+    text-align: center;  
+}
+
+.hero-content h1 {
+    font-size: 2.8rem;
+    line-height: 1;
+    font-weight: 600;
+}
+
+/* Regla 'span' corregida (ya no está anidada) */
+.hero-content h1 span {
+    color: var(--color-primary);
+}
+
+.hero-content p {
+    font-size: 1.125rem;
+    max-width: 550px;
+    margin: 1.5rem auto; /* Centra el párrafo */
+}
+
+.hero-content .btn {
+    padding: 0.9rem 2.2rem;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+.hero-image img {
+    display: block; /* Evita espacios indeseados */
+    scale: 1;
+    transition: 1s ease-in-out;
+    width: 75%;
+}
+
+.hero-image img:hover {
+    scale: 1.05;
+}
+
+
+/* Estilos de Hero para Escritorio (más de 992px) */
+@media (min-width: 992px) {
+    .hero-section {
+        padding: 5rem 0 0;
+        height: calc(90vh - 65px); /* Ocupa la altura de la pantalla */
+        max-height: 50rem;
+    }
+
+    .grid-hero {
+        text-align: left; /* Alinea el texto a la izquierda en escritorio */
+        gap: 3.5rem; /* Aumenta el espacio entre texto e imagen */
+        padding-bottom: 5rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 3.8rem;
+        max-width: 700px; /* Evita que el título sea demasiado largo */
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin-left: 0; /* Quita el centrado automático */
+        margin-right: 0;
+    }
+    
+    .hero-image {
+        width: 100%;
+        margin-top: 1rem; /* Pequeño espacio extra arriba de la imagen */
+    }
+
+    .hero-image img {
+        max-width: 90%; /* La imagen no ocupa el 100% para un look más limpio */
+        margin: 0 auto; /* Centra la imagen dentro de su contenedor */
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-hero {
+        flex-direction: column;
+    }
+
+    .hero-image img {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+}
+</style>

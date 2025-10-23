@@ -1,0 +1,318 @@
+---
+// Este componente no necesita props directamente,
+// ya que lee los datos desde la URL en el script del cliente.
+---
+<main>
+    <section class="section thank-you-section">
+        <div class="container container-narrow text-center">
+
+            <i class="ph-fill ph-check-circle success-icon"></i>
+            <h1 id="greeting-message" class="section-title">¡Excelente! Tu hora ha sido agendada.</h1>
+            <p id="appointment-details" class="appointment-confirmation-text">Confirmaremos los detalles de tu reserva en breve.</p>
+
+            <div class="card payment-card">
+                <div class="payment-header">
+                    <h2>Confirma tu sesión</h2>
+                    <button id="copy-button" class="copy-button">
+                        <i class="ph ph-copy"></i> Copiar Datos
+                    </button>
+                </div>
+                
+                <div class="payment-notice">
+                    <i class="ph ph-info"></i>
+                    <p><strong>IMPORTANTE:</strong> Tu sesión se reservará al recibir el pago. Para reagendar, se requiere un aviso de al menos 3 horas de anticipación.</p>
+                </div>
+
+                <ul class="payment-details-list" id="payment-data-container">
+                    <li><strong>Servicio:</strong> <span id="service-name">[Servicio Agendado]</span></li>
+                    <li><strong>Monto a Transferir:</strong> <span id="service-price">[Consultar]</span></li>
+                    <li class="copyable-data"><strong>Nombre:</strong> <span>Natalia Beiza Calvo</span></li>
+                    <li class="copyable-data"><strong>RUT:</strong> <span>16.647.846-4</span></li>
+                    <li class="copyable-data"><strong>Banco:</strong> <span>Falabella</span></li>
+                    <li class="copyable-data"><strong>Tipo de Cuenta:</strong> <span>Corriente</span></li>
+                    <li class="copyable-data"><strong>N.º Cuenta:</strong> <span>198209176860</span></li>
+                    <li class="copyable-data"><strong>Correo:</strong> <span>contacto@comprende.me</span></li>
+                </ul>
+                 <p class="payment-confirmation-note">
+                    Una vez realizada la transferencia, envía el comprobante al correo indicado.
+                </p>
+            </div>
+
+            <div class="calendar-section">
+                <p>Guarda la fecha de tu cita en tu calendario personal:</p>
+                <div id="calendar-button-container"></div>
+            </div>
+
+            <a href="/" class="back-to-home-link">← Volver a la página principal</a>
+        </div>
+    </section>
+</main>
+
+<style>
+.thank-you-section {
+    padding: 4rem 0;
+}
+.success-icon {
+    font-size: 5rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+.appointment-confirmation-text {
+    font-size: 1.15rem;
+    margin: -1rem auto 2.5rem;
+    max-width: 500px;
+}
+.payment-card {
+    text-align: left;
+    margin: 0 auto 2rem;
+    max-width: 600px;
+    /* Hereda estilos de .card, añadimos especificidad si es necesario */
+    padding: 1.5rem; 
+}
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap; /* Para móviles */
+}
+.payment-header h2 {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+}
+.copy-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-light);
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.copy-button:hover {
+    background-color: var(--color-border);
+}
+.copy-button.copied {
+    background-color: #D1FAE5; /* Verde claro */
+    color: #065F46; /* Verde oscuro */
+    border-color: #6EE7B7;
+}
+.copy-button i {
+    font-size: 1rem; /* Ajustar tamaño del icono */
+}
+.payment-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background-color: var(--color-light);
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+.payment-notice i {
+    font-size: 1.25rem;
+    color: var(--color-accent-dark);
+    margin-top: 0.2rem;
+    flex-shrink: 0; /* Evita que el icono se encoja */
+}
+.payment-notice p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+.payment-details-list {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 0; /* Resetear padding por si acaso */
+}
+.payment-details-list li {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Para datos largos en móviles */
+    gap: 0.5rem; /* Espacio entre título y valor en móvil */
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+.payment-details-list li:last-child {
+    border-bottom: none;
+}
+.payment-details-list li strong {
+    color: var(--color-dark);
+    margin-right: 0.5rem; /* Espacio entre título y valor */
+}
+.payment-confirmation-note {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    color: var(--color-muted); /* Color más suave */
+}
+.calendar-section {
+    margin: 2.5rem auto;
+    padding: 1.5rem;
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    max-width: 600px;
+}
+.calendar-section p {
+    margin-bottom: 1rem; /* Espacio antes del botón */
+}
+.back-to-home-link {
+    display: inline-block;
+    margin-top: 2rem;
+    font-weight: 500;
+    color: var(--color-primary-dark); /* Color más distintivo */
+}
+.back-to-home-link:hover {
+    text-decoration: underline;
+}
+
+/* Clases globales referenciadas */
+@layer global {
+    .section { /* ... */ }
+    .container { /* ... */ }
+    .container-narrow { /* ... */ }
+    .text-center { /* ... */ }
+    .card { /* ... */ }
+    .section-title { /* ... */ }
+    h1, h2, p { /* ... */ }
+}
+</style>
+
+<script>
+// Ponemos todo dentro de un evento para asegurarnos que la página cargó
+document.addEventListener('DOMContentLoaded', async () => {
+
+    // 1. Datos de servicios (mantenidos aquí por ahora)
+    const servicesData = [
+        { "slug": "asesoria-psicologica-y-o-judicial-para-padres", "title": "Asesoría Psicológica y/o Judicial para Padres", "price": "$30.000" },
+        { "slug": "psicologia-infantil-y-adolescente", "title": "Psicología Infantil y Adolescente", "price": "$25.000" },
+        { "slug": "psicologia-para-adultos", "title": "Psicología para Adultos", "price": "$25.000" },
+        { "slug": "fortalecimiento-de-habilidades-parentales", "title": "Fortalecimiento de Habilidades Parentales", "price": "$30.000" },
+        { "slug": "supervision-y-analisis-de-caso-para-psicologos", "title": "Supervisión y Análisis de Caso para Psicólogos", "price": "$25.000" }
+    ];
+
+    // 2. Leer parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+    const attendeeName = params.get('attendeeName');
+    const eventTypeSlug = params.get('eventTypeSlug');
+    const startISO = params.get('attendeeStartTime');
+    const endISO = params.get('endTime');
+
+    const currentService = servicesData.find(s => s.slug === eventTypeSlug);
+
+    // 3. Actualizar el contenido de la página
+    const h1 = document.getElementById('greeting-message');
+    const detailsEl = document.getElementById('appointment-details');
+    const serviceNameEl = document.getElementById('service-name');
+    const servicePriceEl = document.getElementById('service-price');
+
+    if (attendeeName && h1) {
+        const firstName = attendeeName.split(' ')[0];
+        h1.textContent = `¡Excelente, ${firstName}! Tu hora ha sido agendada.`;
+    }
+
+    if (startISO && detailsEl) {
+        try {
+            const date = new Date(startISO);
+            const formattedDate = new Intl.DateTimeFormat('es-CL', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', timeZone: 'America/Santiago'
+            }).format(date);
+            detailsEl.innerHTML = `Confirmamos tu reserva para el:<br><strong>${formattedDate}</strong>`;
+        } catch (e) {
+            console.error("Error formateando la fecha:", e);
+            detailsEl.textContent = "Se ha agendado tu cita. Recibirás un correo con los detalles.";
+        }
+    } else if (detailsEl) {
+         detailsEl.textContent = "Revisa tu correo para los detalles de la cita."; // Mensaje por defecto
+    }
+
+    if (currentService && serviceNameEl && servicePriceEl) {
+        serviceNameEl.textContent = currentService.title;
+        servicePriceEl.textContent = currentService.price;
+    } else {
+        if (serviceNameEl) serviceNameEl.textContent = "Servicio no especificado";
+        if (servicePriceEl) servicePriceEl.textContent = "[Consultar]";
+    }
+
+    // 4. Crear Botón "Añadir a Calendario"
+    const calendarContainer = document.getElementById('calendar-button-container');
+    if (startISO && endISO && calendarContainer && window.customElements.get('add-to-calendar-button')) { // Chequea que el custom element exista
+        const btn = document.createElement('add-to-calendar-button');
+        btn.setAttribute('name', currentService?.title || 'Sesión de psicología online');
+        btn.setAttribute('startDate', startISO.slice(0, 10));
+        btn.setAttribute('startTime', startISO.slice(11, 16));
+        btn.setAttribute('endDate', endISO.slice(0, 10));
+        btn.setAttribute('endTime', endISO.slice(11, 16));
+        btn.setAttribute('timeZone', 'America/Santiago');
+        btn.setAttribute('description', 'Sesión de psicología online con comprende.me.');
+        btn.setAttribute('options', "'Apple','Google','Outlook.com'");
+        btn.setAttribute('buttonStyle', 'round');
+        btn.setAttribute('lightMode', 'system');
+        calendarContainer.appendChild(btn);
+    } else if (calendarContainer) {
+        // Opcional: Mostrar un mensaje si no se puede generar el botón
+        calendarContainer.innerHTML = '<p><small>No se pudo generar el botón de calendario.</small></p>';
+    }
+    
+    // 5. Funcionalidad de Copiar Datos de Pago
+    const copyBtn = document.getElementById('copy-button');
+    const paymentDataContainer = document.getElementById('payment-data-container');
+    if (copyBtn && paymentDataContainer) {
+        copyBtn.addEventListener('click', () => {
+            const copyableItems = paymentDataContainer.querySelectorAll('.copyable-data');
+            const textToCopy = [...copyableItems]
+                .map(item => {
+                    const titleElement = item.querySelector('strong');
+                    const valueElement = item.querySelector('span');
+                    // Chequeamos que ambos elementos existan antes de acceder a textContent
+                    const title = titleElement ? titleElement.textContent?.trim() : '';
+                    const value = valueElement ? valueElement.textContent?.trim() : '';
+                    return `${title} ${value}`;
+                })
+                .join('\n');
+                
+            if (navigator.clipboard) { // Usar API moderna si está disponible
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="ph ph-check"></i> Copiado';
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHTML;
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error al copiar al portapapeles:', err);
+                    alert('No se pudo copiar. Inténtalo manualmente.');
+                });
+            } else {
+                // Fallback para navegadores antiguos (menos seguro)
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="ph ph-check"></i> Copiado';
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHTML;
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                } catch (err) {
+                     console.error('Fallback de copiado falló:', err);
+                     alert('No se pudo copiar. Inténtalo manually.');
+                }
+            }
+        });
+    }
+});
+</script>

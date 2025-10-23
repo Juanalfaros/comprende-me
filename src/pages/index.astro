@@ -1,21 +1,42 @@
 ---
 // src/pages/index.astro
 
-import { Image } from 'astro:assets';
+import { Image } from 'astro:assets'; // Aún lo necesitamos para las props
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
+
+// --- Importación de datos ---
 import { servicesData } from '../data/servicesData.js';
-import { blogData } from '../data/blogData.js';
 import { faqData } from '../data/faqData.js';
 
-// Importamos las imágenes que se usan en esta página desde su ubicación en src/assets/
+// --- Importación de Contentful ---
+import { client } from '../lib/contentful.js';
+import { transformPost, type CleanPost, type ContentfulPostFields } from '../lib/contentful-utils.ts';
+
+// --- Importación de Assets ---
 import heroImage from '../assets/images/hero/smiley-jovenes-hermanos-abrazandose.webp';
 import nataliaImage from '../assets/images/natalia/natalia.webp';
 import selloImage from '../assets/images/sello.svg';
 
+// --- Importación de NUEVOS Componentes de Sección ---
+import HeroSection from '../components/sections/HeroSection.astro';
+import TrustBar from '../components/sections/TrustBar.astro';
+import AboutSection from '../components/sections/AboutSection.astro';
+import TestimonialsSection from '../components/sections/TestimonialsSection.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import ContactSection from '../components/sections/ContactSection.astro';
+
+
+// --- Lógica de Página (sin cambios) ---
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
-const postsToShow = blogData.slice(0, 4);
+const response = await client.getEntries({
+  content_type: 'blogPost',
+  limit: 4,
+  order: ['-fields.publishedDate']
+});
+const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+const postsToShow: CleanPost[] = allFields.map(transformPost);
 ---
 <Layout 
     title="Comprende.me - Psicología Infanto-Juvenil Online"
@@ -26,54 +47,12 @@ const postsToShow = blogData.slice(0, 4);
         <script src=`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}` async defer></script>
     </Fragment>
     
-    <section class="section hero-section">
-        <div class="container grid-hero">
-            <div class="hero-content">
-                <h1>Terapia de Salud Mental Experta para un <span>Bienestar Duradero</span></h1>
-                <p>Un espacio seguro y transformador para que niños y adolescentes encuentren guía, apoyo y sanación.</p>
-                <a href="/servicios" class="btn btn-primary">Agendar Sesión</a>
-            </div>
-            <div class="hero-image">
-                <Image 
-                    src={heroImage} 
-                    alt="Jóvenes hermanos abrazándose" 
-                    fetchpriority="high" 
-                    loading="eager" 
-                    width={800} 
-                    height={1198} 
-                    quality={75}
-                />
-            </div>
-        </div>
-    </section>
+    <HeroSection 
+        image={heroImage} 
+        alt="Jóvenes hermanos abrazándose" 
+    />
 
-    <section id="trust-bar" class="section-trust">
-        <div class="container">
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <i class="ph ph-seal-check"></i>
-                    <div class="trust-text">
-                        <p class="trust-title">Psicóloga Registrada</h4>
-                        <p>Sup. de Salud Nº 181707</p>
-                    </div>
-                </div>
-                <div class="trust-item">
-                    <i class="ph ph-briefcase"></i>
-                    <div class="trust-text">
-                        <p class="trust-title">+12 Años de Experiencia</h4>
-                        <p>Apoyando a niños y familias</p>
-                    </div>
-                </div>
-                <div class="trust-item">
-                    <i class="ph ph-star"></i>
-                    <div class="trust-text">
-                        <p class="trust-title">Especialista en Niños y Adolescentes</h4>
-                        <p>Enfoque Cognitivo Conductual</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <TrustBar />
     
     <section id="services" class="section bg-light">
         <div class="container text-center">
@@ -87,91 +66,14 @@ const postsToShow = blogData.slice(0, 4);
         </div>
     </section>
 
-    <section id="about" class="section">
-        <div class="container">
-            <div class="about-card">
-                <div class="about-intro">
-                    <Image src={nataliaImage} alt="Psicóloga Natalia Beiza Calvo" width={250} quality={85} />
-                    <h3>Natalia Beiza Calvo</h3>
-                    <p>Psicóloga clínica con más de 12 años de experiencia. Mi pasión es crear un espacio terapéutico seguro y humano donde puedas encontrar las herramientas para sanar, fortalecer tus vínculos y liderar tu propio bienestar. Mi enfoque es integrativo, combinando técnicas validadas con una profunda calidez humana.</p>
-                </div>
-                <div class="about-details">
-                    <h2 class="section-title">Conoce a tu Psicóloga</h2>
-                    <div class="detail-item">
-                        <h3 class="detail-title"><i class="ph ph-graduation-cap"></i>Título Profesional</h4>
-                        <p>Psicóloga, Licenciada en Psicología de la Universidad Católica Silva Henríquez.</p>
-                    </div>
-                    <div class="detail-item">
-                        <h3 class="detail-title"><i class="ph ph-star"></i>Diplomados Clave</h3>
-                        <ul>
-                            <li>Diplomado especializado de Abuso Sexual Infantil <span class="tag-diplomado">Ciclos Consultores</span></li>
-                            <li>Diplomado educacion emocional y coaching <span class="tag-diplomado">FLICH</span></li>
-                            <li>Diplomado Clínico de Salud mental: Intervención en Adolescencia <span class="tag-diplomado">ADIPA</span></li>
-                        </ul>
-                    </div>
-                    <div class="detail-item">
-                        <h3 class="detail-title"><i class="ph ph-seal-check"></i>Cursos de Especialización</h4>
-                        <ul>
-                            <li>Formación en trauma complejo</li>
-                            <li>Manejo de autolesiones</li>
-                            <li>Primeros auxilios psicológicos</li>
-                            <li>Terapia de juego</li>
-                            <li>Arte terapia</li>
-                            <li>Disciplina positiva</li>
-                            <li>Enfoque de derechos del niño</li>
-                        </ul>
-                    </div>
-                </div>
-                <Image src={selloImage} alt="Sello de Psicóloga Registrada" class="sello" width={100} height={100} />
-            </div>
-            <div class="about-tags">
-                <h3>Áreas de Práctica y Enfoques</h3>
-                <div class="tag-container">
-                    <span class="tag-alt">Ansiedad y Estrés</span>
-                    <span class="tag-alt">Procesos de Duelo</span>
-                    <span class="tag-alt">Habilidades Parentales</span>
-                    <span class="tag-alt">Vínculos y Apego</span>
-                    <span class="tag-alt">Salud Mental Infantil</span>
-                    <span class="tag-alt">Salud Mental Perinatal</span>
-                    <span class="tag-alt">Terapia de Juego</span>
-                    <span class="tag-alt">Arteterapia</span>
-                    <span class="tag-alt">Supervisión Clínica</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    <AboutSection 
+        profileImage={nataliaImage}
+        profileAlt="Psicóloga Natalia Beiza Calvo"
+        sealImage={selloImage}
+        sealAlt="Sello de Psicóloga Registrada"
+    />
 
-    <section id="testimonials" class="section bg-light">
-        <div class="container">
-             <div class="text-center">
-                <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
-                <h3>Tu bienestar es nuestra mejor referencia.</h3>
-             </div>
-             <div class="grid grid-2-cols" style="margin-top: 2.5rem;">
-                <div class="card testimonial-card">
-                    <p class="testimonial-text">"Estamos muy agradecidos por el cuidado excepcional que recibimos. Natalia creó un espacio seguro para nuestro hijo, y hemos visto un cambio increíble en él. La recomendamos totalmente."</p>
-                    <div class="testimonial-author">
-                        <img src="https://placehold.co/40x40/F59E0B/FFFFFF?text=F" alt="Familia G.">
-                        <div>
-                            <p class="author-name">Familia G.</p>
-                            <p class="author-title">Padres de paciente</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card testimonial-card">
-                     <p class="testimonial-text">"El proceso de terapia online fue mucho más fácil de lo que esperaba. Natalia es una profesional increíble, muy empática y dedicada. Ha sido una gran ayuda para nuestra hija adolescente."</p>
-                     <div class="testimonial-author">
-                        <img src="https://placehold.co/40x40/00c2d1/FFFFFF?text=M" alt="Mariana V.">
-                        <div>
-                            <p class="author-name">Mariana V.</p>
-                            <p class="author-title">Madre de paciente</p>
-                        </div>
-                    </div>
-                </div>
-             </div>
-             <a href="/testimonios" class="btn btn-secondary" style="display: block; max-width: 250px; margin: 2rem auto 0;">Comparte tu Experiencia</a>
-        </div>
-    </section>
+    <TestimonialsSection />
     
     <section id="blog" class="section">
         <div class="container text-center">
@@ -185,117 +87,8 @@ const postsToShow = blogData.slice(0, 4);
         </div>
     </section>
 
-    <section id="faq" class="section bg-light">
-        <div class="container container-narrow">
-            <div class="text-center">
-                <h2 class="section-title">Preguntas Frecuentes</h2>
-                <h3>Respuestas a tus dudas más comunes.</h3>
-            </div>
-            <div id="faq-accordion" class="faq-container">
-                {faqData.map(item => (
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false">
-                            <span>{item.question}</span>
-                            <i class="ph ph-plus faq-icon"></i>
-                        </button>
-                        <div class="faq-answer hidden">
-                            <p set:html={item.answer} />
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    </section>
+    <FaqSection faqs={faqData} />
 
-    <section id="contact" class="section">
-        <div class="container container-narrow">
-            <div class="text-center">
-                <h2 class="section-title">¿Tienes otra pregunta? Hablemos</h2>
-                <h3>Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</h3>
-            </div>
-    
-            <form id="contact-form" class="contact-form" name="contact">
-                <input type="hidden" name="form-name" value="contact" />
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
-                </div>
-                <div class="form-group full-width">
-                    <label for="subject">Asunto</label>
-                    <input type="text" id="subject" name="subject" placeholder="Ej: Consulta sobre terapia infantil" required>
-                </div>
-                <div class="form-group full-width">
-                    <label for="message">Mensaje</label>
-                    <textarea id="message" name="message" rows="6" placeholder="Escribe aquí tu consulta..." required></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
-                </div>
-            </form>
-            <div id="form-status" class="form-status"></div>
-        </div>
-    </section>
+    <ContactSection siteKey={recaptchaSiteKey} />
+
 </Layout>
-
-<script define:vars={{ recaptchaSiteKey }}>
-    // --- Lógica del acordeón de FAQ ---
-    document.querySelectorAll('.faq-question').forEach(button => {
-        button.addEventListener('click', () => {
-            const answer = button.nextElementSibling;
-            const icon = button.querySelector('.faq-icon');
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            
-            button.setAttribute('aria-expanded', String(!isExpanded));
-            answer.classList.toggle('hidden');
-            
-            icon.classList.toggle('ph-plus');
-            icon.classList.toggle('ph-minus');
-        });
-    });
-
-    // --- Script del Formulario de Contacto (apuntando a nuestra API) ---
-    const contactForm = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Enviando...';
-            
-            grecaptcha.ready(function () {
-                grecaptcha.execute(recaptchaSiteKey, { action: 'submit_contact' }).then(async function (token) {
-                    const formData = new FormData(contactForm);
-                    formData.append('recaptcha-token', token);
-
-                    try {
-                        const response = await fetch('/api/contact', {
-                            method: 'POST',
-                            body: formData,
-                        });
-                        const result = await response.json();
-                        if (!response.ok) {
-                            throw new Error(result.message || 'Error en el servidor.');
-                        }
-                        
-                        contactForm.reset();
-                        formStatus.textContent = '¡Gracias por tu mensaje! Te responderé pronto.';
-                        formStatus.style.color = 'green';
-                    } catch (error) {
-                        console.error('Error al enviar el formulario:', error);
-                        formStatus.textContent = error.message || 'Hubo un error al enviar tu mensaje.';
-                        formStatus.style.color = 'red';
-                    } finally {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'Enviar Mensaje';
-                    }
-                });
-            });
-        });
-    }
-</script>

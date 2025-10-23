@@ -1,0 +1,114 @@
+---
+// Componente estático, sin props.
+---
+<section id="testimonials" class="section bg-light">
+    <div class="container">
+         <div class="text-center">
+            <h2 class="section-title">Lo que dicen nuestros pacientes</h2>
+            <h3>Tu bienestar es nuestra mejor referencia.</h3>
+         </div>
+         <div class="grid grid-2-cols" style="margin-top: 2.5rem;">
+            {/* --- Tarjeta 1 --- */}
+            <div class="card testimonial-card">
+                <p class="testimonial-text">"Estamos muy agradecidos por el cuidado excepcional que recibimos. Natalia creó un espacio seguro para nuestro hijo, y hemos visto un cambio increíble en él. La recomendamos totalmente."</p>
+                <div class="testimonial-author">
+                    <img src="https://placehold.co/40x40/F59E0B/FFFFFF?text=F" alt="Familia G.">
+                    <div>
+                        <p class="author-name">Familia G.</p>
+                        <p class="author-title">Padres de paciente</p>
+                    </div>
+                </div>
+            </div>
+            {/* --- Tarjeta 2 --- */}
+            <div class="card testimonial-card">
+                 <p class="testimonial-text">"El proceso de terapia online fue mucho más fácil de lo que esperaba. Natalia es una profesional increíble, muy empática y dedicada. Ha sido una gran ayuda para nuestra hija adolescente."</p>
+                 <div class="testimonial-author">
+                    <img src="https://placehold.co/40x40/00c2d1/FFFFFF?text=M" alt="Mariana V.">
+                    <div>
+                        <p class="author-name">Mariana V.</p>
+                        <p class="author-title">Madre de paciente</p>
+                    </div>
+                </div>
+            </div>
+         </div>
+         {/* --- Botón --- */}
+         <a href="/testimonios" class="btn btn-secondary" style="display: block; max-width: 250px; margin: 2rem auto 0;">Comparte tu Experiencia</a>
+    </div>
+</section>
+
+<style>
+/* Estilos para el contenedor de la sección (antes en #testimonials .container) */
+.container {
+    /* Mantenemos solo los estilos específicos de layout que tenías aquí */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* El enlace que estaba anidado dentro de .container */
+.container a.btn-secondary {
+    width: fit-content;
+    margin-top: 2.5rem; /* Ajustado desde el 'style' inline */
+}
+
+/* Estilo para el contenedor del título (antes en #testimonials .text-center a) */
+.text-center a { /* Asumiendo que este estilo era para el botón, lo movemos */
+    /* margin-top: 1rem; <-- Eliminado, ya está en .container a.btn-secondary */
+}
+
+/* Estilos de la tarjeta de testimonio */
+.testimonial-card { 
+    padding: 2rem; 
+    /* Aseguramos que el contenido empuje al autor hacia abajo si es necesario */
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-text { 
+    font-style: normal; 
+    font-size: 1.125rem; 
+    flex-grow: 1; /* Permite que el texto ocupe espacio vertical */
+}
+
+.testimonial-author { 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+    margin-top: auto; /* Empuja al autor al fondo */
+    padding-top: 1.5rem; /* Espacio entre texto y autor */
+}
+
+.testimonial-author img { 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+}
+
+.author-name { 
+    font-weight: 700; 
+    color: var(--color-dark); 
+    margin-bottom: 0; 
+}
+
+.author-title { 
+    font-size: 0.875rem; 
+    margin-bottom: 0; 
+}
+
+/* Estilos globales que aún necesitamos referenciar (Astro los encapsula) */
+/* Si no tienes @layer, puedes quitarlos */
+@layer global {
+    .section { /* ... */ }
+    .bg-light { /* ... */ }
+    .text-center { /* ... */ }
+    .grid { /* ... */ }
+    .grid-2-cols { /* ... */ }
+    .card { /* ... */ }
+    .btn { /* ... */ }
+    .btn-secondary { /* ... */ }
+    .section-title { /* ... */ }
+    /* h3 tiene estilos globales, no hace falta redefinir */
+}
+
+</style>

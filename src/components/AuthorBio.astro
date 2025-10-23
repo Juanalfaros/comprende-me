@@ -1,6 +1,7 @@
 ---
 // src/components/AuthorBio.astro
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { authorData } from '../data/authorData.js';
 
 const authorImages = import.meta.glob('/src/assets/images/natalia/*.{jpeg,jpg,png,webp,svg}');
@@ -11,12 +12,15 @@ if (!imageImport) {
   throw new Error(`No se pudo encontrar la imagen del autor: ${imagePath}. Verifica la ruta en authorData.js.`);
 }
 
+// Agregar aserción de tipo para TypeScript
+const resolvedImage = (await imageImport() as { default: ImageMetadata }).default;
+
 const social = authorData.social ?? {};
 const contact = authorData.contact ?? {};
 ---
 <div class="author-bio">
   <Image 
-    src={imageImport()} 
+    src={resolvedImage} 
     alt={`Foto de ${authorData.name}`} 
     quality={85}
     class="author-image"
@@ -32,31 +36,16 @@ const contact = authorData.contact ?? {};
           <i class="ph ph-envelope-simple"></i>
         </a>
       )}
-      <!-- {contact.phone && (
-        <a href={`tel:${contact.phone}`} title="Teléfono" aria-label="Teléfono">
-          <i class="ph ph-phone"></i>
-        </a>
-      )} -->
       {social.instagram && (
         <a href={social.instagram} target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
           <i class="ph ph-instagram-logo"></i>
         </a>
       )}
-      <!-- {social.facebook && (
-        <a href={social.facebook} target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
-          <i class="ph ph-facebook-logo"></i>
-        </a>
-      )} -->
       {social.linkedin && (
         <a href={social.linkedin} target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
           <i class="ph ph-linkedin-logo"></i>
         </a>
       )}
-      <!-- {social.whatsapp && (
-        <a href={social.whatsapp} target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
-          <i class="ph ph-whatsapp-logo"></i>
-        </a>
-      )} -->
     </div>
   </div>
 </div>

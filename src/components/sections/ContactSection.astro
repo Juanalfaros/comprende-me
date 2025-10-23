@@ -1,0 +1,172 @@
+---
+// Recibe la clave de reCAPTCHA como prop
+const { siteKey } = Astro.props;
+---
+<section id="contact" class="section">
+    <div class="container container-narrow">
+        <div class="text-center">
+            <h2 class="section-title">¿Tienes otra pregunta? Hablemos</h2>
+            <h3>Completa el formulario y te responderé a la brevedad. Tu consulta es completamente confidencial.</h3>
+        </div>
+
+        <form id="contact-form" class="contact-form" name="contact">
+            <input type="hidden" name="form-name" value="contact" />
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="subject">Asunto</label>
+                <input type="text" id="subject" name="subject" placeholder="Ej: Consulta sobre terapia infantil" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="message">Mensaje</label>
+                <textarea id="message" name="message" rows="6" placeholder="Escribe aquí tu consulta..." required></textarea>
+            </div>
+            <div class="form-group full-width">
+                <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+            </div>
+        </form>
+        <div id="form-status" class="form-status"></div>
+    </div>
+</section>
+
+<style>
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+    .contact-form {
+        grid-template-columns: 1fr 1fr; /* Dos columnas en escritorio */
+    }
+    .form-group.full-width {
+        grid-column: 1 / -1; /* Hace que el campo ocupe todo el ancho */
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--color-dark);
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    background-color: var(--color-white);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Quitamos :focus y usamos :focus-visible para accesibilidad. 
+  Los estilos de foco visible están en style.css global, 
+  así que solo necesitamos el cambio de borde/sombra aquí.
+*/
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(42, 194, 210, 0.3); /* Sombra con tu color primario */
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.form-status {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Clases globales referenciadas */
+@layer global {
+    .section { /* ... */ }
+    .container { /* ... */ }
+    .container-narrow { /* ... */ }
+    .text-center { /* ... */ }
+    .section-title { /* ... */ }
+    h3 { /* ... */ }
+    .btn { /* ... */ }
+    .btn-primary { /* ... */ }
+}
+</style>
+
+<script define:vars={{ recaptchaSiteKey: siteKey }}>
+// Eliminamos lang="ts" y usamos JavaScript con verificaciones más explícitas
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+
+if (contactForm && window.grecaptcha) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        if (!submitButton) return;
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+        
+        window.grecaptcha.ready(function () {
+            window.grecaptcha.execute(recaptchaSiteKey, { action: 'submit_contact' }).then(async function (token) {
+                const formData = new FormData(contactForm);
+                formData.append('recaptcha-token', token);
+
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    const result = await response.json();
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Error en el servidor.');
+                    }
+                    
+                    contactForm.reset();
+                    if(formStatus) {
+                        formStatus.textContent = '¡Gracias por tu mensaje! Te responderé pronto.';
+                        formStatus.style.color = 'green';
+                    }
+                } catch (error) {
+                    console.error('Error al enviar el formulario:', error);
+                    if(formStatus) {
+                        formStatus.textContent = error.message || 'Hubo un error al enviar tu mensaje.';
+                        formStatus.style.color = 'red';
+                    }
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Enviar Mensaje';
+                }
+            }).catch(error => {
+                console.error('Error executing reCAPTCHA:', error);
+                if(formStatus) {
+                    formStatus.textContent = 'Error de reCAPTCHA. Intenta de nuevo.';
+                    formStatus.style.color = 'red';
+                }
+                submitButton.disabled = false;
+                submitButton.textContent = 'Enviar Mensaje';
+            });
+        });
+    });
+} else if (!window.grecaptcha) {
+    console.warn('reCAPTCHA script not loaded yet.');
+}
+</script>

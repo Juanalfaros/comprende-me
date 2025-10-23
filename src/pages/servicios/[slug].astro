@@ -5,7 +5,6 @@ export const prerender = true;
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/LayoutServices.astro';
 import { servicesData } from '../../data/servicesData.js';
-import HeaderServices from '../../components/HeaderServices.astro';
 import nataliaBookingImage from '../../assets/images/natalia/natalia.webp';
 
 // Importamos TODAS las imágenes de la carpeta de servicios de una vez.
@@ -36,11 +35,6 @@ if (!heroImages[heroImagePath]) {
     <Fragment slot="head-extra">
         <link rel="stylesheet" href="/styles/service-page.css">
     </Fragment>
-
-    <HeaderServices 
-        calLinkPrefix={service.calLinkPrefix} 
-        slug={service.slug} 
-    />
 
     <main>
         <header class="service-hero">

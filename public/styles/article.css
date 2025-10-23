@@ -136,7 +136,7 @@
 }
 
 /* --- Encabezados --- */
-.article-body thead th {
+.article-body tbody th {
   background-color: var(--color-light);
   font-family: var(--font-heading);
   font-weight: 700;
@@ -189,6 +189,15 @@
 }
 .article-body tbody tr:last-child td:last-child {
   border-bottom-right-radius: 1.5rem;
+}
+
+/* Arreglo para el espacio extra en tablas de Contentful:
+  Elimina el margen de los párrafos que están dentro 
+  de celdas de encabezado (th) o celdas de datos (td).
+*/
+.article-body th p,
+.article-body td p {
+  margin: 0;
 }
 
 
@@ -248,6 +257,15 @@
     margin-bottom: 2.5rem;
 }
 
+.article-body h6 {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-muted);
+    text-align: left;
+    margin-top: -1.5rem; /* Sube la nota para que quede más cerca de la tabla */
+    margin-bottom: 2.5rem;
+}
+
 .article-sources {
     margin-top: 3rem;
     padding-top: 1.5rem;
@@ -269,10 +287,15 @@
     color: var(--color-muted);
     margin-bottom: 0.5rem;
     padding-left: 0;
-    margin-left: -1.8rem;
+
+}
+
+.article-sources li a {
+    color: var(--color-primary);
+    text-decoration: underline;
 }
 
 /* Corrección para quitar el check de la lista de fuentes */
-.article-body .article-sources ul li::before {
+.article-sources ul li::before {
     content: none; /* Usamos 'none' para anular completamente el pseudo-elemento */
 }

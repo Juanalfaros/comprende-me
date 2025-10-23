@@ -2,28 +2,49 @@
 // src/pages/blog/[slug].astro
 export const prerender = true;
 
+// --- 1. IMPORTACIONES ---
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
-import { blogData } from '../../data/blogData.js';
+import { client } from '../../lib/contentful.js';
 import ArticleCard from '../../components/ArticleCard.astro';
 import AuthorBio from '../../components/AuthorBio.astro';
 import SocialShare from '../../components/SocialShare.astro';
 
-const blogImages = import.meta.glob('/src/assets/images/blogs/*.{jpeg,jpg,png,webp,svg}');
+// ✅ IMPORTAMOS NUESTRA NUEVA LÓGICA
+import { transformPost, type CleanPost, type ContentfulPostFields } from '../../lib/contentful-utils';
 
+//
+// --- 3. COMIENZA getStaticPaths ---
+//
 export async function getStaticPaths() {
-  return blogData.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
-}
+  
+  // ⚠️ NOTA: Las funciones 'options' y 'transformPost'
+  // ya no se definen aquí adentro.
+  
+  const response = await client.getEntries({ content_type: 'blogPost' });
+  const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+  
+  // ✅ Usamos la función importada
+  const allCleanPosts: CleanPost[] = allFields.map(transformPost); 
 
-const { post } = Astro.props;
-
-const imagePath = `/src/assets/${post.image}`;
-if (!blogImages[imagePath]) {
-    throw new Error(`No se pudo encontrar la imagen del blog: ${imagePath}. Verifica la ruta en blogData.js.`);
+  return allCleanPosts.map(post => {
+    const relatedPosts = allCleanPosts.filter(related => 
+        related.slug !== post.slug &&
+        related.tags.some(tag => post.tags.includes(tag))
+    ).slice(0, 3);
+    
+    return {
+      params: { slug: post.slug },
+      props: { post, relatedPosts },
+    };
+  });
 }
+//
+// --- TERMINA getStaticPaths ---
+//
+
+// --- 5. CÓDIGO RESTANTE ---
+const { post, relatedPosts } = Astro.props as { post: CleanPost, relatedPosts: CleanPost[] };
 
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     year: 'numeric',
@@ -31,17 +52,12 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     day: 'numeric',
     timeZone: 'UTC',
 });
-
-const relatedPosts = blogData.filter(related => 
-    related.slug !== post.slug &&
-    related.tags.some(tag => post.tags.includes(tag))
-).slice(0, 3);
 ---
 
 <Layout 
     title={`${post.title} | Comprende.me`}  
     description={post.excerpt}
-    image={(await blogImages[imagePath]()).default.src}
+    image={post.image}
 >
     
     <Fragment slot="head-extra">
@@ -49,29 +65,34 @@ const relatedPosts = blogData.filter(related =>
     </Fragment>
 
     <main>
-        <section class="section article-main-section">
-            <div class="container container-narrow">
-                <article>
-                  <h1>{post.title}</h1>
-                  <div class="article-meta-info">
-                        <time datetime={post.publishedDate}><i class="ph ph-calendar-heart"></i>{formattedDate}</time>
-                        <span aria-hidden="true">•</span>
-                        <span><i class="ph ph-clock"></i> {post.duration}</span>
-                        {post.tags.map(tag => (
-                            <span class="tag">{tag}</span>
-                        ))}
-                  </div>
-
-
-                    <Image 
-                        src={blogImages[imagePath]()} 
-                        alt={post.alt} 
-                        class="article-main-image"
-                        loading="eager"
-                        fetchpriority="high"
-                    />
+    <section class="section article-main-section">
+        <div class="container container-narrow">
+            <article>
+              
+              <h1>{post.title}</h1>
+              <div class="article-meta-info">
+                    <time datetime={post.publishedDate}><i class="ph ph-calendar-heart"></i>{formattedDate}</time>
+                    <span aria-hidden="true">•</span>
+                    <span><i class="ph ph-clock"></i> {post.duration}</span>
+                    {post.tags.map(tag => (
+                        <span class="tag">{tag}</span>
+                    ))}
+              </div>
+              <Image 
+                    src={post.image}
+                    alt={post.alt} 
+                    class="article-main-image"
+                    loading="eager"
+                    fetchpriority="high"
+                    width={post.imageWidth}
+                    height={post.imageHeight}
+                />
                     
                     <div class="article-body" set:html={post.fullContentHTML} />
+
+                    {post.fuentesHTML && (
+                      <div class="article-sources" set:html={post.fuentesHTML} />
+                    )}
 
                     <SocialShare url={Astro.url} title={post.title} />
                     <AuthorBio />

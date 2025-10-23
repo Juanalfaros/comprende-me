@@ -1,0 +1,175 @@
+---
+import { Image } from 'astro:assets';
+
+const { profileImage, profileAlt, sealImage, sealAlt } = Astro.props;
+---
+<section id="about" class="section">
+    <div class="container">
+        <div class="about-card">
+            <div class="about-intro">
+                <Image src={profileImage} alt={profileAlt} width={250} quality={85} />
+                <h3>Natalia Beiza Calvo</h3>
+                <p>Psicóloga clínica con más de 12 años de experiencia. Mi pasión es crear un espacio terapéutico seguro y humano donde puedas encontrar las herramientas para sanar, fortalecer tus vínculos y liderar tu propio bienestar. Mi enfoque es integrativo, combinando técnicas validadas con una profunda calidez humana.</p>
+            </div>
+            <div class="about-details">
+                <h2 class="section-title">Conoce a tu Psicóloga</h2>
+                <div class="detail-item">
+                    <h3 class="detail-title"><i class="ph ph-graduation-cap"></i>Título Profesional</h4>
+                    <p>Psicóloga, Licenciada en Psicología de la Universidad Católica Silva Henríquez.</p>
+                </div>
+                <div class="detail-item">
+                    <h3 class="detail-title"><i class="ph ph-star"></i>Diplomados Clave</h3>
+                    <ul>
+                        <li>Diplomado especializado de Abuso Sexual Infantil <span class="tag-diplomado">Ciclos Consultores</span></li>
+                        <li>Diplomado educacion emocional y coaching <span class="tag-diplomado">FLICH</span></li>
+                        <li>Diplomado Clínico de Salud mental: Intervención en Adolescencia <span class="tag-diplomado">ADIPA</span></li>
+                    </ul>
+                </div>
+                <div class="detail-item">
+                    <h3 class="detail-title"><i class="ph ph-seal-check"></i>Cursos de Especialización</h4>
+                    <ul>
+                        <li>Formación en trauma complejo</li>
+                        <li>Manejo de autolesiones</li>
+                        <li>Primeros auxilios psicológicos</li>
+                        <li>Terapia de juego</li>
+                        <li>Arte terapia</li>
+                        <li>Disciplina positiva</li>
+                        <li>Enfoque de derechos del niño</li>
+                    </ul>
+                </div>
+            </div>
+            <Image src={sealImage} alt={sealAlt} class="sello" width={100} height={100} />
+        </div>
+        <div class="about-tags">
+            <h3>Áreas de Práctica y Enfoques</h3>
+            <div class="tag-container">
+                <span class="tag-alt">Ansiedad y Estrés</span>
+                <span class="tag-alt">Procesos de Duelo</span>
+                <span class="tag-alt">Habilidades Parentales</span>
+                <span class="tag-alt">Vínculos y Apego</span>
+                <span class="tag-alt">Salud Mental Infantil</span>
+                <span class="tag-alt">Salud Mental Perinatal</span>
+                <span class="tag-alt">Terapia de Juego</span>
+                <span class="tag-alt">Arteterapia</span>
+                <span class="tag-alt">Supervisión Clínica</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.about-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-web);
+    padding: 2rem;
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    margin-top: 2rem;
+    position: relative;
+}
+@media (min-width: 768px) {
+    .about-card { 
+        grid-template-columns: 1fr 2fr; 
+        padding: 2.5rem; 
+    }
+}
+.about-intro { 
+    text-align: center; 
+}
+.about-intro img { 
+    width: 250px; 
+    object-fit: cover; 
+    margin: 0 auto 1rem; 
+}
+.about-intro h3 {
+    font-weight: 700; 
+    font-size: 1.5rem; 
+    margin-bottom: 1rem;
+    /* Reseteo de estilos globales de h3 */
+    color: var(--color-dark);
+    max-width: none;
+}
+.detail-item { 
+    margin-bottom: 2rem; 
+    text-align: left; 
+}
+.detail-item .detail-title { 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+    margin-bottom: 1rem; 
+    color: var(--color-dark); 
+    font-weight: 700;
+    /* Reseteo de estilos globales de h3 */
+    font-size: 1.25rem;
+    max-width: none;
+}
+.detail-item .detail-title i { 
+    font-size: 1.25rem; 
+    color: var(--color-primary); 
+}
+.detail-item ul { 
+    margin-left: 1.5rem; 
+    list-style: disc; 
+}
+.detail-item li { 
+    margin-bottom: 0.5rem; 
+}
+.tag-diplomado { 
+    background-color: var(--color-light); 
+    color: var(--color-primary-dark); 
+    font-size: 0.75rem; 
+    padding: 0.25rem 0.5rem; 
+    border-radius: 4px; 
+    font-weight: 600; 
+}
+.about-tags { 
+    margin-top: 3rem; 
+    text-align: center; 
+}
+.about-tags h3 {
+    font-weight: 700; 
+    font-size: 1.5rem; 
+    margin-bottom: 1rem;
+    /* Reseteo de estilos globales de h3 */
+    color: var(--color-dark);
+    max-width: none;
+}
+.tag-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 0.75rem; 
+    margin-top: 1.5rem; 
+}
+.tag-alt {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.tag-alt:hover { 
+    border-color: var(--color-secondary); 
+    color: var(--color-dark); 
+}
+
+/* Estilos para el sello, tomados del final de tu CSS */
+.sello {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 200px;
+}
+
+@media screen and (max-width: 768px) {
+    .sello {
+        top: 50%;
+        right: 20px;
+        width: 100px;
+    }
+}
+</style>
