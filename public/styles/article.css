@@ -8,6 +8,7 @@
   font-size: 1.125rem; /* 18px, ideal para lectura */
   line-height: 1.8;
   color: var(--color-dark);
+  
 }
 
 .article-meta-info {
@@ -16,6 +17,7 @@
 
 .article-main-image {
   border-radius: var(--border-web);
+  margin-bottom: 2rem;
 }
 
 /* --- Títulos y Subtítulos --- */

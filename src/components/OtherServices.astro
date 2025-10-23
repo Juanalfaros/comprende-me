@@ -6,7 +6,7 @@ const { currentServiceSlug } = Astro.props;
 const otherServices = servicesData.filter(service => service.slug !== currentServiceSlug);
 ---
 
-<section class="other-services-section">
+<section class="section other-services-section">
     <div class="container">
         <h2 class="section-title">Explora Otros Servicios</h2>
         
@@ -164,5 +164,22 @@ const otherServices = servicesData.filter(service => service.slug !== currentSer
     :global(.other-services-section .splide__track) {
         z-index: 1;
         clip-path: inset(0 1rem); 
+    }
+
+    .other-services-section {
+        background-color: var(--color-light);
+    
+    }
+    .other-services-section .container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem
+        align-items: center;
+        justify-content: center;
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
     }
 </style>
