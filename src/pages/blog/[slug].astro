@@ -10,22 +10,16 @@ import ArticleCard from '../../components/ArticleCard.astro';
 import AuthorBio from '../../components/AuthorBio.astro';
 import SocialShare from '../../components/SocialShare.astro';
 
-// ✅ IMPORTAMOS NUESTRA NUEVA LÓGICA
 import { transformPost, type CleanPost, type ContentfulPostFields } from '../../lib/contentful-utils';
 
-//
-// --- 3. COMIENZA getStaticPaths ---
-//
+import { authorData } from '../../data/authorData.js';
+
 export async function getStaticPaths() {
   
-  // ⚠️ NOTA: Las funciones 'options' y 'transformPost'
-  // ya no se definen aquí adentro.
-  
-  const response = await client.getEntries({ content_type: 'blogPost' });
-  const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
-  
-  // ✅ Usamos la función importada
-  const allCleanPosts: CleanPost[] = allFields.map(transformPost); 
+const response = await client.getEntries({ content_type: 'blogPost' });
+const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+
+const allCleanPosts: CleanPost[] = allFields.map(transformPost); 
 
   return allCleanPosts.map(post => {
     const relatedPosts = allCleanPosts.filter(related => 
@@ -39,11 +33,8 @@ export async function getStaticPaths() {
     };
   });
 }
-//
-// --- TERMINA getStaticPaths ---
-//
 
-// --- 5. CÓDIGO RESTANTE ---
+
 const { post, relatedPosts } = Astro.props as { post: CleanPost, relatedPosts: CleanPost[] };
 
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
@@ -52,6 +43,31 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     day: 'numeric',
     timeZone: 'UTC',
 });
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": post.excerpt,
+  "image": post.image,
+  "datePublished": post.publishedDate,
+  "author": {
+    "@type": "Person",
+    "name": authorData.name,
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Comprende.me",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL('/favicon.svg', Astro.site).href
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.href
+  }
+};
 ---
 
 <Layout 
@@ -62,6 +78,7 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     
     <Fragment slot="head-extra">
         <link rel="stylesheet" href="/styles/article.css" />
+        <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
     </Fragment>
 
     <main>

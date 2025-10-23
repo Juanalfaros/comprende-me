@@ -3,20 +3,79 @@
 interface Props {
 	title: string;
 	description: string;
-	image?: string; // La imagen para compartir en redes sociales
+	image?: string;
 	canonicalURL?: URL;
+  schemaType?: 'WebSite' | 'Organization' | 'MedicalBusiness' | 'Article' | 'None';
 }
 
-const { 
-    title, 
-    description, 
-    image = '/images/social-sharing.jpg', // Una imagen por defecto
+const {
+    title,
+    description,
+    image = '/images/social-sharing.jpg',
     canonicalURL = new URL(Astro.url.pathname, Astro.site),
+    schemaType = 'WebSite',
 } = Astro.props;
-
 const siteTitle = "Comprende.me - Psicología Infanto-Juvenil Online";
 const fullTitle = `${title} | ${siteTitle}`;
 const absoluteImageUrl = new URL(image, Astro.site).href;
+
+let schema = null;
+const siteUrl = Astro.site?.toString() || 'https://www.comprende.me';
+
+if (schemaType === 'Organization' || schemaType === 'MedicalBusiness') {
+  schema = {
+    "@context": "https://schema.org",
+    "@type": schemaType === 'MedicalBusiness' ? "MedicalBusiness" : "Organization",
+    "name": "Comprende.me",
+    "url": siteUrl,
+    "logo": new URL('/favicon.svg', Astro.site).href,
+    "description": "Apoyo psicológico online para el bienestar de niños, adolescentes y sus familias, dirigido por la psicóloga Natalia Beiza Calvo.",
+    "medicalSpecialty": "Psychiatric",
+    "founder": {
+        "@type": "Person",
+        "name": "Natalia Beiza Calvo",
+        "jobTitle": "Psicóloga Infanto-Juvenil",
+        "sameAs": ["https://www.linkedin.com/in/natalia-beiza-calvo-53355a52/"] 
+    },
+    "contactPoint": { 
+      "@type": "ContactPoint",
+      "email": "contacto@comprende.me",
+      "contactType": "Customer Service"
+    },
+    // "address": { // Opcional si tienes dirección física
+    //   "@type": "PostalAddress",
+    //   "streetAddress": "...",
+    //   "addressLocality": "Puente Alto",
+    //   "addressRegion": "RM",
+    //   "postalCode": "...",
+    //   "addressCountry": "CL"
+    // },
+    "sameAs": [ // Enlaces a redes sociales 
+        "https://www.instagram.com/comprendeme.oficial/",
+        "https://www.linkedin.com/in/natalia-beiza-calvo-53355a52/"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios Psicológicos",
+      "itemListElement": [
+        // Asegúrate que los nombres coincidan EXACTAMENTE con tus títulos de servicio
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Asesoría Psicológica y/o Judicial para Padres" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicología Infantil y Adolescente" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicología para Adultos" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fortalecimiento de Habilidades Parentales" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Supervisión y Análisis de Caso para Psicólogos" } }
+      ]
+    }
+  };
+} else if (schemaType === 'WebSite') {
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": siteUrl,
+    "name": siteTitle,
+    "description": description
+  };
+}
 ---
 
 <title>{fullTitle}</title>
@@ -35,3 +94,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={absoluteImageUrl} />
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

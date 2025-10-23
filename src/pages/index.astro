@@ -39,9 +39,10 @@ const allFields = response.items.map(item => item.fields as unknown as Contentfu
 const postsToShow: CleanPost[] = allFields.map(transformPost);
 ---
 <Layout 
-    title="Comprende.me - Psicología Infanto-Juvenil Online"
-    description="Un espacio seguro y transformador para que niños, adolescentes y sus familias encuentren guía y apoyo emocional con la psicóloga Natalia Beiza."
+  title="Psicología Online para Niños, Adolescentes y Familias | Comprende.me"
+  description="Atención psicológica online especializada en infancia, adolescencia y adultos. Terapia cognitivo-conductual, orientación para padres, asesorías judiciales y supervisión clínica. Psicóloga con más de 12 años de experiencia. Agenda tu sesión en Comprende.me."
 >
+
     
     <Fragment slot="head-extra">
         <script src=`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}` async defer></script>

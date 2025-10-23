@@ -33,8 +33,8 @@ const calLink = `${base}/${slug}`;
   <a href={`/servicios/${slug}`} class="service-card-main-link">
     <div class="card-content">
       <div class="icon-badge">
-        <i class={`ph ${icon} icon`}></i>
-        <p><i class="ph ph-clock"></i> {duration}</p>
+        <i class={`ph ${icon} icon`} aria-hidden="true"></i>
+        <p><i class="ph ph-clock" aria-hidden="true"></i> {duration}</p>
       </div>
       
       <h3 class="section-subtitle">{title}</h3>
@@ -158,12 +158,10 @@ const calLink = `${base}/${slug}`;
     }
   }
 
-  // Función para inicializar los botones de Cal.com
   function initCalButtons() {
     const buttons = document.querySelectorAll('[data-cal-namespace][data-cal-link]');
     
     buttons.forEach((button) => {
-      // Verificar si ya tiene el listener para evitar duplicados
       if (button.hasAttribute('data-cal-initialized')) {
         return;
       }
@@ -182,19 +180,16 @@ const calLink = `${base}/${slug}`;
           return;
         }
 
-        // Verificar que Cal esté disponible
         if (typeof window.Cal === 'undefined') {
           console.error('Cal.com script not loaded');
           return;
         }
 
-        // Verificar que el namespace esté inicializado
         if (!window.Cal.ns || !window.Cal.ns[namespace]) {
           console.error('Cal.com namespace not initialized:', namespace);
           return;
         }
 
-        // Abrir el modal de Cal.com usando el método correcto
         try {
           window.Cal.ns[namespace]('modal', {
             calLink: calLink
@@ -206,13 +201,11 @@ const calLink = `${base}/${slug}`;
     });
   }
 
-  // Inicializar cuando el DOM esté listo
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCalButtons);
   } else {
     initCalButtons();
   }
 
-  // Re-inicializar después de navegación (para Astro View Transitions si las usas)
   document.addEventListener('astro:page-load', initCalButtons);
 </script>

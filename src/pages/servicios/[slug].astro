@@ -3,11 +3,11 @@
 export const prerender = true;
 
 import { Image } from 'astro:assets';
-import Layout from '../../layouts/LayoutServices.astro';
+import LayoutServices from '../../layouts/LayoutServices.astro';
 import { servicesData } from '../../data/servicesData.js';
 import nataliaBookingImage from '../../assets/images/natalia/natalia.webp';
+import { authorData } from '../../data/authorData.js';
 
-// Importamos TODAS las imágenes de la carpeta de servicios de una vez.
 const heroImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/services/*.{jpeg,jpg,png,webp,svg}');
 
 export async function getStaticPaths() {
@@ -20,20 +20,51 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 const bookingCard = service.bookingCard;
 
-// Buscamos la ruta de nuestra imagen específica en la lista importada.
 const heroImagePath = `/src/assets/${service.heroImage}`;
 if (!heroImages[heroImagePath]) {
     throw new Error(`No se pudo encontrar la imagen del hero: ${heroImagePath}. Verifica la ruta en servicesData.js.`);
 }
+
+const siteUrl = Astro.site?.toString() || 'https://www.comprende.me';
+const cleanPrice = service.price.replace(/[^0-9]/g, '');
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": service.title,
+  "description": service.description,
+  "url": Astro.url.href,
+  "provider": {
+    "@type": "Person",
+    "name": authorData.name,
+    "jobTitle": authorData.title || "Psicóloga",
+    "image": new URL(authorData.image.replace('/src/assets/','/'), siteUrl).href
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Chile"
+  },
+  "isAccessibleForFree": false,
+  "offers": {
+    "@type": "Offer",
+    "price": cleanPrice,
+    "priceCurrency": "CLP"
+  },
+  
+  "image": (await heroImages[heroImagePath]()).default.src,
+};
+
 ---
-<Layout
+<LayoutServices
     title={service.title}
     description={service.description}
     image={(await heroImages[heroImagePath]()).default.src}
-    service={service} 
+    service={service}
 >
     <Fragment slot="head-extra">
-        <link rel="stylesheet" href="/styles/service-page.css">
+        <link rel="stylesheet" href="/styles/service-page.css" />
+        {/* 👇 Añade el script JSON-LD aquí */}
+        <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
     </Fragment>
 
     <main>

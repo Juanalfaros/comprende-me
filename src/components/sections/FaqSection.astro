@@ -10,7 +10,20 @@ interface Props {
 }
 
 const { faqs } = Astro.props;
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer 
+    }
+  }))
+};
 ---
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 <section id="faq" class="section bg-light">
     <div class="container container-narrow">
@@ -23,10 +36,9 @@ const { faqs } = Astro.props;
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
                         <span>{item.question}</span>
-                        <i class="ph ph-plus faq-icon"></i>
+                        <i class="ph ph-plus faq-icon" aria-hidden="true"></i>
                     </button>
                     <div class="faq-answer hidden">
-                        {/* Usamos set:html porque asumimos que 'answer' puede contener HTML */}
                         <p set:html={item.answer} />
                     </div>
                 </div>

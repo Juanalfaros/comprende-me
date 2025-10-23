@@ -1,8 +1,6 @@
 ---
 // src/components/ArticleCard.astro
 import { Image } from 'astro:assets';
-
-// 1. Actualizamos la 'Interface' para que coincida con 'CleanPost'
 interface Props {
     post: {
         slug: string;
@@ -19,12 +17,6 @@ interface Props {
 }
 const { post } = Astro.props;
 
-// 2. 🛑 ELIMINAMOS TODA LA LÓGICA ANTIGUA DE IMÁGENES
-// const blogImages = import.meta.glob(...);
-// const imagePath = ...
-// if (!blogImages[imagePath]) { ... }
-
-// 3. Mantenemos tu formato de fecha original
 const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     day: '2-digit',
     month: '2-digit',
