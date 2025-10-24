@@ -1,13 +1,14 @@
 ---
 // src/components/ArticleCard.astro
 import { Image } from 'astro:assets';
+
 interface Props {
     post: {
         slug: string;
-        image: string; // <-- Ya es una URL completa (string)
+        image: string;
         alt: string;
-        imageWidth: number; // <-- Añadimos esto
-        imageHeight: number; // <-- Añadimos esto
+        imageWidth: number;
+        imageHeight: number;
         duration: string;
         title: string;
         excerpt: string;
@@ -30,12 +31,16 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
 
         <Image 
             src={post.image}           alt={post.alt} 
-            width={post.imageWidth}    height={post.imageHeight}  quality={80}
+            width={post.imageWidth || 800}    
+            height={post.imageHeight || 600}  
+            quality={75}
             loading="lazy"
             decoding="async"
         />
-        <div class="tags">
-            {post.tags.slice(0, 2).map(tag => <span class="tag">{tag}</span>)}
+        <div class="article-card__tags-overlay">
+            {post.tags.slice(0, 2).map(tag => (
+                <span class="tag">{tag}</span>
+            ))}
         </div>
     </div>
     <div class="blog-card-content">
@@ -46,6 +51,167 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         </div>
         <h3>{post.title}</h3>
         <p>{post.excerpt}</p>
-        <span class="read-more">Leer más <i class="ph ph-arrow-right"></i></span>
+        <span class="read-more">Leer Más <i class="ph ph-arrow-right"></i></span>
     </div>
 </a>
+
+<style>
+    /* ============================================
+      --- ESTILOS DE LA TARJETA DEFAULT ---
+      ============================================
+    */
+
+    .blog-card {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        border-radius: var(--border-web);
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: var(--color-white);
+        padding: 1.7rem;
+        position: relative;
+        height: 100%; 
+    }
+    
+    .blog-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image-blog-card {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        aspect-ratio: 16 / 10; 
+    }
+
+    .image-blog-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    
+    .blog-card:hover .image-blog-card img {
+        transform: scale(1.05);
+    }
+
+    /* --- Tags sobre la imagen (CLASES RENOMBRADAS) --- */
+    .article-card__tags-overlay {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .article-card__tag {
+        /* Esto resetea cualquier estilo global de width/height/flex */
+        width: auto;
+        height: auto;
+
+        /* Y aquí aplicamos el estilo de "píldora" */
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(4px);
+    }
+
+
+    /* --- Contenido de la tarjeta --- */
+    .blog-card-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; 
+        padding: 0;
+    }
+    
+    .blog-card-meta {
+        font-size: 0.875rem;
+        color: var(--color-primary-dark);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 0.75rem; 
+    }
+
+    h3 {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--color-dark);
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0; 
+    }
+    
+    p {
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        color: var(--color-muted);
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex-grow: 1; 
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem; 
+    }
+    
+    .read-more {
+        margin-top: auto; 
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: fit-content;
+        padding-right: 1.1rem;
+        padding-left: 1.1rem;
+        background-color: var(--color-primary);
+        color: var(--color-dark);
+        transition: color 0.3s ease;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .read-more:hover {
+        color: var(--color-white);
+    }
+
+    .read-more i {
+        font-size: 1.3rem;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .read-more:hover i {
+        transform: rotate(-30deg);
+    }
+
+
+    /* ============================================
+      ---         RESPONSIVE (Móvil)         ---
+      ============================================
+    */
+    @media (max-width: 767px) {
+        .blog-card {
+            padding: 1.25rem; 
+            width: 100%;
+        }
+    }
+</style>

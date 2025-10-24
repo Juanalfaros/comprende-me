@@ -1,44 +1,95 @@
 ---
-// src/pages/blog/index.astro
 import Layout from '../../layouts/Layout.astro';
-import ArticleCard from '../../components/ArticleCard.astro';
+// Asegúrate de que el 'import' coincida con el nombre de tu componente
+import ArticleCard from '../../components/ArticleCardBento.astro'; 
 import { client } from '../../lib/contentful.js';
 import { transformPost, type CleanPost, type ContentfulPostFields } from '../../lib/contentful-utils';
 
+// ... (Tu lógica para obtener 'allPosts' es perfecta) ...
 const response = await client.getEntries({ content_type: 'blogPost' });
 const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
 
 const allPosts: CleanPost[] = allFields
   .map(transformPost)
   .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
----
-<Layout 
-    title="Blog - Recursos de Salud Mental y Crianza | Comprende.me" 
-    description="Recursos, reflexiones y herramientas para apoyar tu camino hacia el bienestar emocional y el de tu familia."
->
-    <main class="main-class">
-        <section class="section bg-light">
-            <div class="container text-center">
-                <h1 class="section-title">Nuestro Blog</h1>
-                <p class="section-subtitle">Recursos, reflexiones y herramientas para apoyar tu camino hacia el bienestar emocional y el de tu familia.</p>
-            </div>
-        </section>
 
-        <section class="section">
-            <div class="container">
-                <div id="blog-grid" class="grid grid-4-cols">
-                    {allPosts.map(post => (
-                        <ArticleCard post={post} />
-                    ))}
-                </div>
+const featuredPost = allPosts[0]; // El primero y más nuevo
+const otherPosts = allPosts.slice(1); // El resto
+---
+
+<Layout 
+  title="Mi Blog | Nuestros Artículos"
+  description="Recursos, reflexiones y herramientas para apoyar tu camino hacia el bienestar emocional y el de tu familia."
+>
+    
+    <section class="blog-hero-section">
+        <div class="container">
+            <ArticleCard post={featuredPost} variant="featured" />
+        </div>
+    </section>
+
+    <section class="blog-recent-section">
+        <div class="container">
+            <h2>Explora nuestros artículos</h2>
+            
+            <div class="posts-grid">
+                {otherPosts.map(post => (
+                    <ArticleCard post={post} variant="default" />
+                ))}
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
 </Layout>
 
 <style>
-    .main-class {
-        margin-top: -65px;
+
+    .blog-hero-section {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        /* Puedes poner un fondo si quieres, 
+           o dejarlo blanco/transparente */
+    }
+    
+    .blog-recent-section {
+        padding-bottom: 3rem;
     }
 
+    .blog-recent-section h2 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem; /* 24px */
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: 2rem; /* Espacio antes de la grilla */
+    }
+
+    .posts-grid {
+        display: grid;
+        /* 3 columnas en desktop */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem 1.5rem; /* 32px vertical, 24px horizontal */
+    }
+
+    @media (max-width: 1024px) {
+        .posts-grid {
+            /* 2 columnas en tablet */
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .posts-grid {
+            /* 1 columna en móvil */
+            grid-template-columns: 1fr;
+        }
+        .blog-hero-section,
+        .blog-recent-section {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .blog-recent-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+    }
 </style>

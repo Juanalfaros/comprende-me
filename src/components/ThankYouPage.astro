@@ -1,6 +1,49 @@
 ---
-// Este componente no necesita props directamente,
-// ya que lee los datos desde la URL en el script del cliente.
+// Definimos la interfaz Service directamente aquí, ya que servicesData.js no exporta un tipo.
+// Esto asegura que el componente tenga la definición de tipo necesaria.
+interface Service {
+    slug: string;
+    'short-title'?: string;
+    icon: string;
+    heroImage: string;
+    heroTitle: string;
+    title: string;
+    description: string;
+    tags: string[];
+    price: string;
+    oldPrice?: string;
+    duration: string;
+    calLinkPrefix: string;
+    calUiConfig?: object;
+    titleSituaciones?: string;
+    subtitleSituaciones?: string;
+    titleEnfoque?: string;
+    subtitleEnfoque?: string;
+    titleTips?: string;
+    subtitleTips?: string;
+    titleFaqs?: string;
+    subtitleFaqs?: string;
+    situaciones?: { icon: string; text: string; }[];
+    enfoque?: { numero: string; titulo: string; texto: string; }[];
+    highlightBox: { h3: string; p: string; };
+    fullContentHTML?: string;
+    tips?: { icon: string; title: string; text: string; }[];
+    faqs?: { question: string; answer: string; }[];
+    bookingCard: {
+        imageAlt: string;
+        title: string;
+        paragraph: string;
+        benefits: { icon: string; text: string; }[];
+        buttonText: string;
+    };
+}
+
+// La interfaz Props ahora usa la definición de Service local
+interface Props {
+    services: Service[];
+}
+
+const { services } = Astro.props;
 ---
 <main>
     <section class="section thank-you-section">
@@ -183,19 +226,11 @@
 }
 </style>
 
-<script>
+<script define:vars={{ servicesData: services }}>
 // Ponemos todo dentro de un evento para asegurarnos que la página cargó
 document.addEventListener('DOMContentLoaded', async () => {
 
-    // 1. Datos de servicios (mantenidos aquí por ahora)
-    const servicesData = [
-        { "slug": "asesoria-psicologica-y-o-judicial-para-padres", "title": "Asesoría Psicológica y/o Judicial para Padres", "price": "$30.000" },
-        { "slug": "psicologia-infantil-y-adolescente", "title": "Psicología Infantil y Adolescente", "price": "$25.000" },
-        { "slug": "psicologia-para-adultos", "title": "Psicología para Adultos", "price": "$25.000" },
-        { "slug": "fortalecimiento-de-habilidades-parentales", "title": "Fortalecimiento de Habilidades Parentales", "price": "$30.000" },
-        { "slug": "supervision-y-analisis-de-caso-para-psicologos", "title": "Supervisión y Análisis de Caso para Psicólogos", "price": "$25.000" }
-    ];
-
+    // 1. Datos de servicios ya están disponibles en la variable `servicesData`
     // 2. Leer parámetros de la URL
     const params = new URLSearchParams(window.location.search);
     const attendeeName = params.get('attendeeName');

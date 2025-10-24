@@ -1,10 +1,9 @@
 ---
 // src/pages/index.astro
 
-import { Image } from 'astro:assets'; // Aún lo necesitamos para las props
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import ArticleCard from '../components/ArticleCard.astro';
 
 // --- Importación de datos ---
 import { servicesData } from '../data/servicesData.js';
@@ -19,46 +18,47 @@ import heroImage from '../assets/images/hero/smiley-jovenes-hermanos-abrazandose
 import nataliaImage from '../assets/images/natalia/natalia.webp';
 import selloImage from '../assets/images/sello.svg';
 
-// --- Importación de NUEVOS Componentes de Sección ---
+// --- Importación de Componentes de Sección ---
 import HeroSection from '../components/sections/HeroSection.astro';
 import TrustBar from '../components/sections/TrustBar.astro';
 import AboutSection from '../components/sections/AboutSection.astro';
 import TestimonialsSection from '../components/sections/TestimonialsSection.astro';
 import FaqSection from '../components/sections/FaqSection.astro';
 import ContactSection from '../components/sections/ContactSection.astro';
+import AccordionCardsGrid from '../components/sections/AccordionCardsGrid.astro';
 
-
-// --- Lógica de Página (sin cambios) ---
+// --- Lógica de Página ---
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+
+// Obtenemos solo 3 posts para el AccordionGrid
 const response = await client.getEntries({
   content_type: 'blogPost',
-  limit: 4,
+  limit: 3,
   order: ['-fields.publishedDate']
 });
-const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
-const postsToShow: CleanPost[] = allFields.map(transformPost);
----
-<Layout 
-  title="Psicología Online para Niños, Adolescentes y Familias | Comprende.me"
-  description="Atención psicológica online especializada en infancia, adolescencia y adultos. Terapia cognitivo-conductual, orientación para padres, asesorías judiciales y supervisión clínica. Psicóloga con más de 12 años de experiencia. Agenda tu sesión en Comprende.me."
->
 
-    
-    <Fragment slot="head-extra">
-        <script src=`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}` async defer></script>
-    </Fragment>
-    
-    <HeroSection 
-        image={heroImage} 
-        alt="Jóvenes hermanos abrazándose" 
+const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+const latestPosts: CleanPost[] = allFields.map(transformPost);
+---
+
+<Layout 
+    title="Comprende-Me - Natalia Alfaro | Psicóloga Infantojuvenil en Providencia, Santiago"
+    description="Acompañamiento psicológico para niños, adolescentes y familias en Providencia, Santiago. Especialista en terapia infantojuvenil y orientación parental."
+>
+    <HeroSection
+        image={heroImage}
+        alt="Familia feliz abrazándose"
     />
 
     <TrustBar />
-    
+
     <section id="services" class="section bg-light">
         <div class="container text-center">
-            <h2 class="section-title">Un acompañamiento para cada etapa de tu vida</h2>
+            <h2 class="section-title">
+                Un acompañamiento para cada etapa de tu vida
+            </h2>
             <h3>Descubre cómo podemos ayudarte a ti, a tus hijos y a tu familia a construir vínculos más fuertes y a encontrar el bienestar emocional.</h3>
+            
             <div id="services-grid" class="grid grid-3-cols">
                 {servicesData.map(service => (
                     <ServiceCard {...service} />
@@ -69,27 +69,29 @@ const postsToShow: CleanPost[] = allFields.map(transformPost);
 
     <AboutSection 
         profileImage={nataliaImage}
-        profileAlt="Psicóloga Natalia Beiza Calvo"
+        profileAlt="Natalia Alfaro, Psicóloga Infantojuvenil"
         sealImage={selloImage}
-        sealAlt="Sello de Psicóloga Registrada"
+        sealAlt="Sello profesional Comprende-Me"
     />
 
     <TestimonialsSection />
-    
-    <section id="blog" class="section">
-        <div class="container text-center">
-            <h2 class="section-title">Blog y Recursos</h2>
-            <h3>Artículos y reflexiones para apoyar tu camino.</h3>
-            <div id="blog-grid" class="grid grid-4-cols">
-                {postsToShow.map(post => (
-                    <ArticleCard post={post} />
-                ))}
-            </div>
-        </div>
-    </section>
+
+    <AccordionCardsGrid 
+        posts={latestPosts}
+        title="Últimos Artículos del Blog"
+        subtitle="Consejos y reflexiones sobre psicología infantojuvenil y crianza"
+        moreLinkHref="/blog"
+        moreLinkText="Ver todos los artículos"
+    />
 
     <FaqSection faqs={faqData} />
 
-    <ContactSection siteKey={recaptchaSiteKey} />
-
+    <ContactSection recaptchaSiteKey={recaptchaSiteKey} />
 </Layout>
+
+<style>
+    h3 {
+        margin: auto;
+        margin-bottom: 2rem;
+    }
+</style>

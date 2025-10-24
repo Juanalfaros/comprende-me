@@ -120,7 +120,7 @@
 }
 
 /* --- Social Share Component --- */
-.social-share {
+/* .social-share {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -140,9 +140,9 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: var(--color-light);
-  color: var(--color-muted);
-  font-size: 1.25rem;
+  background-color: var(--color-primary);
+  color: var(--color-dark);
+  font-size: 1.7rem;
   transition: all 0.3s;
   margin-left: 0.5rem;
 }
@@ -158,7 +158,7 @@
 }
 .social-share-links a.twitter:hover {
   background-color: #1da1f2;
-}
+} */
 
 /* --- Related Articles Section --- */
 .related-articles {

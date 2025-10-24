@@ -50,10 +50,10 @@ h1 { font-size: 2.5rem; }
 h2 { font-size: 2rem; margin-bottom: 1rem; }
 h3 { font-size: 1.25rem; 
     color: var(--color-primary, #5A83A2);     
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: var(--spacing-lg, 3rem); 
     max-width: 900px;
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;}
 
 p { line-height: 1.6; margin-bottom: 1rem; }

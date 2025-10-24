@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ThankYouPage from '../components/ThankYouPage.astro'; 
+import { servicesData } from '../data/servicesData.js';
 ---
 <Layout 
     title="Gracias por Agendar - Comprende.me"
@@ -14,6 +15,6 @@ import ThankYouPage from '../components/ThankYouPage.astro';
     </Fragment>
 
     {/* ✅ Usa el nuevo componente */}
-    <ThankYouPage /> 
+    <ThankYouPage services={servicesData} /> 
 
 </Layout>
