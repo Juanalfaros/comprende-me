@@ -18,6 +18,8 @@ import {
 
 import { authorData } from "../../data/authorData.js";
 
+import "../../styles/article.css";
+
 export async function getStaticPaths() {
   const response = await client.getEntries({ content_type: "blogPost" });
   const allFields = response.items.map(
