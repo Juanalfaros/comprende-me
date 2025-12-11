@@ -1,11 +1,14 @@
 ---
 // src/components/Seo.astro
 interface Props {
-	title: string;
-	description: string;
-	image?: string;
-	canonicalURL?: URL;
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: URL;
   schemaType?: 'WebSite' | 'Organization' | 'MedicalBusiness' | 'Article' | 'None';
+  // Nuevos props opcionales para artículos
+  articleDate?: string;
+  articleAuthor?: string;
 }
 
 const {
@@ -14,22 +17,51 @@ const {
     image = '/images/social-sharing.jpg',
     canonicalURL = new URL(Astro.url.pathname, Astro.site),
     schemaType = 'WebSite',
+    articleDate,
+    articleAuthor = "Natalia Beiza Calvo",
 } = Astro.props;
-const siteTitle = "Comprende.me - Psicología Infanto-Juvenil Online";
-const fullTitle = `${title} | ${siteTitle}`;
-const absoluteImageUrl = new URL(image, Astro.site).href;
+
+const siteBrand = "Comprende.me";
+const siteTagline = "Psicología Infanto-Juvenil Online";
+const defaultTitle = `${siteBrand} - ${siteTagline}`;
+const siteTitle = siteBrand; // <--- CORRECCIÓN: Definimos siteTitle para usar en Schema y OG tags
+
+// --- LÓGICA DE TÍTULO INTELIGENTE ---
+let fullTitle;
+
+if (!title) {
+    // Caso 1: Si no hay título (ej. Home), usamos el nombre completo por defecto
+    fullTitle = defaultTitle;
+} else {
+    // Caso 2: Si hay título, verificamos si ya trae el branding
+    const hasBranding = title.toLowerCase().includes("comprende.me");
+    
+    if (hasBranding) {
+        fullTitle = title;
+    } else {
+        fullTitle = `${title} | ${siteBrand}`;
+    }
+}
+
+// Lógica robusta para imágenes
+const siteUrl = Astro.site?.toString() || 'https://www.comprende.me';
+let absoluteImageUrl = '';
+try {
+    absoluteImageUrl = new URL(image, siteUrl).href;
+} catch (e) {
+    absoluteImageUrl = image;
+}
 
 let schema = null;
-const siteUrl = Astro.site?.toString() || 'https://www.comprende.me';
 
 if (schemaType === 'Organization' || schemaType === 'MedicalBusiness') {
   schema = {
     "@context": "https://schema.org",
     "@type": schemaType === 'MedicalBusiness' ? "MedicalBusiness" : "Organization",
-    "name": "Comprende.me",
+    "name": siteBrand, // Usamos la variable siteBrand
     "url": siteUrl,
-    "logo": new URL('/favicon.svg', Astro.site).href,
-    "description": "Apoyo psicológico online para el bienestar de niños, adolescentes y sus familias, dirigido por la psicóloga Natalia Beiza Calvo.",
+    "logo": new URL('/favicon.svg', siteUrl).href,
+    "description": "Apoyo psicológico online para el bienestar de niños, adolescentes y sus familias.",
     "medicalSpecialty": "Psychiatric",
     "founder": {
         "@type": "Person",
@@ -42,15 +74,7 @@ if (schemaType === 'Organization' || schemaType === 'MedicalBusiness') {
       "email": "contacto@comprende.me",
       "contactType": "Customer Service"
     },
-    // "address": { // Opcional si tienes dirección física
-    //   "@type": "PostalAddress",
-    //   "streetAddress": "...",
-    //   "addressLocality": "Puente Alto",
-    //   "addressRegion": "RM",
-    //   "postalCode": "...",
-    //   "addressCountry": "CL"
-    // },
-    "sameAs": [ // Enlaces a redes sociales 
+    "sameAs": [
         "https://www.instagram.com/comprendeme.oficial/",
         "https://www.linkedin.com/in/natalia-beiza-calvo-53355a52/"
     ],
@@ -58,7 +82,6 @@ if (schemaType === 'Organization' || schemaType === 'MedicalBusiness') {
       "@type": "OfferCatalog",
       "name": "Servicios Psicológicos",
       "itemListElement": [
-        // Asegúrate que los nombres coincidan EXACTAMENTE con tus títulos de servicio
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Asesoría Psicológica y/o Judicial para Padres" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicología Infantil y Adolescente" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Psicología para Adultos" } },
@@ -72,8 +95,33 @@ if (schemaType === 'Organization' || schemaType === 'MedicalBusiness') {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "url": siteUrl,
-    "name": siteTitle,
+    "name": siteTitle, // Ahora sí está definida
     "description": description
+  };
+} else if (schemaType === 'Article') {
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "image": absoluteImageUrl,
+    "author": {
+      "@type": "Person",
+      "name": articleAuthor
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": siteBrand,
+      "logo": {
+        "@type": "ImageObject",
+        "url": new URL('/favicon.svg', siteUrl).href
+      }
+    },
+    "datePublished": articleDate || new Date().toISOString(),
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": canonicalURL.href
+    }
   };
 }
 ---
@@ -82,19 +130,22 @@ if (schemaType === 'Organization' || schemaType === 'MedicalBusiness') {
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
 
+{/* Open Graph / Facebook */}
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:type" content="website" />
+<meta property="og:type" content={schemaType === 'Article' ? 'article' : 'website'} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={absoluteImageUrl} />
 <meta property="og:site_name" content={siteTitle} />
 <meta property="og:locale" content="es_CL" />
 
+{/* Twitter */}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={absoluteImageUrl} />
 
+{/* Schema JSON-LD Inyectado */}
 {schema && (
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 )}

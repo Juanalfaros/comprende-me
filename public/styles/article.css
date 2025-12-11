@@ -301,3 +301,42 @@
 .article-sources ul li::before {
     content: none; /* Usamos 'none' para anular completamente el pseudo-elemento */
 }
+
+/* --- AGREGADOS PARA EL ARTÍCULO DE NATALIA --- */
+
+/* H4 para subtítulos de sección */
+.article-body h4 {
+  font-family: var(--font-heading);
+  color: var(--color-dark);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* Línea divisoria elegante */
+.article-body hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, var(--color-border), transparent);
+  margin: 3rem 0;
+}
+
+/* Imágenes embebidas (responsive) */
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem; 
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Sutil sombra */
+}
+
+/* Leyendas de imágenes */
+.article-body figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-top: -1.5rem; /* Sube un poco para acercarse a la imagen */
+  margin-bottom: 2rem;
+}
