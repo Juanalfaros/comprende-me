@@ -13,8 +13,9 @@ import "../styles/testimonios.css";
     description="Tu experiencia es valiosa. Comparte tu testimonio para ayudar a otras familias a encontrar el apoyo que necesitan en su camino hacia el bienestar."
 >
     <Fragment slot="head-extra">
+        {/* CORRECCIÓN AQUÍ: Se añadieron llaves {} alrededor del string template */}
         <script
-            src=`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`
+            src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
             async
             defer></script>
     </Fragment>
