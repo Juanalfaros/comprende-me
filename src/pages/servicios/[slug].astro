@@ -2,19 +2,23 @@
 // src/pages/servicios/[slug].astro
 export const prerender = true;
 
-import { Image } from 'astro:assets';
-import LayoutServices from '../../layouts/LayoutServices.astro';
-import { servicesData } from '../../data/servicesData.js';
-import nataliaBookingImage from '../../assets/images/natalia/natalia.webp';
-import { authorData } from '../../data/authorData.js';
+import { Image } from "astro:assets";
+import LayoutServices from "../../layouts/LayoutServices.astro";
+import { servicesData } from "../../data/servicesData.js";
+import nataliaBookingImage from "../../assets/images/natalia/natalia.webp";
+import { authorData } from "../../data/authorData.js";
 
-const heroImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/services/*.{jpeg,jpg,png,webp,svg}');
+import "../../styles/service-page.css";
+
+const heroImages = import.meta.glob<{ default: ImageMetadata }>(
+    "/src/assets/images/services/*.{jpeg,jpg,png,webp,svg}",
+);
 
 export async function getStaticPaths() {
-  return servicesData.map(service => ({
-    params: { slug: service.slug },
-    props: { service },
-  }));
+    return servicesData.map((service) => ({
+        params: { slug: service.slug },
+        props: { service },
+    }));
 }
 
 const { service } = Astro.props;
@@ -22,39 +26,42 @@ const bookingCard = service.bookingCard;
 
 const heroImagePath = `/src/assets/${service.heroImage}`;
 if (!heroImages[heroImagePath]) {
-    throw new Error(`No se pudo encontrar la imagen del hero: ${heroImagePath}. Verifica la ruta en servicesData.js.`);
+    throw new Error(
+        `No se pudo encontrar la imagen del hero: ${heroImagePath}. Verifica la ruta en servicesData.js.`,
+    );
 }
 
-const siteUrl = Astro.site?.toString() || 'https://www.comprende.me';
-const cleanPrice = service.price.replace(/[^0-9]/g, '');
+const siteUrl = Astro.site?.toString() || "https://www.comprende.me";
+const cleanPrice = service.price.replace(/[^0-9]/g, "");
 
 const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": service.title,
-  "description": service.description,
-  "url": Astro.url.href,
-  "provider": {
-    "@type": "Person",
-    "name": authorData.name,
-    "jobTitle": authorData.title || "Psicóloga",
-    "image": new URL(authorData.image.replace('/src/assets/','/'), siteUrl).href
-  },
-  "areaServed": {
-    "@type": "Country",
-    "name": "Chile"
-  },
-  "isAccessibleForFree": false,
-  "offers": {
-    "@type": "Offer",
-    "price": cleanPrice,
-    "priceCurrency": "CLP"
-  },
-  
-  "image": (await heroImages[heroImagePath]()).default.src,
-};
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.description,
+    url: Astro.url.href,
+    provider: {
+        "@type": "Person",
+        name: authorData.name,
+        jobTitle: authorData.title || "Psicóloga",
+        image: new URL(authorData.image.replace("/src/assets/", "/"), siteUrl)
+            .href,
+    },
+    areaServed: {
+        "@type": "Country",
+        name: "Chile",
+    },
+    isAccessibleForFree: false,
+    offers: {
+        "@type": "Offer",
+        price: cleanPrice,
+        priceCurrency: "CLP",
+    },
 
+    image: (await heroImages[heroImagePath]()).default.src,
+};
 ---
+
 <LayoutServices
     title={service.title}
     description={service.description}
@@ -62,14 +69,17 @@ const serviceSchema = {
     service={service}
 >
     <Fragment slot="head-extra">
-        <link rel="stylesheet" href="/styles/service-page.css" />
+        <meta name="description" content={service.description} />
         {/* 👇 Añade el script JSON-LD aquí */}
-        <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(serviceSchema)}
+        />
     </Fragment>
 
     <main>
         <header class="service-hero">
-            <Image 
+            <Image
                 class="hero-background-image"
                 src={(await heroImages[heroImagePath]()).default}
                 alt={`Ilustración representativa para el servicio de ${service.title}`}
@@ -83,13 +93,11 @@ const serviceSchema = {
                 <h1>{service.title}</h1>
                 <h2>{service.heroTitle}</h2>
                 <div class="detail-item tags-list">
-                    {service.tags?.map(tag => (
-                        <span class="tag">{tag}</span>
-                    ))}
+                    {service.tags?.map((tag) => <span class="tag">{tag}</span>)}
                 </div>
                 <p>{service.description}</p>
-                <button 
-                    class="btn btn-primary btn-hero-service" 
+                <button
+                    class="btn btn-primary btn-hero-service"
                     data-cal-link={`${service.calLinkPrefix}/${service.slug}`}
                     aria-label={`Agendar ahora una sesión de ${service.title}`}
                 >
@@ -103,35 +111,55 @@ const serviceSchema = {
                 <h2>{service.titleSituaciones}</h2>
                 <h3>{service.subtitleSituaciones}</h3>
                 <div class="situaciones-grid">
-                    {service.situaciones?.map(item => (
-                        <div class="situacion-card">
-                            <i class:list={[`ph ${item.icon}`, "icon"]} aria-hidden="true"></i>
-                            <p>{item.text}</p>
-                        </div>
-                    ))}
+                    {
+                        service.situaciones?.map((item) => (
+                            <div class="situacion-card">
+                                <i
+                                    class:list={[`ph ${item.icon}`, "icon"]}
+                                    aria-hidden="true"
+                                />
+                                <p>{item.text}</p>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </section>
-        
-        {service.fullContentHTML && (
-            <section class="service-section content-body" style="padding-top: 1rem;">
-                <div class="container container-narrow">
-                    <div class="full-content-html" set:html={service.fullContentHTML} />
-                </div>
-            </section>
-        )}
-        <section class="service-section" style="background-color: var(--color-light);">
+
+        {
+            service.fullContentHTML && (
+                <section
+                    class="service-section content-body"
+                    style="padding-top: 1rem;"
+                >
+                    <div class="container container-narrow">
+                        <div
+                            class="full-content-html"
+                            set:html={service.fullContentHTML}
+                        />
+                    </div>
+                </section>
+            )
+        }
+        <section
+            class="service-section"
+            style="background-color: var(--color-light);"
+        >
             <div class="container focus-content">
                 <h2>{service.titleEnfoque || "Mi Enfoque"}</h2>
-                <h3>{service.subtitleEnfoque || "Claridad y Acompañamiento"}</h3>
+                <h3>
+                    {service.subtitleEnfoque || "Claridad y Acompañamiento"}
+                </h3>
                 <div class="enfoque-steps">
-                    {service.enfoque?.map(step => (
-                        <div class="step-item">
-                            <span class="number">{step.numero}</span>
-                            <h3>{step.titulo}</h3>
-                            <p>{step.texto}</p>
-                        </div>
-                    ))}
+                    {
+                        service.enfoque?.map((step) => (
+                            <div class="step-item">
+                                <span class="number">{step.numero}</span>
+                                <h3>{step.titulo}</h3>
+                                <p>{step.texto}</p>
+                            </div>
+                        ))
+                    }
                 </div>
                 <div class="highlight-box">
                     <h3>{service.highlightBox.h3}</h3>
@@ -145,13 +173,18 @@ const serviceSchema = {
                 <h2>{service.titleTips || "Consejos"}</h2>
                 <h3>{service.subtitleTips}</h3>
                 <div class="tips-grid">
-                    {service.tips?.map(tip => (
-                        <div class="tip-card">
-                            <i class:list={[`ph ${tip.icon}`, "icon"]} aria-hidden="true"></i>
-                            <h3>{tip.title}</h3>
-                            <p>{tip.text}</p>
-                        </div>
-                    ))}
+                    {
+                        service.tips?.map((tip) => (
+                            <div class="tip-card">
+                                <i
+                                    class:list={[`ph ${tip.icon}`, "icon"]}
+                                    aria-hidden="true"
+                                />
+                                <h3>{tip.title}</h3>
+                                <p>{tip.text}</p>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </section>
@@ -159,7 +192,12 @@ const serviceSchema = {
         <section class="container booking-section">
             <div class="booking-card-improved">
                 <div class="booking-card-image">
-                    <Image src={nataliaBookingImage} alt="Psicóloga sonriendo, lista para ayudar" loading="lazy" quality={85} />
+                    <Image
+                        src={nataliaBookingImage}
+                        alt="Psicóloga sonriendo, lista para ayudar"
+                        loading="lazy"
+                        quality={85}
+                    />
                 </div>
                 <div class="booking-card-content">
                     <div class="booking-card-header">
@@ -167,20 +205,31 @@ const serviceSchema = {
                         <p>{bookingCard.paragraph}</p>
                     </div>
                     <ul class="booking-benefits">
-                        {bookingCard.benefits.map(benefit => (
-                            <li>
-                                <i class={`ph ${benefit.icon}`} aria-hidden="true"></i>
-                                {benefit.text}
-                            </li>
-                        ))}
+                        {
+                            bookingCard.benefits.map((benefit) => (
+                                <li>
+                                    <i
+                                        class={`ph ${benefit.icon}`}
+                                        aria-hidden="true"
+                                    />
+                                    {benefit.text}
+                                </li>
+                            ))
+                        }
                     </ul>
                     <div class="booking-action">
                         <div class="price-display">
                             <span class="current-price">{service.price}</span>
-                            {service.oldPrice && <span class="old-price-improved">{service.oldPrice}</span>}
+                            {
+                                service.oldPrice && (
+                                    <span class="old-price-improved">
+                                        {service.oldPrice}
+                                    </span>
+                                )
+                            }
                         </div>
-                        <button 
-                            class="btn btn-primary btn-booking-improved" 
+                        <button
+                            class="btn btn-primary btn-booking-improved"
                             data-cal-link={`${service.calLinkPrefix}/${service.slug}`}
                             aria-label={`Agendar ahora una sesión de ${service.title}`}
                         >
@@ -196,35 +245,49 @@ const serviceSchema = {
                 <h2>{service.titleFaqs || "Preguntas Frecuentes"}</h2>
                 <h3>{service.subtitleFaqs}</h3>
                 <div class="faq-container">
-                    {service.faqs?.map((faq, index) => (
-                        <div class="faq-item">
-                            <button class="faq-question" aria-expanded="false" aria-controls={`faq-answer-${index}`}>
-                                <span>{faq.question}</span>
-                                <i class="ph ph-plus faq-icon" aria-hidden="true"></i>
-                            </button>
-                            <div class="faq-answer hidden" id={`faq-answer-${index}`}>
-                                <p>{faq.answer}</p>
+                    {
+                        service.faqs?.map((faq, index) => (
+                            <div class="faq-item">
+                                <button
+                                    class="faq-question"
+                                    aria-expanded="false"
+                                    aria-controls={`faq-answer-${index}`}
+                                >
+                                    <span>{faq.question}</span>
+                                    <i
+                                        class="ph ph-plus faq-icon"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                                <div
+                                    class="faq-answer hidden"
+                                    id={`faq-answer-${index}`}
+                                >
+                                    <p>{faq.answer}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    }
                 </div>
             </div>
         </section>
     </main>
-</Layout>
+</LayoutServices>
 
 <script is:inline>
-    document.querySelectorAll('.faq-question').forEach(button => {
-        button.addEventListener('click', () => {
-            const answer = document.getElementById(button.getAttribute('aria-controls'));
-            const icon = button.querySelector('.faq-icon');
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            
-            button.setAttribute('aria-expanded', String(!isExpanded));
-            answer.classList.toggle('hidden');
-            
-            icon.classList.toggle('ph-plus');
-            icon.classList.toggle('ph-minus');
+    document.querySelectorAll(".faq-question").forEach((button) => {
+        button.addEventListener("click", () => {
+            const answer = document.getElementById(
+                button.getAttribute("aria-controls"),
+            );
+            const icon = button.querySelector(".faq-icon");
+            const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+            button.setAttribute("aria-expanded", String(!isExpanded));
+            answer.classList.toggle("hidden");
+
+            icon.classList.toggle("ph-plus");
+            icon.classList.toggle("ph-minus");
         });
     });
 </script>

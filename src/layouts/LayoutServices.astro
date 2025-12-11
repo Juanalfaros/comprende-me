@@ -1,15 +1,18 @@
 ---
 // src/layouts/LayoutServices.astro
 
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import OtherServices from '../components/OtherServices.astro';
-import WhatsappButton from '../components/WhatsappButton.astro';
-import CalScripts from '../components/CalScripts.astro';
-import { servicesData } from '../data/servicesData.js';
-import Seo from '../components/Seo.astro';
-import CookieConsent from '../components/CookieConsent.astro';
-import TrackingScripts from '../components/TrackingScripts.astro';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import OtherServices from "../components/OtherServices.astro";
+import WhatsappButton from "../components/WhatsappButton.astro";
+import CalScripts from "../components/CalScripts.astro";
+import { servicesData } from "../data/servicesData.js";
+import Seo from "../components/Seo.astro";
+import CookieConsent from "../components/CookieConsent.astro";
+import TrackingScripts from "../components/TrackingScripts.astro";
+
+import "../styles/global.css";
+import "../styles/components.css";
 
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
 
@@ -22,71 +25,124 @@ interface Props {
 const { title, description, image, service } = Astro.props;
 
 // Construimos el calLink completo para pasarlo al Header
-const calLink = service ? `${service.calLinkPrefix}/${service.slug}` : undefined;
+const calLink = service
+    ? `${service.calLinkPrefix}/${service.slug}`
+    : undefined;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <Seo title={title} description={description} image={image} />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <Seo title={title} description={description} image={image} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    {/* --- INICIO DE LA OPTIMIZACIÓN DE FUENTES --- */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    {/* Pre-conexión a los dominios de las fuentes */}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        {/* --- INICIO DE LA OPTIMIZACIÓN DE FUENTES --- */}
 
-    {/* 1. Pre-cargamos las fuentes más importantes para reducir el Layout Shift (CLS) */}
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/Phosphor.woff2" as="font" type="font/woff2" crossorigin>
+        {/* Pre-conexión a los dominios de las fuentes */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    {/* 2. Cargamos las fuentes de forma asíncrona para que no bloqueen la renderización */}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"></noscript>
+        {
+            /* 1. Pre-cargamos las fuentes más importantes para reducir el Layout Shift (CLS) */
+        }
+        <link
+            rel="preload"
+            href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/Phosphor.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/css/phosphor.css"></noscript>
-    
-    {/* --- FIN DE LA OPTIMIZACIÓN --- */}
-    
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/styles/components.css">
-    
-    <slot name="head-extra" />
+        {
+            /* 2. Cargamos las fuentes de forma asíncrona para que no bloqueen la renderización */
+        }
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+            media="print"
+            onload="this.media='all'"
+        />
+        <noscript
+            ><link
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+            /></noscript
+        >
 
-    <TrackingScripts />
-</head>
-<body>
-    {gtmId && (
-        <noscript>
-            <iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe>
-        </noscript>
-    )}
-    
-    <Header 
-        pageType="internal" 
-        calLink={calLink} 
-        floatBtnTriggerSelector=".other-services-section" 
-    />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+            media="print"
+            onload="this.media='all'"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css"
+            media="print"
+            onload="this.media='all'"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
+            media="print"
+            onload="this.media='all'"
+        />
+        <noscript
+            ><link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/css/phosphor.css"
+            /></noscript
+        >
 
-    <main>
-        <slot />
-    </main>
+        {/* --- FIN DE LA OPTIMIZACIÓN --- */}
 
-    <OtherServices currentServiceSlug={service?.slug} />
-    <Footer />
-    <WhatsappButton />
-    <CalScripts services={servicesData} />
-    <CookieConsent />
-</body>
+        <slot name="head-extra" />
+
+        <TrackingScripts />
+    </head>
+    <body>
+        {
+            gtmId && (
+                <noscript>
+                    <iframe
+                        src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+                        height="0"
+                        width="0"
+                        style="display:none;visibility:hidden"
+                    />
+                </noscript>
+            )
+        }
+
+        <Header
+            pageType="internal"
+            calLink={calLink}
+            floatBtnTriggerSelector=".other-services-section"
+        />
+
+        <main>
+            <slot />
+        </main>
+
+        <OtherServices currentServiceSlug={service?.slug} />
+        <Footer />
+        <WhatsappButton />
+        <CalScripts services={servicesData} />
+        <CookieConsent />
+    </body>
 </html>
