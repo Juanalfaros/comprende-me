@@ -1,0 +1,211 @@
+---
+// src/pages/sobre-mi.astro
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { authorData } from "../data/authorData.js";
+import nataliaImage from "../assets/images/natalia/natalia.webp";
+import selloImage from "../assets/images/sello.svg";
+
+// Importamos los estilos específicos
+import "../styles/sobre-mi.css";
+
+const pageTitle = `Sobre Mí - ${authorData.name}`;
+const pageDescription =
+    "Conoce a Natalia Beiza, psicóloga clínica infanto-juvenil. Registro Superintendencia de Salud Nº 181707. Especialista en vínculos, crianza y salud mental familiar.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <!-- Hero Moderno: Centrado y Limpio -->
+    <section class="about-hero">
+        <div class="container container-narrow text-center">
+            <div class="hero-eyebrow">Psicóloga Clínica Infanto-Juvenil</div>
+            <h1 class="hero-title">Hola, soy {authorData.name}</h1>
+            <p class="hero-lead">
+                Mi propósito es acompañar a tu familia desde una mirada humana,
+                profesional y libre de juicios, para que la crianza vuelva a ser
+                un espacio de conexión.
+            </p>
+
+            <!-- Badge de Autoridad Inmediata -->
+            <div class="hero-badge">
+                <i class="ph-fill ph-seal-check"></i>
+                <span>Registro Super. Salud Nº 181707</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bio Section: Diseño Asimétrico Moderno -->
+    <section class="section bio-section">
+        <div class="container">
+            <div class="bio-layout">
+                <!-- Columna Imagen: Grande y con estilo -->
+                <div class="bio-image-wrapper">
+                    <div class="image-container">
+                        <Image
+                            src={nataliaImage}
+                            alt={`Retrato profesional de ${authorData.name}`}
+                            width={700}
+                            height={900}
+                            quality={95}
+                            loading="eager"
+                            class="bio-img"
+                            transition:name="natalia-profile"
+                        />
+                    </div>
+                    <!-- Elemento decorativo flotante -->
+                    <div class="experience-badge">
+                        <span class="exp-number">+12</span>
+                        <span class="exp-text">Años de<br />Experiencia</span>
+                    </div>
+                </div>
+
+                <div class="bio-content">
+                    <h2 class="section-heading">
+                        Más allá de la teoría, estoy aquí para acompañarte
+                    </h2>
+
+                    <div class="text-content">
+                        <p>
+                            Desde el inicio de mi carrera, entendí que trabajar
+                            con niños no se trata solo de mirar lo que les pasa
+                            a ellos, sino de
+                            <strong
+                                >cuidar el mundo que los rodea: su familia</strong
+                            >. Sé que criar es un viaje intenso, lleno de dudas
+                            y matices, y que cada etapa trae desafíos que
+                            merecen ser escuchados sin juicios y con mucha
+                            empatía.
+                        </p>
+
+                        <div class="quote-card">
+                            <i class="ph-fill ph-quotes" aria-hidden="true"></i>
+                            <p>
+                                "No creo en las fórmulas mágicas, pero sí en el
+                                poder reparador que tiene una familia cuando
+                                recupera la conexión y se siente segura."
+                            </p>
+                        </div>
+
+                        <p>
+                            Mi objetivo es ser un lugar seguro para ustedes.
+                            Quiero que trabajemos juntos para desenredar
+                            conflictos y fortalecer el cariño que los une.
+                            Utilizo una mirada <strong
+                                >Sistémica y Vincular</strong
+                            >, pero traducida en herramientas simples que
+                            realmente les sirvan en el día a día.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-tags">
+                <h3>Áreas de Práctica y Enfoques</h3>
+                <div class="tag-container">
+                    <span class="tag-alt">Ansiedad y Estrés</span>
+                    <span class="tag-alt">Procesos de Duelo</span>
+                    <span class="tag-alt">Habilidades Parentales</span>
+                    <span class="tag-alt">Vínculos y Apego</span>
+                    <span class="tag-alt">Salud Mental Infantil</span>
+                    <span class="tag-alt">Salud Mental Perinatal</span>
+                    <span class="tag-alt">Terapia de Juego</span>
+                    <span class="tag-alt">Arteterapia</span>
+                    <span class="tag-alt">Supervisión Clínica</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credenciales y Formación: Diseño "Bento Grid" -->
+    <section class="section bg-light credentials-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Formación y Excelencia</h2>
+                <p>
+                    Me mantengo en constante actualización para entregar lo
+                    mejor en cada sesión.
+                </p>
+            </div>
+
+            <div class="credentials-grid">
+                <!-- Card Destacada: Título Profesional -->
+                <div class="credential-card title-card">
+                    <div class="card-icon">
+                        <i class="ph ph-graduation-cap"></i>
+                    </div>
+                    <span class="card-eyebrow">Título Profesional</span>
+                    <h3 class="credential-title">
+                        Psicóloga, Licenciada en Psicología
+                    </h3>
+                    <p class="institution">
+                        Universidad Católica Silva Henríquez
+                    </p>
+                    <Image
+                        src={selloImage}
+                        alt="Sello profesional Comprende-Me"
+                        class="sello-sobre-mi"
+                        width={100}
+                        height={100}
+                    />
+                </div>
+
+                <!-- Card: Diplomados -->
+                <div class="credential-card diplomas">
+                    <div class="card-icon">
+                        <i class="ph ph-star"></i>
+                    </div>
+                    <h3>Diplomados Clave</h3>
+                    <ul class="diploma-list">
+                        <li>
+                            <strong
+                                >Clínica de Salud Mental: Intervención en
+                                Adolescencia</strong
+                            >
+                            <span class="tag-institution">ADIPA</span>
+                        </li>
+                        <li>
+                            <strong>Educación Emocional y Coaching</strong>
+                            <span class="tag-institution">FLICH</span>
+                        </li>
+                        <li>
+                            <strong
+                                >Especialización en Abuso Sexual Infantil</strong
+                            >
+                            <span class="tag-institution"
+                                >Ciclos Consultores</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card: Cursos de Especialización -->
+                <div class="credential-card certifications">
+                    <div class="card-icon">
+                        <i class="ph ph-certificate"></i>
+                    </div>
+                    <h3>Cursos de Especialización</h3>
+                    <ul class="check-list">
+                        <li>Formación en Trauma Complejo</li>
+                        <li>Manejo de Autolesiones</li>
+                        <li>Primeros Auxilios Psicológicos (PAP)</li>
+                        <li>Terapia de Juego (Play Therapy)</li>
+                        <li>Arte Terapia Clínica</li>
+                        <li>Disciplina Positiva</li>
+                        <li>Enfoque de Derechos del Niño/a</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Firma Personal -->
+            <div class="personal-signature">
+                <p class="signature-text">
+                    "Espero tener la oportunidad de acompañarte a ti y a tu
+                    familia en este proceso."
+                </p>
+                <div class="signature-block">
+                    <span class="name">Natalia Beiza Calvo</span>
+                    <span class="reg">Psicóloga Clínica • Reg. 181707</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
