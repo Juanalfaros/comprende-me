@@ -26,10 +26,10 @@ const otherServices = servicesData.filter(service => service.slug !== currentSer
             <div class="scroll-fade fade-left"></div>
             <div class="scroll-fade fade-right"></div>
 
-            <button class="carousel-button carousel-prev" aria-label="Servicio anterior">
+            <button class="carousel-nav-button carousel-prev" aria-label="Servicio anterior">
                 <i class="ph ph-caret-left"></i>
             </button>
-            <button class="carousel-button carousel-next" aria-label="Siguiente servicio">
+            <button class="carousel-nav-button carousel-next" aria-label="Siguiente servicio">
                 <i class="ph ph-caret-right"></i>
             </button>
         </div>
@@ -122,14 +122,14 @@ const otherServices = servicesData.filter(service => service.slug !== currentSer
     }
     
     /* Nuestros botones */
-    .carousel-button {
+    .carousel-nav-button {
         display: none; 
         position: absolute;
         top: 50%;
         transform: translateY(-50%); 
         background-color: var(--color-white);
         border: 1px solid var(--color-border);
-        border-radius: 50%;
+        border-radius: 999px;
         width: 3rem;
         height: 3rem;
         font-size: 1.5rem;
@@ -141,21 +141,21 @@ const otherServices = servicesData.filter(service => service.slug !== currentSer
         align-items: center;
         justify-content: center;
     }
-    .carousel-button:hover {
+    .carousel-nav-button:hover {
         background-color: var(--color-light);
         transform: translateY(-50%) scale(1.05);
     }
-    .carousel-button:disabled {
+    .carousel-nav-button:disabled {
         opacity: 0.2;
     }
-    .carousel-button.carousel-prev {
+    .carousel-nav-button.carousel-prev {
         left: 2rem;
     }
-    .carousel-button.carousel-next {
+    .carousel-nav-button.carousel-next {
         right: 2rem;
     }
     @media (min-width: 1024px) {
-        .carousel-button {
+        .carousel-nav-button {
             display: flex;
         }
     }

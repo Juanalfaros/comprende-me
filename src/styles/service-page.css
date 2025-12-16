@@ -106,7 +106,7 @@ main {
     background-color: rgba(255, 255, 255, 0.15);
     color: #fff;
     padding: 0.35rem 0.85rem;
-    border-radius: 9999px;
+    border-radius: var(--border-full);
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
@@ -256,7 +256,7 @@ main {
     justify-content: center;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
+    border-radius: var(--border-full);
     background-color: var(--color-primary, #5A83A2);
     color: var(--color-light, #F4F4F4);
     font-weight: 700;
@@ -291,7 +291,7 @@ main {
     padding: var(--spacing-lg, 2rem);
     background-color: var(--color-white, #FFFFFF);
     border: 2px dashed var(--color-secondary, #E3B505);
-    border-radius: calc(var(--border-web, 48px));
+    border-radius: calc(var(--border-web));
     box-shadow: 0 ;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -332,7 +332,7 @@ main {
 .tip-card { 
     padding: var(--spacing-md, 1.5rem); 
     background-color: var(--color-white);
-    border-radius: calc(var(--border-web, 48px)/ 2);
+    border-radius: calc(var(--border-web));
     border: solid 1px var(--color-primary);
 
     text-align: center;
@@ -377,7 +377,7 @@ main {
     grid-template-columns: 1fr;
     margin: var(--spacing-xl, 5rem) 0;
     background-color: var(--color-white);
-    border-radius: calc(var(--border-web, 48px));
+    border-radius: var(--border-web);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     /* border: 1px solid var(--color-border, #E0E0E0); */
@@ -514,7 +514,7 @@ main {
 .faq-item { 
     background-color: var(--color-white, #FFFFFF); 
     border: 1px solid var(--color-border, #E0E0E0); 
-    border-radius: 10px; 
+    border-radius: calc(var(--border-web)/2); 
     transition: box-shadow 0.3s;
 }
 

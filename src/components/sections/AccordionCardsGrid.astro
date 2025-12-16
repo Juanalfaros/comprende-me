@@ -107,7 +107,7 @@ const formatDate = (dateString: string) => {
     /* --- La Máscara (Tarjeta) --- */
     .accordion-grid__card {
         height: 320px;
-        border-radius: 48px; 
+        border-radius: var(--border-web); 
         border: 1px solid var(--color-border);
         display: flex;
         align-items: center;
@@ -280,7 +280,7 @@ const formatDate = (dateString: string) => {
         object-fit: cover;
         object-position: center;
         display: block;
-        border-radius: 30px;
+        border-radius: calc(var(--border-web)/2);
         transition: transform 0.3s ease;
         margin-right: 10px; /* Este margen parece estar de más, lo saqué */
         margin: 0; /* Aseguramos que no haya márgenes */
@@ -306,7 +306,7 @@ const formatDate = (dateString: string) => {
         background-color: rgba(255, 255, 255, 0.15);
         color: #fff;
         padding: 0.35rem 0.85rem;
-        border-radius: 9999px;
+        border-radius: var(--border-full);
         border: 1px solid rgba(255, 255, 255, 0.4);
         backdrop-filter: blur(4px);
     }
@@ -355,7 +355,7 @@ const formatDate = (dateString: string) => {
             object-fit: cover;
             margin: 0;
             transform: none;
-            border-radius: 30px; /* Mantenemos el borde redondeado */
+            border-radius: calc(var(--border-web)/2);
         }
 
         .accordion-grid__tags {

@@ -1,11 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-// Asegúrate de que el 'import' coincida con el nombre de tu componente
 import ArticleCard from '../../components/ArticleCardBento.astro'; 
 import { client } from '../../lib/contentful.js';
 import { transformPost, type CleanPost, type ContentfulPostFields } from '../../lib/contentful-utils';
 
-// ... (Tu lógica para obtener 'allPosts' es perfecta) ...
 const response = await client.getEntries({ content_type: 'blogPost' });
 const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
 
@@ -45,10 +43,9 @@ const otherPosts = allPosts.slice(1); // El resto
 <style>
 
     .blog-hero-section {
+        margin-top: 20px;
         padding-top: 3rem;
         padding-bottom: 3rem;
-        /* Puedes poner un fondo si quieres, 
-           o dejarlo blanco/transparente */
     }
     
     .blog-recent-section {

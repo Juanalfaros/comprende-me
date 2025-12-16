@@ -1,45 +1,48 @@
 ---
-import { Image } from 'astro:assets';
-import type { CleanPost } from '../lib/contentful-utils';
+import { Image } from "astro:assets";
+import type { CleanPost } from "../lib/contentful-utils";
 
 interface Props {
-    post: CleanPost; 
-    variant?: 'default' | 'featured';
+    post: CleanPost;
+    variant?: "default" | "featured";
 }
-const { post, variant = 'default' } = Astro.props;
+const { post, variant = "default" } = Astro.props;
 
-const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    timeZone: 'UTC',
+const formattedDate = new Date(post.publishedDate).toLocaleDateString("es-CL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "UTC",
 });
 ---
 
-<a href={`/blog/${post.slug}`} class:list={["card", "blog-card", `blog-card--${variant}`]}>
-    
+<a
+    href={`/blog/${post.slug}`}
+    class:list={["card", "blog-card", `blog-card--${variant}`]}
+>
     <div class="image-blog-card">
-        <Image 
+        <Image
             src={post.image}
-            alt={post.alt} 
-            width={post.imageWidth || 800}    
-            height={post.imageHeight || 600}  
-            quality={variant === 'featured' ? 85 : 75}
-            loading={variant === 'featured' ? 'eager' : 'lazy'}
+            alt={post.alt}
+            width={post.imageWidth || 800}
+            height={post.imageHeight || 600}
+            quality={variant === "featured" ? 85 : 75}
+            loading={variant === "featured" ? "eager" : "lazy"}
             decoding="async"
+            transition:name={`blog-image-${post.slug}`}
         />
-        
     </div>
-    {variant === 'featured' && (
+    {
+        variant === "featured" && (
             <div>
                 <span class="featured-badge">Destacada</span>
             </div>
-        )}
+        )
+    }
 
     <div class="blog-card-content">
-        
         <div class="tags2">
-            {post.tags.slice(0, 2).map(tag => <span class="tag">{tag}</span>)}
+            {post.tags.slice(0, 2).map((tag) => <span class="tag">{tag}</span>)}
         </div>
         <h3>{post.title}</h3>
         <div class="blog-card-meta">
@@ -48,11 +51,11 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
             <span>{post.duration}</span>
         </div>
         <p>{post.excerpt}</p>
-        
-        {/* Estos se mostrarán/ocultarán con CSS según la variante */}
-        
-        <span class="read-more">Leer Más <i class="ph ph-arrow-right"></i></span>
 
+        {/* Estos se mostrarán/ocultarán con CSS según la variante */}
+
+        <span class="read-more">Leer Más <i class="ph ph-arrow-right"></i></span
+        >
     </div>
 </a>
 
@@ -83,7 +86,6 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         color: var(--color-white);
     }
 
-
     /* Animación del ícono del botón */
     .read-more i {
         font-size: 1.3rem;
@@ -94,7 +96,6 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         transform: rotate(-30deg);
     }
 
-
     .blog-card {
         display: flex;
         flex-direction: column;
@@ -102,7 +103,9 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         border-radius: var(--border-web);
         overflow: hidden;
         border: 1px solid var(--color-border);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
         background: var(--color-white);
         padding: 1.7rem;
         position: relative; /* <-- CAMBIO: Necesario para featured */
@@ -119,12 +122,12 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         transform: translateY(-4px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
-    
+
     .image-blog-card {
         position: relative;
         width: 100%;
         overflow: hidden;
-        border-radius: 30px;
+        border-radius: calc(var(--border-web) / 2);
         margin-bottom: 20px;
     }
 
@@ -134,7 +137,7 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         object-fit: cover;
         transition: transform 0.4s ease;
     }
-    
+
     .blog-card:hover .image-blog-card img {
         transform: scale(1.05);
     }
@@ -148,13 +151,11 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     /* Y lo mostramos solo para la default */
     .blog-card--default .blog-card-meta,
     .blog-card--default .read-more {
-        display: inline-flex; 
+        display: inline-flex;
     }
     .blog-card--default .blog-card-meta {
         display: flex;
     }
-
-    
 
     /* ============================================
       --- VARIANTE: DEFAULT (Tarjetas pequeñas) ---
@@ -163,17 +164,17 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
     .blog-card--default {
         height: 100%;
     }
-    
+
     .blog-card--default .image-blog-card {
         aspect-ratio: 16 / 10;
     }
-    
+
     .blog-card--default .blog-card-content {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
     }
-    
+
     .blog-card--default h3 {
         font-family: var(--font-heading);
         font-size: 1.25rem;
@@ -186,7 +187,7 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         overflow: hidden;
         margin-top: 10px;
     }
-    
+
     .blog-card--default p {
         font-family: var(--font-sans);
         font-size: 0.9rem;
@@ -199,7 +200,7 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         flex-grow: 1;
         margin-bottom: 40px;
     }
-    
+
     .blog-card--default .blog-card-meta {
         font-size: 0.875rem;
         color: var(--color-primary-dark);
@@ -210,11 +211,10 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         gap: 0.25rem;
     }
 
-    .blog-card--default .tags2 { 
+    .blog-card--default .tags2 {
         margin-top: -65px;
-        margin-left: 20px; 
+        margin-left: 20px;
     }
-
 
     /* ============================================
       --- VARIANTE: FEATURED (Estilo Hero) ---
@@ -226,7 +226,7 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         min-height: 450px;
         padding: 0; /* <-- CAMBIO: Sin padding en la tarjeta 'featured' */
     }
-    
+
     .blog-card--featured .image-blog-card {
         position: absolute;
         top: 0;
@@ -234,18 +234,23 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         height: 100%;
         width: 100%;
         z-index: 0;
-        border-radius: var(--border-web); /* <-- CAMBIO: que ocupe todo */
-        margin-bottom: 0; /* <-- CAMBIO: que ocupe todo */
+        border-radius: var(--border-web);
+        margin-bottom: 0;
     }
-    
+
     .blog-card--featured .image-blog-card::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
         height: 70%;
-        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.4) 50%,
+            transparent 100%
+        );
         z-index: 1;
     }
 
@@ -255,10 +260,10 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         left: 0;
         right: 0;
         z-index: 2;
-        padding: 2.5rem; 
+        padding: 2.5rem;
         background: transparent;
     }
-    
+
     .tags2 {
         display: flex;
         margin-bottom: 1.5rem;
@@ -284,11 +289,11 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         font-family: var(--font-heading);
         font-size: 2.5rem;
         font-weight: 700;
-        line-height: 1.2;
+        line-height: 1.1;
         margin: 0 0 0.75rem 0;
         max-width: 80%;
     }
-    
+
     .blog-card--featured p {
         color: rgba(255, 255, 255, 0.95);
         font-family: var(--font-sans);
@@ -306,20 +311,18 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
         display: none; /* Ocultamos tags en el overlay de desktop */
     }
 
-
     /* ============================================
       ---         RESPONSIVE (Móvil)         ---
       ============================================
     */
     @media (max-width: 767px) {
-        
         /* Ajuste para la tarjeta default en móvil */
         .blog-card {
             padding: 1.25rem; /* Menos padding en móvil */
         }
         .blog-card--default .tags2 {
-             margin-top: -60px;
-             margin-left: 15px;
+            margin-top: -60px;
+            margin-left: 15px;
         }
 
         .blog-card {
@@ -349,11 +352,10 @@ const formattedDate = new Date(post.publishedDate).toLocaleDateString('es-CL', {
             font-size: 1.8rem; /* Más pequeño que 2.5rem de desktop */
             max-width: 90%;
         }
-        
+
         .blog-card--featured p {
             font-size: 1rem; /* Más pequeño que 1.1rem de desktop */
             max-width: 90%;
         }
-
     }
 </style>

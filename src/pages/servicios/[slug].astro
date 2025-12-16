@@ -89,8 +89,13 @@ const serviceSchema = {
             />
             <div class="hero-overlay"></div>
             <div class="container">
-                <i class={`ph ${service.icon}`} aria-hidden="true"></i>
-                <h1>{service.title}</h1>
+                <i
+                    class={`ph ${service.icon}`}
+                    aria-hidden="true"
+                    transition:name={`service-icon-${service.slug}`}></i>
+                <h1 transition:name={`service-title-${service.slug}`}>
+                    {service.title}
+                </h1>
                 <h2>{service.heroTitle}</h2>
                 <div class="detail-item tags-list">
                     {service.tags?.map((tag) => <span class="tag">{tag}</span>)}

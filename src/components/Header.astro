@@ -1,162 +1,191 @@
 ---
-import Logo from './Logo.astro';
+import Logo from "./Logo.astro";
 
 // Definimos los Props que nuestro Header aceptará
 interface Props {
-  pageType: 'home' | 'internal'; // Para saber qué links y botones mostrar
-  calLink?: string;             // El link de Cal.com (opcional)
+  pageType: "home" | "internal"; // Para saber qué links y botones mostrar
+  calLink?: string; // El link de Cal.com (opcional)
   floatBtnTriggerSelector: string; // El selector CSS para el script del botón flotante
 }
 
 // Valores por defecto
-const { 
-  pageType = 'home', 
-  calLink, 
-  floatBtnTriggerSelector 
-} = Astro.props;
+const { pageType = "home", calLink, floatBtnTriggerSelector } = Astro.props;
 
 // Definimos los links de navegación dinámicamente
 const navLinks = [
-  { href: "/#about", text: "Sobre mí" },
+  { href: "/sobre-mi", text: "Sobre mí" },
   // El link de "Servicios" cambia
-  { href: pageType === 'home' ? "/#services" : "/servicios", text: "Servicios" },
+  {
+    href: pageType === "home" ? "/#services" : "/servicios",
+    text: "Servicios",
+  },
   { href: "/blog", text: "Blog" },
   { href: "/#faq", text: "FAQ" },
   { href: "/#contact", text: "Contacto" },
 ];
 ---
-<header class="header" id="header">
-    <div class="container header-container">
-        <a href="/" class="logo" title="Inicio - Comprende.me">
-            <Logo />
-        </a>
 
-        <nav class="main-nav">
-            {navLinks.map(link => (
-                <a href={link.href}>{link.text}</a>
-            ))}
-        </nav>
+<header class="header" id="header" transition:persist>
+  <div class="container header-container">
+    <a href="/" class="logo" title="Inicio - Comprende.me">
+      <Logo />
+    </a>
 
-        <div class="header-actions">
-            {pageType === 'home' ? (
-                <a href="/#services" class="btn btn-primary hidden-mobile">Agendar Cita Ahora</a>
-            ) : (
-                <button class="btn btn-primary hidden-mobile" data-cal-link={calLink}>Agendar Ahora</button>
-            )}
+    <nav class="main-nav">
+      {navLinks.map((link) => <a href={link.href}>{link.text}</a>)}
+    </nav>
 
-            <button id="mobile-menu-button" class="mobile-menu-toggle" aria-label="Abrir menú de navegación">
-                <i class="ph ph-list"></i>
-            </button>
-        </div>
+    <div class="header-actions">
+      {
+        pageType === "home" ? (
+          <a href="/#services" class="btn btn-primary hidden-mobile">
+            Agendar Cita Ahora
+          </a>
+        ) : (
+          <button class="btn btn-primary hidden-mobile" data-cal-link={calLink}>
+            Agendar Ahora
+          </button>
+        )
+      }
+
+      <button
+        id="mobile-menu-button"
+        class="mobile-menu-toggle"
+        aria-label="Abrir menú de navegación"
+      >
+        <i class="ph ph-list"></i>
+      </button>
     </div>
+  </div>
 
-    <div id="mobile-menu" class="mobile-nav hidden">
-        {navLinks.map(link => (
-            <a href={link.href}>{link.text}</a>
-        ))}
-    </div>
+  <div id="mobile-menu" class="mobile-nav hidden">
+    {navLinks.map((link) => <a href={link.href}>{link.text}</a>)}
+  </div>
 </header>
 
 <div class="bottom-btn-menu">
-    {pageType === 'home' ? (
-        <a href="/#services" class="btn btn-primary hidden-mobile mobile-fab">Agendar Cita Ahora</a>
+  {
+    pageType === "home" ? (
+      <a href="/#services" class="btn btn-primary hidden-mobile mobile-fab">
+        Agendar Cita Ahora
+      </a>
     ) : (
-        <button class="btn btn-primary hidden-mobile mobile-fab" data-cal-link={calLink}>Agendar Ahora</button>
-    )}
+      <button
+        class="btn btn-primary hidden-mobile mobile-fab"
+        data-cal-link={calLink}
+      >
+        Agendar Ahora
+      </button>
+    )
+  }
 </div>
 
 <script>
-(() => {
-  const MENU_ID = 'mobile-menu';
-  const BTN_ID  = 'mobile-menu-button';
+  (() => {
+    const MENU_ID = "mobile-menu";
+    const BTN_ID = "mobile-menu-button";
 
-  // --- ARREGLO 1: "id" es un string ---
-  const $ = (id: string) => document.getElementById(id);
+    // --- ARREGLO 1: "id" es un string ---
+    const $ = (id: string) => document.getElementById(id);
 
-  function openMenu() {
-    const menu = $(MENU_ID), btn = $(BTN_ID);
-    if (!menu || !btn) return;
-    menu.classList.remove('hidden');
-    btn.setAttribute('aria-expanded', 'true');
-    const icon = btn.querySelector('i');
-    if (icon) { icon.classList.remove('ph-list'); icon.classList.add('ph-x'); }
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeMenu() {
-    const menu = $(MENU_ID), btn = $(BTN_ID);
-    if (!menu || !btn) return;
-    menu.classList.add('hidden');
-    btn.setAttribute('aria-expanded', 'false');
-    const icon = btn.querySelector('i');
-    if (icon) { icon.classList.add('ph-list'); icon.classList.remove('ph-x'); }
-    document.body.style.overflow = '';
-  }
-
-  document.addEventListener('click', (e: Event) => {
-    // --- ARREGLO 2: Comprobamos si e.target existe ---
-    if (!e.target) return;
-
-    // --- ARREGLO 3: Convertimos e.target a "Element" ---
-    const target = e.target as Element;
-
-    const btn  = target.closest('#' + BTN_ID);
-    const menu = $(MENU_ID);
-
-    if (btn) {
-      const isHidden = menu?.classList.contains('hidden');
-      isHidden ? openMenu() : closeMenu();
-      return;
+    function openMenu() {
+      const menu = $(MENU_ID),
+        btn = $(BTN_ID);
+      if (!menu || !btn) return;
+      menu.classList.remove("hidden");
+      btn.setAttribute("aria-expanded", "true");
+      const icon = btn.querySelector("i");
+      if (icon) {
+        icon.classList.remove("ph-list");
+        icon.classList.add("ph-x");
+      }
+      document.body.style.overflow = "hidden";
     }
 
-    if (menu && !menu.classList.contains('hidden')) {
-      const clickedInside = target.closest('#' + MENU_ID);
-      if (!clickedInside) closeMenu();
+    function closeMenu() {
+      const menu = $(MENU_ID),
+        btn = $(BTN_ID);
+      if (!menu || !btn) return;
+      menu.classList.add("hidden");
+      btn.setAttribute("aria-expanded", "false");
+      const icon = btn.querySelector("i");
+      if (icon) {
+        icon.classList.add("ph-list");
+        icon.classList.remove("ph-x");
+      }
+      document.body.style.overflow = "";
     }
 
-    if (target.matches('#' + MENU_ID + ' a, #' + MENU_ID + ' button')) {
-      closeMenu();
-    }
-  });
+    document.addEventListener("click", (e: Event) => {
+      // --- ARREGLO 2: Comprobamos si e.target existe ---
+      if (!e.target) return;
 
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape') closeMenu();
-  });
+      // --- ARREGLO 3: Convertimos e.target a "Element" ---
+      const target = e.target as Element;
 
-  requestAnimationFrame(() => {
-    const menu = $(MENU_ID), btn = $(BTN_ID);
-    if (menu && btn) {
-      btn.setAttribute('aria-controls', MENU_ID);
-      btn.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
-    }
-  });
-})();
+      const btn = target.closest("#" + BTN_ID);
+      const menu = $(MENU_ID);
+
+      if (btn) {
+        const isHidden = menu?.classList.contains("hidden");
+        isHidden ? openMenu() : closeMenu();
+        return;
+      }
+
+      if (menu && !menu.classList.contains("hidden")) {
+        const clickedInside = target.closest("#" + MENU_ID);
+        if (!clickedInside) closeMenu();
+      }
+
+      if (target.matches("#" + MENU_ID + " a, #" + MENU_ID + " button")) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    });
+
+    requestAnimationFrame(() => {
+      const menu = $(MENU_ID),
+        btn = $(BTN_ID);
+      if (menu && btn) {
+        btn.setAttribute("aria-controls", MENU_ID);
+        btn.setAttribute(
+          "aria-expanded",
+          String(!menu.classList.contains("hidden")),
+        );
+      }
+    });
+  })();
 </script>
 
 <script define:vars={{ triggerSelector: floatBtnTriggerSelector }}>
-    document.addEventListener('DOMContentLoaded', () => {
-        const bottomMenu = document.querySelector('.bottom-btn-menu');
-        // Usamos el selector que pasamos desde el Prop de Astro
-        const triggerSection = document.querySelector(triggerSelector); 
+  document.addEventListener("DOMContentLoaded", () => {
+    const bottomMenu = document.querySelector(".bottom-btn-menu");
+    // Usamos el selector que pasamos desde el Prop de Astro
+    const triggerSection = document.querySelector(triggerSelector);
 
-        if (!bottomMenu || !triggerSection) {
-            console.warn(`Botón flotante o selector "${triggerSelector}" no encontrado.`);
-            return;
-        }
+    if (!bottomMenu || !triggerSection) {
+      console.warn(
+        `Botón flotante o selector "${triggerSelector}" no encontrado.`,
+      );
+      return;
+    }
 
-        const handleScroll = () => {
-            const scrollPosition = window.scrollY;
-            const triggerRect = triggerSection.getBoundingClientRect();
-            const isTouchingTrigger = triggerRect.top <= window.innerHeight;
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const triggerRect = triggerSection.getBoundingClientRect();
+      const isTouchingTrigger = triggerRect.top <= window.innerHeight;
 
-            if (scrollPosition > 100 && !isTouchingTrigger) {
-                bottomMenu.classList.add('visible');
-            } else {
-                bottomMenu.classList.remove('visible');
-            }
-        };
+      if (scrollPosition > 100 && !isTouchingTrigger) {
+        bottomMenu.classList.add("visible");
+      } else {
+        bottomMenu.classList.remove("visible");
+      }
+    };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll();
-    });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+  });
 </script>

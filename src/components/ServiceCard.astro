@@ -14,7 +14,7 @@ interface Props {
 
 const {
   slug,
-  calLinkPrefix = 'comprende.me',
+  calLinkPrefix = "comprende.me",
   icon,
   title,
   description,
@@ -29,16 +29,20 @@ const calLink = `${base}/${slug}`;
 ---
 
 <div class="card service-card">
-  
   <a href={`/servicios/${slug}`} class="service-card-main-link">
     <div class="card-content">
       <div class="icon-badge">
-        <i class={`ph ${icon} icon`} aria-hidden="true"></i>
+        <i
+          class={`ph ${icon} icon`}
+          aria-hidden="true"
+          transition:name={`service-icon-${slug}`}></i>
         <p><i class="ph ph-clock" aria-hidden="true"></i> {duration}</p>
       </div>
-      
-      <h3 class="section-subtitle">{title}</h3>
-      
+
+      <h3 class="section-subtitle" transition:name={`service-title-${slug}`}>
+        {title}
+      </h3>
+
       <p>{description}</p>
       <div class="tags">
         {tags.map((tag) => <span class="tag">{tag}</span>)}
@@ -68,7 +72,9 @@ const calLink = `${base}/${slug}`;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transition:
+      transform 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
     cursor: pointer;
   }
 
@@ -76,7 +82,7 @@ const calLink = `${base}/${slug}`;
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
-  
+
   .service-card-main-link {
     text-decoration: none;
     color: inherit;
@@ -87,10 +93,10 @@ const calLink = `${base}/${slug}`;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .icon-badge p {
     padding: 5px 10px;
-    border-radius: 50px;
+    border-radius: 999px;
     background-color: var(--color-bg);
     font-size: 0.7rem;
   }
@@ -107,7 +113,7 @@ const calLink = `${base}/${slug}`;
     gap: 0.5rem;
     margin-top: 1rem;
   }
-  
+
   .tag {
     background-color: #f3f4f6;
     color: #4b5563;
@@ -121,7 +127,7 @@ const calLink = `${base}/${slug}`;
     margin-top: 1rem;
     flex-direction: column;
   }
-  
+
   p.price {
     margin: 0;
     display: flex;
@@ -136,7 +142,7 @@ const calLink = `${base}/${slug}`;
     font-family: var(--font-heading);
     letter-spacing: -1px;
   }
-  
+
   .old-price {
     text-decoration: line-through;
     color: #999;
@@ -170,53 +176,57 @@ const calLink = `${base}/${slug}`;
   }
 
   function initCalButtons() {
-    const buttons = document.querySelectorAll('[data-cal-namespace][data-cal-link]');
-    
+    const buttons = document.querySelectorAll(
+      "[data-cal-namespace][data-cal-link]",
+    );
+
     buttons.forEach((button) => {
-      if (button.hasAttribute('data-cal-initialized')) {
+      if (button.hasAttribute("data-cal-initialized")) {
         return;
       }
-      
-      button.setAttribute('data-cal-initialized', 'true');
-      
-      button.addEventListener('click', (e) => {
+
+      button.setAttribute("data-cal-initialized", "true");
+
+      button.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        
-        const namespace = (button as HTMLElement).getAttribute('data-cal-namespace');
-        const calLink = (button as HTMLElement).getAttribute('data-cal-link');
-        
+
+        const namespace = (button as HTMLElement).getAttribute(
+          "data-cal-namespace",
+        );
+        const calLink = (button as HTMLElement).getAttribute("data-cal-link");
+
         if (!namespace || !calLink) {
-          console.error('Missing Cal.com configuration');
+          console.error("Missing Cal.com configuration");
           return;
         }
 
-        if (typeof window.Cal === 'undefined') {
-          console.error('Cal.com script not loaded');
+        if (typeof window.Cal === "undefined") {
+          console.error("Cal.com script not loaded");
           return;
         }
 
         if (!window.Cal.ns || !window.Cal.ns[namespace]) {
-          console.error('Cal.com namespace not initialized:', namespace);
+          console.error("Cal.com namespace not initialized:", namespace);
           return;
         }
 
         try {
-          window.Cal.ns[namespace]('modal', {
-            calLink: calLink
+          window.Cal.ns[namespace]("modal", {
+            calLink: calLink,
           });
         } catch (error) {
-          console.error('Error opening Cal.com modal:', error);
+          console.error("Error opening Cal.com modal:", error);
         }
       });
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCalButtons);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCalButtons);
   } else {
     initCalButtons();
   }
 
-  document.addEventListener('astro:page-load', initCalButtons);
+  document.addEventListener("astro:page-load", initCalButtons);
 </script>
