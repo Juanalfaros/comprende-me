@@ -1,0 +1,468 @@
+---
+import LayoutBio from "../layouts/LayoutBio.astro";
+import { client } from "../lib/contentful.js";
+import {
+  transformPost,
+  type ContentfulPostFields,
+} from "../lib/contentful-utils";
+import { authorData } from "../data/authorData";
+import { servicesData } from "../data/servicesData";
+import { Image } from "astro:assets";
+import nataliaImg from "../assets/images/natalia/natalia-sq.webp";
+
+import Logo from "../components/Logo.astro";
+
+// 1. Obtener el último post del blog dinámicamente
+let latestPost = null;
+try {
+  const response = await client.getEntries({
+    content_type: "blogPost",
+    limit: 1,
+    order: "-fields.publishedDate",
+  });
+  if (response.items.length > 0) {
+    latestPost = transformPost(
+      response.items[0].fields as unknown as ContentfulPostFields,
+    );
+  }
+} catch (error) {
+  console.error("Error fetching latest post for bio page:", error);
+}
+
+// Filtramos los enlaces, eliminando WhatsApp específico si existía ahí
+const links = [
+  ...servicesData.map((s, index) => ({
+    title: s["short-title"] || s.title,
+    url: `/servicios/${s.slug}`,
+    icon: s.icon, // Usamos el icono definido en data (ej: ph-users-three)
+    highlight: index === 0, // Destacamos el primero sutilmente
+  })),
+  {
+    title: "Conoce mi Historia",
+    url: "/sobre-mi",
+    icon: "ph-star",
+    highlight: false,
+  },
+];
+
+const socialLinks = [
+  { icon: "ph-instagram-logo", url: authorData.social.instagram },
+  { icon: "ph-linkedin-logo", url: authorData.social.linkedin },
+  { icon: "ph-globe", url: "/" },
+];
+---
+
+<LayoutBio
+  title={`${authorData.name} | Bio`}
+  description={`Enlaces directos de ${authorData.name}. Psicología clínica y recursos de crianza.`}
+>
+  <div class="bio-wrapper">
+    <!-- Background decorativo sutil -->
+    <div class="bg-decoration"></div>
+
+    <div class="bio-container">
+      <!-- Marca -->
+      <div class="brand-header fade-in-up">
+        <Logo class="bio-logo" />
+      </div>
+
+      <!-- Header / Profile -->
+      <header class="profile fade-in-up" style="animation-delay: 0.05s;">
+        <div class="avatar-ring">
+          <Image
+            src={nataliaImg}
+            alt={authorData.name}
+            width={120}
+            height={120}
+            class="avatar"
+          />
+        </div>
+        <h1>{authorData.name}</h1>
+        <p class="subtitle">{authorData.title}</p>
+      </header>
+
+      <!-- Featured Post (Blog) -->
+      {
+        latestPost && (
+          <section
+            class="featured-section fade-in-up"
+            style="animation-delay: 0.1s;"
+          >
+            <div class="label-featured">Nuevo en el Blog</div>
+            <a href={`/blog/${latestPost.slug}`} class="card-featured">
+              <div class="card-bg-image">
+                <img src={latestPost.image} alt="" class="bg-img" />
+              </div>
+              <div class="card-overlay">
+                <h3>{latestPost.title}</h3>
+                <span class="read-more">
+                  Leer artículo <i class="ph ph-arrow-right" />
+                </span>
+              </div>
+            </a>
+          </section>
+        )
+      }
+
+      <!-- Links Section -->
+      <div class="label-section fade-in-up" style="animation-delay: 0.15s;">
+        Mis Servicios
+      </div>
+      <nav class="links-grid fade-in-up" style="animation-delay: 0.2s;">
+        {
+          links.map((link) => (
+            <a
+              href={link.url}
+              class:list={["link-card", { highlight: link.highlight }]}
+            >
+              <div class="icon-box">
+                <i class:list={["ph", link.icon]} />
+              </div>
+              <span class="link-text">{link.title}</span>
+              <i class="ph ph-caret-right arrow-icon" />
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Social Section -->
+      <footer class="socials fade-in-up" style="animation-delay: 0.3s;">
+        {
+          socialLinks.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Social Link"
+              class="social-btn"
+            >
+              <i class:list={["ph", social.icon]} />
+            </a>
+          ))
+        }
+
+        <div class="website-link">
+          <a href="/">www.comprende.me</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+</LayoutBio>
+
+<style>
+  /* Base & Animations */
+  .bio-wrapper {
+    position: relative;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    overflow: hidden;
+  }
+
+  .bg-decoration {
+    position: absolute;
+    top: -10vw;
+    right: -10vw;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(
+      circle,
+      rgba(42, 194, 210, 0.15) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .bio-container {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  /* Profile */
+  .brand-header {
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Usamos :global porque Logo es un componente importado */
+  .brand-header :global(.bio-logo) {
+    height: 32px;
+    width: auto;
+    max-width: 180px;
+  }
+
+  .profile {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .avatar-ring {
+    width: 104px;
+    height: 104px;
+    margin: 0 auto 16px;
+    padding: 3px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-secondary)
+    );
+    box-shadow: 0 10px 25px rgba(42, 194, 210, 0.25);
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    background-color: #fff;
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    color: var(--color-dark);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  /* Featured Section */
+  .featured-section {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .label-featured {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-dark);
+    margin-bottom: 10px;
+    margin-left: 5px;
+    opacity: 0.6;
+  }
+
+  .label-section {
+    width: 100%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-dark);
+    margin-bottom: 10px;
+    margin-left: 5px;
+    opacity: 0.6;
+    text-align: left;
+  }
+
+  .card-featured {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2.5 / 1;
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    background-color: #000; /* Fallback de fondo */
+  }
+
+  .card-featured:active {
+    transform: scale(0.98);
+  }
+
+  .card-bg-image {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 24px;
+    color: #fff;
+  }
+
+  .card-overlay h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    text-wrap: balance;
+    text-align: left;
+    color: #fff !important; /* Force override */
+  }
+
+  .read-more {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Links Grid */
+  .links-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 12px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: var(--color-dark);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .link-card:active {
+    transform: scale(0.98);
+    background-color: #fafafa;
+  }
+
+  .icon-box {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-light);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 16px;
+    color: var(--color-primary-dark);
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+  }
+
+  .link-card.highlight .icon-box {
+    background-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .link-text {
+    flex-grow: 1;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .arrow-icon {
+    color: var(--color-muted);
+    font-size: 1rem;
+    margin-right: 8px;
+    opacity: 0.5;
+  }
+
+  /* Social Footer */
+  .socials {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: var(--color-dark);
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition:
+      transform 0.2s,
+      color 0.2s;
+    text-decoration: none;
+  }
+
+  .social-btn:hover {
+    color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .website-link {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .website-link a {
+    font-family: var(--font-heading);
+    color: var(--color-dark);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+</style>
