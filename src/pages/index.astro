@@ -37,7 +37,9 @@ const response = await client.getEntries({
   order: ['-fields.publishedDate']
 });
 
-const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+// CORRECCIÓN AQUÍ: Agregamos ": any" al parámetro item
+const allFields = response.items.map((item: any) => item.fields as unknown as ContentfulPostFields);
+
 const latestPosts: CleanPost[] = allFields.map(transformPost);
 ---
 

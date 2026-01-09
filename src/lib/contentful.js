@@ -1,18 +1,26 @@
-// src/lib/contentful.js
-import * as contentful from 'contentful'; // <-- ¡CAMBIO CLAVE AQUÍ!
+// 1. CAMBIO CLAVE: Usamos 'import * as' para evitar el error de "no default export"
+import * as contentful from 'contentful';
 
-// Usamos las variables de entorno de Astro
-const space = import.meta.env.CONTENTFUL_SPACE_ID;
-const accessToken = import.meta.env.CONTENTFUL_ACCESS_TOKEN;
+export const createClient = (isPreview = false) => {
+  const space = import.meta.env.CONTENTFUL_SPACE_ID;
+  
+  const accessToken = isPreview 
+    ? import.meta.env.CONTENTFUL_PREVIEW_TOKEN 
+    : import.meta.env.CONTENTFUL_ACCESS_TOKEN;
 
-if (!space || !accessToken) {
-  throw new Error(
-    'Las variables de entorno de Contentful no están configuradas.'
-  );
-}
+  const host = isPreview ? 'preview.contentful.com' : 'cdn.contentful.com';
 
-// Ahora 'contentful' es un objeto que contiene la función 'createClient'
-export const client = contentful.createClient({
-  space: space,
-  accessToken: accessToken,
-});
+  if (!space || !accessToken) {
+    throw new Error('Faltan variables de entorno de Contentful');
+  }
+
+  // Ahora podemos usar contentful.createClient sin problemas
+  return contentful.createClient({
+    space,
+    accessToken,
+    host,
+  });
+};
+
+// Mantenemos una instancia por defecto para usos generales
+export const client = createClient(false);

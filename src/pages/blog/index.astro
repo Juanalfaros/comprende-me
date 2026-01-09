@@ -1,18 +1,23 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ArticleCard from '../../components/ArticleCardBento.astro'; 
-import { client } from '../../lib/contentful.js';
+import { createClient } from '../../lib/contentful.js';
 import { transformPost, type CleanPost, type ContentfulPostFields } from '../../lib/contentful-utils';
 
+const client = createClient(false);
+
 const response = await client.getEntries({ content_type: 'blogPost' });
-const allFields = response.items.map(item => item.fields as unknown as ContentfulPostFields);
+
+// CORRECCIÓN: Tipamos 'item' como 'any' temporalmente para poder castearlo luego
+const allFields = response.items.map((item: any) => item.fields as unknown as ContentfulPostFields);
 
 const allPosts: CleanPost[] = allFields
   .map(transformPost)
-  .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+  // CORRECCIÓN: Tipamos a y b como CleanPost
+  .sort((a: CleanPost, b: CleanPost) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
 
-const featuredPost = allPosts[0]; // El primero y más nuevo
-const otherPosts = allPosts.slice(1); // El resto
+const featuredPost = allPosts[0]; 
+const otherPosts = allPosts.slice(1); 
 ---
 
 <Layout 
@@ -22,21 +27,29 @@ const otherPosts = allPosts.slice(1); // El resto
     
     <section class="blog-hero-section">
         <div class="container">
-            <ArticleCard post={featuredPost} variant="featured" />
+            {/* Agregamos una pequeña validación por seguridad si no hay posts aún */}
+            {featuredPost ? (
+                <ArticleCard post={featuredPost} variant="featured" />
+            ) : (
+                <p>No hay artículos publicados aún.</p>
+            )}
         </div>
     </section>
 
-    <section class="blog-recent-section">
-        <div class="container">
-            <h2>Explora nuestros artículos</h2>
-            
-            <div class="posts-grid">
-                {otherPosts.map(post => (
-                    <ArticleCard post={post} variant="default" />
-                ))}
+    {/* Solo mostramos esta sección si hay "otros" posts */}
+    {otherPosts.length > 0 && (
+        <section class="blog-recent-section">
+            <div class="container">
+                <h2>Explora nuestros artículos</h2>
+                
+                <div class="posts-grid">
+                    {otherPosts.map(post => (
+                        <ArticleCard post={post} variant="default" />
+                    ))}
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    )}
 
 </Layout>
 

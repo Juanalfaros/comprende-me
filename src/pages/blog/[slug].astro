@@ -1,11 +1,8 @@
 ---
 // src/pages/blog/[slug].astro
-export const prerender = true;
-
-// --- 1. IMPORTACIONES ---
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import { client } from "../../lib/contentful.js";
+import { createClient } from "../../lib/contentful.js"; 
 import ArticleCard from "../../components/ArticleCard.astro";
 import AuthorBio from "../../components/AuthorBio.astro";
 import SocialShare from "../../components/SocialShare.astro";
@@ -17,37 +14,63 @@ import {
 } from "../../lib/contentful-utils";
 
 import { authorData } from "../../data/authorData.js";
-
 import "../../styles/article.css";
 
-export async function getStaticPaths() {
-  const response = await client.getEntries({ content_type: "blogPost" });
-  const allFields = response.items.map(
-    (item) => item.fields as unknown as ContentfulPostFields,
+const { slug } = Astro.params;
+const isPreview = Astro.url.searchParams.get('preview') === 'true';
+
+let post: CleanPost | null = null;
+let relatedPosts: CleanPost[] = [];
+
+try {
+  const client = createClient(isPreview);
+
+  const response = await client.getEntries({
+    content_type: "blogPost",
+    "fields.slug": slug,
+    limit: 1,
+    include: 2,
+  });
+
+  const postFields = response.items[0]?.fields as unknown as ContentfulPostFields;
+
+  if (!postFields) {
+    return Astro.redirect('/404');
+  }
+
+  post = transformPost(postFields);
+
+  // --- LOGICA DE RELACIONADOS CORREGIDA ---
+  
+  const relatedResponse = await createClient(false).getEntries({
+      content_type: "blogPost",
+      limit: 10 
+  });
+
+  // CORRECCIÓN 1: Tipado explícito de 'item' como 'any' para evitar error 7006
+  const allRelatedFields = relatedResponse.items.map(
+    (item: any) => item.fields as unknown as ContentfulPostFields,
   );
 
-  const allCleanPosts: CleanPost[] = allFields.map(transformPost);
+  const allCleanRelated = allRelatedFields.map(transformPost);
 
-  return allCleanPosts.map((post) => {
-    const relatedPosts = allCleanPosts
+  // CORRECCIÓN 2: Aseguramos que 'post' existe dentro del filtro
+  relatedPosts = allCleanRelated
       .filter(
-        (related) =>
+        (related: CleanPost) => // Tipamos 'related'
+          post && // Verificamos que 'post' no es null
           related.slug !== post.slug &&
-          related.tags.some((tag) => post.tags.includes(tag)),
+          related.tags.some((tag: string) => post!.tags.includes(tag)) // Usamos 'post!' o verificamos arriba
       )
       .slice(0, 3);
 
-    return {
-      params: { slug: post.slug },
-      props: { post, relatedPosts },
-    };
-  });
+} catch (error) {
+  console.error("Error fetching data from Contentful:", error);
+  return Astro.redirect('/404');
 }
 
-const { post, relatedPosts } = Astro.props as {
-  post: CleanPost;
-  relatedPosts: CleanPost[];
-};
+// Si llegamos aquí y post sigue siendo null (caso raro de error no capturado), redirigimos
+if (!post) return Astro.redirect('/404');
 
 const formattedDate = new Date(post.publishedDate).toLocaleDateString("es-CL", {
   year: "numeric",
@@ -94,6 +117,13 @@ const articleSchema = {
     />
   </Fragment>
 
+  {/* AVISO VISUAL: Solo aparece si estás viendo el borrador */}
+  {isPreview && (
+    <div style="background-color: #fef08a; color: #854d0e; text-align: center; padding: 0.5rem; font-weight: bold; border-bottom: 1px solid #eab308;">
+      👁️ MODO PREVISUALIZACIÓN (BORRADOR)
+    </div>
+  )}
+
   <main>
     <section class="section article-main-section">
       <div class="container">
@@ -111,6 +141,7 @@ const articleSchema = {
               {post.tags.map((tag) => <span class="tag">{tag}</span>)}
             </div>
           </div>
+          
           <Image
             src={post.image}
             alt={post.alt}
