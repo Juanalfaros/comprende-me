@@ -784,10 +784,11 @@ figure.embedded-asset figcaption,
   }
 }
 
-/* --- Mejoras de Lectura y Responsive --- */
+/* =========================================
+   13. VARIABLES FLUIDAS (Tamaños de fuente adaptativos)
+   ========================================= */
 
-:root {
-  /* Tipografía fluida: Mínimo 17px, Máximo 19px */
+ /* :root {
   --fluid-body: clamp(1.06rem, 0.5vw + 1rem, 1.18rem);
   --fluid-h1: clamp(2.2rem, 5vw + 1rem, 3.5rem);
 }
@@ -795,7 +796,6 @@ figure.embedded-asset figcaption,
 .article-body {
   font-size: var(--fluid-body);
   line-height: 1.8;
-  /* Evita que el texto toque los bordes en móviles */
   padding: 0 1rem; 
   max-width: 75ch;
   margin: 0 auto;
@@ -804,29 +804,13 @@ figure.embedded-asset figcaption,
 .article-header h1 {
   font-size: var(--fluid-h1);
   padding: 0 1rem;
-}
+} */
 
-/* Imágenes que "respiran" en móvil */
-@media (max-width: 768px) {
-  .embedded-asset, .article-main-image {
-    width: calc(100% + 2rem);
-    margin-left: -1rem;
-    margin-right: -1rem;
-    border-radius: 0;
-  }
-  
-  /* Tablas: Indicador visual de scroll */
-  .table-wrapper {
-    margin: 2.5rem -1rem;
-    width: calc(100% + 2rem);
-    border-left: none;
-    border-right: none;
-    box-shadow: inset 10px 0 10px -10px rgba(0,0,0,0.1);
-  }
-}
 
-/* Estilo para el ID de los encabezados (salto visual al clickear anclas) */
-h2[id], h3[id] {
+
+
+
+/* h2[id], h3[id] {
   scroll-margin-top: 120px;
 }
 
@@ -836,4 +820,21 @@ h2[id], h3[id] {
   margin-bottom: 1.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}  */
+
+@media (max-width: 768px) {
+  .embedded-asset, .article-main-image {
+    width: calc(100% + 2rem);
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: calc(var(--border-web)/2);
+  }
+  
+  .table-wrapper {
+    margin: 2.5rem -1rem;
+    width: calc(100% + 2rem);
+    border-left: none;
+    border-right: none;
+    box-shadow: inset 10px 0 10px -10px rgba(0,0,0,0.1);
+  }
 }
