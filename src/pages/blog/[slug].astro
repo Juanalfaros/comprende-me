@@ -119,10 +119,25 @@ const articleSchema = {
 
   {/* AVISO VISUAL: Solo aparece si estás viendo el borrador */}
   {isPreview && (
-    <div style="background-color: #fef08a; color: #854d0e; text-align: center; padding: 0.5rem; font-weight: bold; border-bottom: 1px solid #eab308;">
-      👁️ MODO PREVISUALIZACIÓN (BORRADOR)
-    </div>
-  )}
+  <div
+    style="
+      background-color: #fef08a;
+      color: #854d0e;
+      text-align: center;
+      padding: 0.5rem;
+      font-weight: bold;
+      border-bottom: 1px solid #eab308;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    "
+  >
+    <i class="ph ph-eye"></i>
+    MODO PREVISUALIZACIÓN (BORRADOR)
+  </div>
+)}
+
 
   <main>
     <section class="section article-main-section">
