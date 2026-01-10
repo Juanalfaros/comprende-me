@@ -128,6 +128,8 @@ const articleSchema = {
     <section class="section article-main-section">
       <div class="container">
         <article>
+
+          <div class="article-header">
           <h1>{post.title}</h1>
           <div class="article-meta-info">
             <div>
@@ -152,6 +154,7 @@ const articleSchema = {
             height={post.imageHeight}
             transition:name={`blog-image-${post.slug}`}
           />
+          </div>
 
           <div class="article-body" set:html={post.fullContentHTML} />
 
@@ -161,12 +164,15 @@ const articleSchema = {
             )
           }
 
-          <SocialShare url={Astro.url} title={post.title} />
+          <div class="article-body-width">
+            <SocialShare url={Astro.url} title={post.title} />
+          
           <AuthorBio />
-
-          <a href="/blog" class="back-to-blog-link">
-            <i class="ph ph-arrow-arc-left"></i> Volver a todos los artículos
-          </a>
+          
+            <a href="/blog" class="back-to-blog-link">
+              <i class="ph ph-arrow-arc-left"></i> Volver a todos los artículos
+            </a>
+          </div>
         </article>
 
         {

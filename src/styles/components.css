@@ -3,8 +3,8 @@
 /* --- Author Bio Component (Phosphor + Card Layout) - Refined --- */
 .author-bio {
   display: flex;
-  margin: 3rem auto;
-  max-width: 720px;
+  /* margin: 3rem auto; */
+  max-width: 84ch;
   border-radius: calc(var(--border-web)/2);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background-color: var(--color-white, #ffffff);
